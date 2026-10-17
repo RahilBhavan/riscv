@@ -5,7 +5,7 @@ const text=(x,y,t,size=19,extra='')=>`<text x="${x}" y="${y}" font-size="${size}
 const rect=(x,y,w,h,fill=paper,stroke='#C6C7BF')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill}" stroke="${stroke}"/>`;
 const line=(x1,y1,x2,y2)=>`<path d="M${x1},${y1}L${x2},${y2}" stroke="${ink}" fill="none"/>`;
 const arrow=(x1,y1,x2,y2,label='')=>`${line(x1,y1,x2,y2)}<path d="M${x2-7},${y2-4}L${x2},${y2}L${x2-7},${y2+4}" stroke="${ink}" fill="none"/>${label?text((x1+x2)/2-20,y1-9,label,13):''}`;
-const svg=(inner,h=200,label='Instructional diagram')=>`<svg viewBox="0 0 720 ${h}" role="img" aria-label="${label}" xmlns="http://www.w3.org/2000/svg" style="font-family:Plex,Arial,sans-serif">${inner}</svg>`;
+const svg=(inner,h=200,label='Instructional diagram')=>`<svg viewBox="0 0 720 ${h}" role="img" aria-label="${label}" xmlns="http://www.w3.org/2000/svg" style="font-family:LearningSans,Arial,sans-serif">${inner}</svg>`;
 const cap=(title,body,graphic)=>`<figure><div class="fig-label">${title}</div>${graphic}<figcaption>${body}</figcaption></figure>`;
 const table=(headers,rows)=>`<div class="table-scroll"><table ${headers[0]==='Instruction'&&headers[1]==='1'?'class="timing-table"':''}>${headers[0]==='Instruction'&&headers[1]==='1'?'<colgroup><col style="width:28%">'+headers.slice(1).map(()=>'<col style="width:'+(72/(headers.length-1))+'%">').join('')+'</colgroup>':''}<thead><tr>${headers.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(row=>`<tr>${row.map(x=>`<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
 function pipeline(){
