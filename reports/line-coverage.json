@@ -1,0 +1,15 @@
+{
+  "metric": "Verilator line instrumentation points",
+  "scope": "rtl/rv32_core.sv only; no exclusions",
+  "hit": 37,
+  "total": 38,
+  "percent": 97.37,
+  "uncovered": [
+    [
+      "65",
+      "case"
+    ]
+  ],
+  "tool": "Verilator 5.020 2024-01-01 rev (Debian 5.020-1)",
+  "rtl_sha256": "65bb8010089e4b034a67da8477c5a45b196b4aee843c29f7f7b16e36b4c7e2c6"
+}
