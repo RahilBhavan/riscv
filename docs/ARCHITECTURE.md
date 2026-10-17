@@ -1,6 +1,6 @@
 # Architecture and execution contract
 
-This is a new educational implementation created in this workspace. The original week-one draft was not present, so it has not been inspected, migrated or validated.
+This is a new educational implementation created with assistant support in this workspace. The user confirmed there is no earlier draft; the project started from a placeholder README.
 
 ## Five stages
 

@@ -1,6 +1,8 @@
-# Build and understand the core in three weeks
+# Extended build and research guide
 
-This guide is for making the project your own: rebuilding the datapath, explaining hazards, designing experiments and earning claims you can defend in a lab conversation. The checked-in implementation is a working reference, not evidence that you personally spent three weeks constructing it. The original single-cycle draft was not in this workspace. Locate it before claiming this repository is its evolution.
+**Active deadline:** use [TWO_DAY_BUILD.md](TWO_DAY_BUILD.md) for October 17–18. This document is the optional deeper learning path after that sprint. There is no earlier draft to recover.
+
+This guide is for making the project your own: rebuilding the datapath, explaining hazards, designing experiments and earning claims you can defend in a lab conversation. The checked-in implementation is a working reference, not evidence that you personally spent three weeks constructing it. The user confirmed there was no original single-cycle draft. Treat this as a new project.
 
 Plan for 15 focused workdays over three calendar weeks, roughly 2–3 hours a day plus one longer debug session each week (about 40–55 hours). If Verilog and synchronous logic are new, allow more time. Keep a daily research block; do not leave all reading until the start or all evaluation until the end.
 
@@ -29,11 +31,11 @@ Every entry must contain source links, the source commit or RTL hash, tool versi
 
 ### Day 1 — Inventory and preserve the single-cycle baseline
 
-Find your draft and commit a preserved copy on a separate branch. List its decoded instructions, reset PC, memory latency and stopping mechanism. Run its existing tests before editing it. If it cannot run, make the smallest repair and record the defect. Do not mix an untested baseline with the new pipeline.
+There is no earlier draft. Use the current implementation as a documented reference baseline, or create a separate learning branch for an independent single-cycle version. List decoded instructions, reset PC, memory latency and stopping mechanism. Run the reference tests before editing it. Preserve any newly created baseline and its results separately.
 
 Research: read the RV32I register, immediate and memory sections. Answer: which behavior belongs to the ISA and which belongs to your execution environment?
 
-Deliverable: an executable baseline and a one-page contract. Gate: you can run a five-instruction program and explain every register/memory change. If the draft stays unavailable, proceed explicitly as a new implementation.
+Deliverable: an executable baseline and a one-page contract. Gate: you can run a five-instruction program and explain every register/memory change. Proceed explicitly as a new implementation.
 
 ### Day 2 — Make the independent checker useful
 

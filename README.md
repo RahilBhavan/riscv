@@ -4,7 +4,7 @@ An educational SystemVerilog execution core with IF/ID/EX/MEM/WB stages, operand
 
 **Measured:** 97.37% core line-instrumentation coverage (37/38 Verilator points), 144 passing programs / 7,358 checked retired instructions, and **34.74 MHz estimated internal Fmax** after place-and-route on iCE40 HX8K CT256. The 12 MHz timing constraint passed. **No physical board run has been performed.**
 
-The original week-one draft was not present in this workspace. This repository contains a new implementation, not a verified migration of that draft. See the [execution contract and limitations](docs/ARCHITECTURE.md).
+This project started from a placeholder README; there was no earlier core draft. The current implementation was generated with assistant support. See the [execution contract and limitations](docs/ARCHITECTURE.md).
 
 ## Run it
 
@@ -43,7 +43,8 @@ The core implements base integer arithmetic/control flow and byte/halfword/word 
 
 ## Learn, research and extend
 
-- [Three-week build guide](docs/BUILD_GUIDE.md): daily reading, implementation tasks, experiments and completion gates.
+- **[Today-and-tomorrow build sprint](docs/TWO_DAY_BUILD.md):** the active October 17–18 plan, with hands-on tests, research questions and a reproducible finish.
+- [Longer build guide](docs/BUILD_GUIDE.md): optional deeper work after the sprint.
 - [Research workflow and primary sources](docs/RESEARCH.md): questions spread across the work, plus qualified connections to Das, Dreslinski, Austin, Shahbaz and Chowdhury.
 - [Architecture](docs/ARCHITECTURE.md): pipeline, memory contract, traps and DOT4 encoding.
 - [Experiment log](docs/EXPERIMENT_LOG.md): initial evidence, open experiments and a reusable lab-note template.
