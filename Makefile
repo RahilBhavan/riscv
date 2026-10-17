@@ -29,3 +29,7 @@ coverage:
 	python3 tests/run.py --verilator
 	verilator_coverage --write build/merged.dat build/*.dat
 	python3 scripts/coverage.py
+
+.PHONY: textbook
+textbook:
+	bash scripts/textbook/export.sh
