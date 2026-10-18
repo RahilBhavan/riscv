@@ -8,6 +8,10 @@ This project started from a placeholder README; there was no earlier core draft.
 
 ## Run it
 
+**Build everything:** `make all` (or just `make`). This runs the RTL verification and route, exports every textbook and slide deck, builds the visual lab, verifies the artifacts and creates `output/riscv-project.zip`. See [requirements and complete build guide](docs/BUILD_ALL.md). Open [the project entry point](output/START-HERE.html) after building.
+
+For the RTL-only flow:
+
 ```sh
 docker build -t rv32-tools .
 docker run --rm -v "$PWD:/work" rv32-tools make test lint coverage timing

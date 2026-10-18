@@ -1,0 +1,71 @@
+{
+  "scope": "Complete local build: RTL regression, teaching/reset tests, lint, coverage, synthesis/route, ten PDF/HTML documents, visual models and eight-view lab. No board execution.",
+  "rtl_sha256": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+  "verification": {
+    "programs": 144,
+    "retirement_records": 7358,
+    "line_coverage_percent": 97.37
+  },
+  "implementation": {
+    "target": "Lattice iCE40 HX8K, CT256",
+    "internal_fmax_mhz": 37.07685852050781,
+    "lut4": 3962,
+    "flip_flops": 1692,
+    "packed_logic_cells": 5555,
+    "board_tested": false
+  },
+  "documents": [
+    {
+      "path": "output/textbook/riscv-textbook.pdf",
+      "pages": 35,
+      "sha256": "90ee859f2b0ce9cddc47931c4479032eaf6d507e7e4cdcb14827b8ff275fc6d8"
+    },
+    {
+      "path": "output/textbook/riscv-review-slides.pdf",
+      "pages": 14,
+      "sha256": "9f7581fcb33ca8300ebbed71eb5a794bd8e37376e4805a01cd65de1f02d1d1b0"
+    },
+    {
+      "path": "output/textbook/series/01-foundations.pdf",
+      "pages": 14,
+      "sha256": "ff445a48ce6109f4e373ee875ad9ecd5fe246e4f91bd9533324e70ecd6f833dd"
+    },
+    {
+      "path": "output/textbook/series/02-rv32i-datapath.pdf",
+      "pages": 15,
+      "sha256": "0f124f7ec1c6078c2fe9ce2f9d2b061a3972183d6189a4a63d693acfc5083bc0"
+    },
+    {
+      "path": "output/textbook/series/03-pipeline.pdf",
+      "pages": 14,
+      "sha256": "b41f1df71ed16e2327fd472f83e5bf94ae74ff188ea4382130b0644d2a6a31b4"
+    },
+    {
+      "path": "output/textbook/series/04-hazards.pdf",
+      "pages": 15,
+      "sha256": "6ad641dbeb68b57ecb9aeaa284b6f4636144b8f17bb4b41248bcba0daabd9e3a"
+    },
+    {
+      "path": "output/textbook/series/05-dot4.pdf",
+      "pages": 13,
+      "sha256": "bc8f1ecf8b1a98cf8cde9df62213479ab34546d50d8a9f83fd18704f07812c8d"
+    },
+    {
+      "path": "output/textbook/series/06-verification.pdf",
+      "pages": 15,
+      "sha256": "4682472595cf356e47e3af9340770fc3b34140f900ae573b103d53c2f7075995"
+    },
+    {
+      "path": "output/textbook/series/07-synthesis-fpga.pdf",
+      "pages": 14,
+      "sha256": "be2a2f5541d460a6383f3ba7f3cfac8e5add5e2a48b379b7cbf80a5c559ec987"
+    },
+    {
+      "path": "output/textbook/series/08-research-release.pdf",
+      "pages": 14,
+      "sha256": "53b0236f881afba12d49785e730b44ed75259c099b972bf5db63ea563038e6d5"
+    }
+  ],
+  "visual_views": 8,
+  "checked_trace_programs": 6
+}

@@ -1,4 +1,4 @@
-name: Verify core
+name: Build complete project
 on: [push, pull_request, workflow_dispatch]
 permissions:
   contents: read
@@ -7,23 +7,26 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
-      - name: Build tool image
-        run: docker build -t rv32-tools .
-      - name: Differential tests, teaching labs, lint and coverage
-        run: docker run --rm -v "$PWD:/work" rv32-tools make test learning-labs reset-test lint coverage
-      - name: Open-source synthesis and place-and-route
-        run: docker run --rm -v "$PWD:/work" rv32-tools make timing visual-evidence
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Visual teaching models and evidence consistency
-        run: make visual-models visual-lab
+      - name: Install PDF verification tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Build and verify the complete project
+        env:
+          CHROMIUM_BIN: google-chrome
+        run: make all
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: verification-and-implementation
+          name: complete-riscv-project
           path: |
             reports/
+            output/riscv-project.zip
+            output/START-HERE.html
+            output/textbook/
+            output/visual-lab/
+            build/project/
             build/regression.log
             build/synthesis.log
             build/nextpnr.log
@@ -31,4 +34,3 @@ jobs:
             build/merged.dat
             build/learning-series/
             build/visual-lab/
-            output/visual-lab/

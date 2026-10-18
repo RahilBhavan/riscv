@@ -1,3 +1,12 @@
+.DEFAULT_GOAL := all
+
+.PHONY: all release-check
+all:
+	bash scripts/build.sh
+
+release-check:
+	python3 scripts/release/build.py --check-only
+
 .PHONY: test lint synth timing clean
 
 test:
