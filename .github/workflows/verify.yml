@@ -9,8 +9,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build tool image
         run: docker build -t rv32-tools .
-      - name: Differential tests, lint and coverage
-        run: docker run --rm -v "$PWD:/work" rv32-tools make test lint coverage
+      - name: Differential tests, teaching labs, lint and coverage
+        run: docker run --rm -v "$PWD:/work" rv32-tools make test learning-labs lint coverage
       - name: Open-source synthesis and place-and-route
         run: docker run --rm -v "$PWD:/work" rv32-tools make timing
       - uses: actions/upload-artifact@v4
@@ -24,3 +24,4 @@ jobs:
             build/nextpnr.log
             build/timing.json
             build/merged.dat
+            build/learning-series/

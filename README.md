@@ -43,6 +43,8 @@ The core implements base integer arithmetic/control flow and byte/halfword/word 
 
 ## Learn, research and extend
 
+**[Eight hands-on build textbooks](docs/textbook/series/README.md)** — 114 pages across the project parts, with separate PDF/HTML volumes, implementation steps, runnable labs, debugging and research exercises. [Download the complete collection](output/textbook/riscv-build-textbooks.zip).
+
 **[A Core You Can Explain: illustrated textbook](docs/textbook/README.md)** — 35 pages, interactive pipeline and DOT4 examples, worked answers, runnable labs and a 14-slide review deck.
 
 - **[Today-and-tomorrow build sprint](docs/TWO_DAY_BUILD.md):** the active October 17–18 plan, with hands-on tests, research questions and a reproducible finish.

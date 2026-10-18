@@ -1,5 +1,7 @@
 # A Core You Can Explain
 
+For detailed implementation instructions by project part, start with the **[eight-volume build series](series/README.md)** (114 pages). The textbook below remains the conceptual overview.
+
 The textbook follows the current reference core and the October 17–18 learning sprint. It starts with binary values and clocked logic, then covers RV32I, the datapath, five stages, forwarding, load stalls, branch flushes, DOT4, verification, coverage and FPGA implementation evidence. It ends with labs, 16 worked answers and runnable test recipes.
 
 - [Textbook PDF](../../output/textbook/riscv-textbook.pdf): 35 pages, A4.

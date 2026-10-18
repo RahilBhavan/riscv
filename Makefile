@@ -33,3 +33,11 @@ coverage:
 .PHONY: textbook
 textbook:
 	bash scripts/textbook/export.sh
+
+.PHONY: learning-labs
+learning-labs:
+	python3 docs/textbook/series/labs/run_labs.py
+
+.PHONY: textbook-series
+textbook-series:
+	bash scripts/textbook/series/export.sh
