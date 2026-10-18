@@ -41,3 +41,19 @@ learning-labs:
 .PHONY: textbook-series
 textbook-series:
 	bash scripts/textbook/series/export.sh
+
+.PHONY: reset-test visual-evidence visual-lab visual-models
+reset-test:
+	mkdir -p build
+	iverilog -g2012 -s reset_tb -o build/reset-sim rtl/rv32_core.sv tests/reset_tb.sv
+	vvp build/reset-sim
+
+visual-evidence:
+	python3 scripts/visual-lab/evidence.py
+
+visual-models:
+	node --test scripts/visual-lab/models.test.mjs
+
+visual-lab:
+	node scripts/visual-lab/build.mjs
+	node scripts/visual-lab/preview.mjs

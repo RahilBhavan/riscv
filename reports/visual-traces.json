@@ -1,0 +1,2042 @@
+{
+  "scope": "Icarus RTL snapshots at falling edges; displayed stages describe the interval before the next rising edge. IF is fetch address, ID=f, EX=x, MEM=m, WB=w. Stall/flush apply at the next rising edge. Retirement interface is registered after WB.",
+  "source_sha256": {
+    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "tests/tb.sv": "751a78ed28217c86d98e0ec2811d82a69708be968e0f73910105fdc228c1f87a",
+    "tests/run.py": "2fd4e2328b9f8d7698ef4f51947ca4a9a1fe96143a2e579fa3137c72b8fd16f0"
+  },
+  "traces": {
+    "decode_add": {
+      "words": [
+        7340179,
+        3146003,
+        2130355,
+        1048691
+      ],
+      "frames": [
+        {
+          "cycle": 1,
+          "stages": [
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 2,
+          "stages": [
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 3,
+          "stages": [
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 4,
+          "stages": [
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 5,
+          "stages": [
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 7,
+          "b": 3
+        },
+        {
+          "cycle": 6,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": true,
+          "a": 0,
+          "b": 7
+        },
+        {
+          "cycle": 7,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 7
+        },
+        {
+          "cycle": 8,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 9,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        }
+      ],
+      "retirements": 4,
+      "stores": 0,
+      "checked": true
+    },
+    "pipeline_spaced": {
+      "words": [
+        7340179,
+        19,
+        19,
+        19,
+        3146003,
+        19,
+        19,
+        19,
+        2130355,
+        1048691
+      ],
+      "frames": [
+        {
+          "cycle": 1,
+          "stages": [
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 2,
+          "stages": [
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 3,
+          "stages": [
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 4,
+          "stages": [
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 5,
+          "stages": [
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 6,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 7,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 8,
+          "stages": [
+            {
+              "pc": 28,
+              "valid": true
+            },
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 9,
+          "stages": [
+            {
+              "pc": 32,
+              "valid": true
+            },
+            {
+              "pc": 28,
+              "valid": true
+            },
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 10,
+          "stages": [
+            {
+              "pc": 36,
+              "valid": true
+            },
+            {
+              "pc": 32,
+              "valid": true
+            },
+            {
+              "pc": 28,
+              "valid": true
+            },
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 11,
+          "stages": [
+            {
+              "pc": 40,
+              "valid": true
+            },
+            {
+              "pc": 36,
+              "valid": true
+            },
+            {
+              "pc": 32,
+              "valid": true
+            },
+            {
+              "pc": 28,
+              "valid": true
+            },
+            {
+              "pc": 24,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 7,
+          "b": 3
+        },
+        {
+          "cycle": 12,
+          "stages": [
+            {
+              "pc": 44,
+              "valid": true
+            },
+            {
+              "pc": 40,
+              "valid": true
+            },
+            {
+              "pc": 36,
+              "valid": true
+            },
+            {
+              "pc": 32,
+              "valid": true
+            },
+            {
+              "pc": 28,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": true,
+          "a": 0,
+          "b": 7
+        },
+        {
+          "cycle": 13,
+          "stages": [
+            {
+              "pc": 44,
+              "valid": false
+            },
+            {
+              "pc": 40,
+              "valid": false
+            },
+            {
+              "pc": 36,
+              "valid": false
+            },
+            {
+              "pc": 36,
+              "valid": true
+            },
+            {
+              "pc": 32,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 7
+        },
+        {
+          "cycle": 14,
+          "stages": [
+            {
+              "pc": 44,
+              "valid": false
+            },
+            {
+              "pc": 44,
+              "valid": false
+            },
+            {
+              "pc": 40,
+              "valid": false
+            },
+            {
+              "pc": 36,
+              "valid": false
+            },
+            {
+              "pc": 36,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 15,
+          "stages": [
+            {
+              "pc": 44,
+              "valid": false
+            },
+            {
+              "pc": 44,
+              "valid": false
+            },
+            {
+              "pc": 44,
+              "valid": false
+            },
+            {
+              "pc": 40,
+              "valid": false
+            },
+            {
+              "pc": 36,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        }
+      ],
+      "retirements": 10,
+      "stores": 0,
+      "checked": true
+    },
+    "forward_priority": {
+      "words": [
+        5243027,
+        8388755,
+        1081651,
+        1048691
+      ],
+      "frames": [
+        {
+          "cycle": 1,
+          "stages": [
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 2,
+          "stages": [
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 3,
+          "stages": [
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 4,
+          "stages": [
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 5,
+          "stages": [
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 8,
+          "b": 8
+        },
+        {
+          "cycle": 6,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": true,
+          "a": 0,
+          "b": 8
+        },
+        {
+          "cycle": 7,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 5
+        },
+        {
+          "cycle": 8,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 9,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 12,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        }
+      ],
+      "retirements": 4,
+      "stores": 0,
+      "checked": true
+    },
+    "load_store": {
+      "words": [
+        9437331,
+        135274531,
+        134226179,
+        136323619,
+        1048691
+      ],
+      "frames": [
+        {
+          "cycle": 1,
+          "stages": [
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 2,
+          "stages": [
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 3,
+          "stages": [
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 4,
+          "stages": [
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 9
+        },
+        {
+          "cycle": 5,
+          "stages": [
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            }
+          ],
+          "stall": true,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 6,
+          "stages": [
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": false
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 7,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": false
+            },
+            {
+              "pc": 8,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 9
+        },
+        {
+          "cycle": 8,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": true,
+          "a": 0,
+          "b": 9
+        },
+        {
+          "cycle": 9,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 9
+        },
+        {
+          "cycle": 10,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 11,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        }
+      ],
+      "retirements": 5,
+      "stores": 8,
+      "checked": true
+    },
+    "branch_flush": {
+      "words": [
+        7340179,
+        1082467,
+        135274531,
+        44040467,
+        1048691
+      ],
+      "frames": [
+        {
+          "cycle": 1,
+          "stages": [
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 2,
+          "stages": [
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 3,
+          "stages": [
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 4,
+          "stages": [
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": true,
+          "a": 7,
+          "b": 7
+        },
+        {
+          "cycle": 5,
+          "stages": [
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": false
+            },
+            {
+              "pc": 4,
+              "valid": false
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 7,
+          "b": 7
+        },
+        {
+          "cycle": 6,
+          "stages": [
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": false
+            },
+            {
+              "pc": 4,
+              "valid": false
+            },
+            {
+              "pc": 4,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 7
+        },
+        {
+          "cycle": 7,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": false
+            },
+            {
+              "pc": 4,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 8,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": true,
+          "a": 0,
+          "b": 7
+        },
+        {
+          "cycle": 9,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 7
+        },
+        {
+          "cycle": 10,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 11,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 20,
+              "valid": false
+            },
+            {
+              "pc": 16,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        }
+      ],
+      "retirements": 4,
+      "stores": 0,
+      "checked": true
+    },
+    "dot_mixed": {
+      "words": [
+        16974007,
+        4160782483,
+        33751351,
+        1341194515,
+        2130315,
+        1147411,
+        1048691
+      ],
+      "frames": [
+        {
+          "cycle": 1,
+          "stages": [
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 2,
+          "stages": [
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 3,
+          "stages": [
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 4,
+          "stages": [
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 16973824,
+          "b": 0
+        },
+        {
+          "cycle": 5,
+          "stages": [
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            },
+            {
+              "pc": 0,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 6,
+          "stages": [
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            },
+            {
+              "pc": 4,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 33751040,
+          "b": 0
+        },
+        {
+          "cycle": 7,
+          "stages": [
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            },
+            {
+              "pc": 8,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 16973696,
+          "b": 863314713
+        },
+        {
+          "cycle": 8,
+          "stages": [
+            {
+              "pc": 28,
+              "valid": true
+            },
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            },
+            {
+              "pc": 12,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 132,
+          "b": 379008662
+        },
+        {
+          "cycle": 9,
+          "stages": [
+            {
+              "pc": 32,
+              "valid": true
+            },
+            {
+              "pc": 28,
+              "valid": true
+            },
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            },
+            {
+              "pc": 16,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": true,
+          "a": 0,
+          "b": 379008662
+        },
+        {
+          "cycle": 10,
+          "stages": [
+            {
+              "pc": 32,
+              "valid": false
+            },
+            {
+              "pc": 28,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": true
+            },
+            {
+              "pc": 20,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 379008662
+        },
+        {
+          "cycle": 11,
+          "stages": [
+            {
+              "pc": 32,
+              "valid": false
+            },
+            {
+              "pc": 32,
+              "valid": false
+            },
+            {
+              "pc": 28,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": true
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        },
+        {
+          "cycle": 12,
+          "stages": [
+            {
+              "pc": 32,
+              "valid": false
+            },
+            {
+              "pc": 32,
+              "valid": false
+            },
+            {
+              "pc": 32,
+              "valid": false
+            },
+            {
+              "pc": 28,
+              "valid": false
+            },
+            {
+              "pc": 24,
+              "valid": false
+            }
+          ],
+          "stall": false,
+          "flush": false,
+          "a": 0,
+          "b": 0
+        }
+      ],
+      "retirements": 7,
+      "stores": 0,
+      "checked": true
+    }
+  }
+}

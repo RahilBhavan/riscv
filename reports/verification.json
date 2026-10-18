@@ -59,8 +59,8 @@
   ],
   "simulator": "Verilator",
   "source_sha256": {
-    "rtl/rv32_core.sv": "65bb8010089e4b034a67da8477c5a45b196b4aee843c29f7f7b16e36b4c7e2c6",
-    "tests/tb.sv": "fb016fd7f90e354bc23771a73a70195e1d3784ec559a563f0ac04fce967a5c76",
+    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "tests/tb.sv": "751a78ed28217c86d98e0ec2811d82a69708be968e0f73910105fdc228c1f87a",
     "tests/run.py": "2fd4e2328b9f8d7698ef4f51947ca4a9a1fe96143a2e579fa3137c72b8fd16f0"
   }
 }

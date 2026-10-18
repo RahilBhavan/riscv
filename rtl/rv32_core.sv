@@ -122,9 +122,9 @@ module rv32_core (
     assign flush_event = redirect || fault;
     assign imem_addr = pc;
     assign dmem_addr = {m_result[31:2],2'b0};
-    assign dmem_read = m_valid && m_load && !m_trap;
+    assign dmem_read = !reset && m_valid && m_load && !m_trap;
     assign dmem_wdata = m_store << (8*m_result[1:0]);
-    assign dmem_wstrb = (m_valid && m_store_en && !m_trap) ?
+    assign dmem_wstrb = (!reset && m_valid && m_store_en && !m_trap) ?
         ((m_funct3==0 ? 4'b0001 : m_funct3==1 ? 4'b0011 : 4'b1111) << m_result[1:0]) : 4'b0;
     wire [31:0] shifted_load = dmem_rdata >> (8*m_result[1:0]);
     reg [31:0] load_value;

@@ -30,6 +30,10 @@ module tb;
     always @(negedge clk) begin
         if(!reset) begin
             cycles=cycles+1;
+            if($test$plusargs("trace"))
+                $display("TRACE %0d %08x %01x %08x %01x %08x %01x %08x %01x %08x %01x %01x %08x %08x",
+                    cycles,ia,!dut.halted,dut.f_pc,dut.f_valid,dut.x_pc,dut.x_valid,
+                    dut.m_pc,dut.m_valid,dut.w_pc,dut.w_valid,stall,flush,dut.a,dut.b);
             if(stall) $display("STALL");
             if(flush) $display("FLUSH");
             if(valid) begin

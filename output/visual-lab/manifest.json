@@ -1,0 +1,46 @@
+{
+  "rtl_sha256": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+  "views": [
+    {
+      "kind": "bits",
+      "parts": 83
+    },
+    {
+      "kind": "decode",
+      "parts": 67
+    },
+    {
+      "kind": "pipeline",
+      "parts": 108
+    },
+    {
+      "kind": "hazards",
+      "parts": 108
+    },
+    {
+      "kind": "dot",
+      "parts": 95
+    },
+    {
+      "kind": "verify",
+      "parts": 65
+    },
+    {
+      "kind": "synth",
+      "parts": 109
+    },
+    {
+      "kind": "research",
+      "parts": 75
+    }
+  ],
+  "trace_programs": [
+    "decode_add",
+    "pipeline_spaced",
+    "forward_priority",
+    "load_store",
+    "branch_flush",
+    "dot_mixed"
+  ],
+  "scope": "Self-contained interactive HTML; linked textbooks and raw evidence are repository artifacts"
+}

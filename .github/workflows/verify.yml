@@ -10,9 +10,14 @@ jobs:
       - name: Build tool image
         run: docker build -t rv32-tools .
       - name: Differential tests, teaching labs, lint and coverage
-        run: docker run --rm -v "$PWD:/work" rv32-tools make test learning-labs lint coverage
+        run: docker run --rm -v "$PWD:/work" rv32-tools make test learning-labs reset-test lint coverage
       - name: Open-source synthesis and place-and-route
-        run: docker run --rm -v "$PWD:/work" rv32-tools make timing
+        run: docker run --rm -v "$PWD:/work" rv32-tools make timing visual-evidence
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Visual teaching models and evidence consistency
+        run: make visual-models visual-lab
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -25,3 +30,5 @@ jobs:
             build/timing.json
             build/merged.dat
             build/learning-series/
+            build/visual-lab/
+            output/visual-lab/

@@ -55,3 +55,7 @@ GNU assembly can encode it as `.insn r 0x0b, 0, 0, a0, a1, a2` (destination firs
 `timing_top` registers external instruction/load inputs and folds all core outputs into an observable rotating XOR register to preserve the logic through synthesis. This is a measurement shell. It contains no instruction/data memory, clock generator, UART, bootloader or board pins. Its instruction input is deliberately arbitrary: timing analysis evaluates structural paths, not program correctness.
 
 The target is an iCE40 HX8K CT256 with a 12 MHz constraint, seed 1 and unconstrained package I/O. The registered endpoints enable internal timing analysis. Placement and routing estimates are for this shell, including its registers, not a complete system. External input/output timing and reset distribution to a real board are not signed off. HX8K has no hard DSP blocks; DOT4 maps into logic. Resources are FPGA implementation resources, not ASIC silicon area.
+
+## Reset boundary
+
+Active-high synchronous reset clears architectural and pipeline state at the rising edge. `dmem_read` and `dmem_wstrb` are additionally gated combinationally by `!reset`, so a memory endpoint cannot observe a pending request while reset is asserted. Reset must meet the system clock timing requirements; this is not an asynchronous state reset. `make reset-test` checks pending load/store suppression, pipeline clearing and restart.

@@ -35,3 +35,13 @@ The user wants to build and understand the project today and tomorrow. Follow [T
 - Observed result and raw artifact path:
 - Failure or limitation:
 - Decision and next experiment:
+
+## 2026-10-18 — Reset hardening and executable visual lab
+
+Question: can an external memory endpoint observe a pending request while the core is resetting? The old core failed `tests/reset_tb.sv` at time 61: a pending store strobe remained asserted after reset went high. The fix gates both read enable and byte write strobes with `!reset`; architectural/pipeline state still resets synchronously.
+
+The regression now checks pending store suppression before the next edge, pending load suppression, pipeline clearing, register/PC clearing, and successful restart. The old source was obtained with `git show HEAD:rtl/rv32_core.sv` before the fix commit; the failing simulation is deliberately not part of the passing CI target.
+
+All 144 differential programs and 16 supplemental teaching checks pass. Verilator core line instrumentation remains 37/38 (97.37%, no exclusions). The same HX8K CT256 shell, 12 MHz constraint and route seed 1 produces 37.0768585 MHz internal Fmax, 3,962 LUT4, 1,692 FF, and 5,555/7,680 packed logic cells. The prior baseline was 34.7415 MHz / 5,554 cells. This route difference is not evidence of a general speed improvement; placement/routing changes with the netlist. No board execution or workload speedup is claimed. Current source hashes and tools are in the reports.
+
+The eight-part visual lab embeds six real RTL traces. Each trace is checked against the sequential oracle before export. Other instruments are labeled teaching analogies. JavaScript model checks include all byte representations and 262,144 isolated lane pairs; those sweeps exercise the teaching calculator, not exhaustive RTL behavior. Historical textbook PDFs retain the earlier 34.74 MHz baseline; the README and visual lab expose current evidence.

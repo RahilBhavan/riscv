@@ -2,7 +2,7 @@
 
 An educational SystemVerilog execution core with IF/ID/EX/MEM/WB stages, operand forwarding, a load-use interlock, EX-stage branch/jump flushing and a custom four-lane signed INT8 dot product. Includes an independent sequential Python checker, Icarus/Verilator regressions, coverage, open-source FPGA mapping/route, and GitHub Actions.
 
-**Measured:** 97.37% core line-instrumentation coverage (37/38 Verilator points), 144 passing programs / 7,358 checked retired instructions, and **34.74 MHz estimated internal Fmax** after place-and-route on iCE40 HX8K CT256. The 12 MHz timing constraint passed. **No physical board run has been performed.**
+**Measured:** 97.37% core line-instrumentation coverage (37/38 Verilator points), 144 passing programs / 7,358 checked retired instructions, and **37.08 MHz estimated internal Fmax** after place-and-route on iCE40 HX8K CT256. The 12 MHz timing constraint passed. **No physical board run has been performed.**
 
 This project started from a placeholder README; there was no earlier core draft. The current implementation was generated with assistant support. See the [execution contract and limitations](docs/ARCHITECTURE.md).
 
@@ -22,8 +22,8 @@ Measured with Icarus 12.0, Verilator 5.020, Yosys 0.33 and nextpnr-ice40 0.6, on
 - **Correctness:** 144 directed/random programs pass in both simulators; 7,358 retired instruction records and all byte writes match the local reference. Twenty deterministic random seeds. [Verification report](reports/verification.json)
 - **RTL coverage:** 37/38 core line instrumentation points = 97.37%, no exclusions. The unhit point is the invalid branch-funct3 default. This is Verilator's instrumentation metric, not 97.37% of possible behavior or architectural certification. [Line coverage report](reports/line-coverage.json)
 - **Functional plan:** 46/46 instruction/branch-outcome/trap bins hit. This narrow checklist does not cover every operand or hazard cross. [Bin definitions](reports/verification.json)
-- **Mapped area:** 3,962 LUT4 primitives and 1,692 flip-flops; after packing, 5,554/7,680 iCE40 logic cells (72.3%). Zero block RAMs; the device has no hard DSPs. These are FPGA resources, not ASIC area. [Implementation report](reports/implementation.json)
-- **Timing:** 34.74 MHz estimated internal maximum; constraint 12 MHz, route seed 1. Includes registered I/O/observation shell, excludes program/data memories and peripherals. Package pins and external I/O timing are unconstrained. This is a post-route estimate, not a tested board clock. [Raw nextpnr report](reports/raw/timing.json), [route log](reports/raw/nextpnr.log), [compressed synthesis log](reports/raw/synthesis.log.gz)
+- **Mapped area:** 3,962 LUT4 primitives and 1,692 flip-flops; after packing, 5,555/7,680 iCE40 logic cells (72.3%). Zero block RAMs; the device has no hard DSPs. These are FPGA resources, not ASIC area. [Implementation report](reports/implementation.json)
+- **Timing:** 37.08 MHz estimated internal maximum; constraint 12 MHz, route seed 1. Includes registered I/O/observation shell, excludes program/data memories and peripherals. Package pins and external I/O timing are unconstrained. This is a post-route estimate, not a tested board clock. [Raw nextpnr report](reports/raw/timing.json), [route log](reports/raw/nextpnr.log), [compressed synthesis log](reports/raw/synthesis.log.gz)
 
 A line percentage alone is weak evidence: this compact source has only 38 instrumented points. The stronger local evidence is ordered retirement and memory-write checking across dependent and wrong-path programs. External ISA-model comparison, ACT4, formal verification, exhaustive DOT4 sweeps and workload speedup experiments remain additional work.
 
@@ -43,7 +43,11 @@ The core implements base integer arithmetic/control flow and byte/halfword/word 
 
 ## Learn, research and extend
 
-**[Eight hands-on build textbooks](docs/textbook/series/README.md)** — 114 pages across the project parts, with separate PDF/HTML volumes, implementation steps, runnable labs, debugging and research exercises. [Download the complete collection](output/textbook/riscv-build-textbooks.zip).
+**[Eight-part Anatomy visual lab](output/visual-lab/index.html)** — interactive instruments, checked RTL cycle traces, DOT4 calculator, verification comparator and current synthesis evidence. [Open/run guide](docs/visual-lab/README.md) · [Detailed build plan](docs/visual-lab/BUILD_PLAN.md).
+
+The reset regression checks pending memory requests, pipeline clearing and restart. Run `make reset-test`; requests are suppressed immediately while reset is asserted.
+
+**[Eight hands-on build textbooks](docs/textbook/series/README.md)** — 114 pages across the project parts, with separate PDF/HTML volumes, implementation steps, runnable labs, debugging and research exercises. The PDFs preserve the earlier 34.74 MHz baseline; current measurements appear above and in the visual lab. [Download the complete collection](output/textbook/riscv-build-textbooks.zip).
 
 **[A Core You Can Explain: illustrated textbook](docs/textbook/README.md)** — 35 pages, interactive pipeline and DOT4 examples, worked answers, runnable labs and a 14-slide review deck.
 
@@ -55,6 +59,6 @@ The core implements base integer arithmetic/control flow and byte/halfword/word 
 
 A truthful synthesis-only outreach line is:
 
-> “An educational five-stage RV32I core with a custom dot-product instruction, 97.37% Verilator line-instrumentation coverage, and a 34.74 MHz post-route internal timing estimate on iCE40 HX8K.”
+> “An educational five-stage RV32I core with a custom dot-product instruction, 97.37% Verilator line-instrumentation coverage, and a 37.08 MHz post-route internal timing estimate on iCE40 HX8K.”
 
 Use “running at X MHz” only after a real board executes a checked program at that clock. Verify the recipient identities and understand the implementation before presenting it as personal research experience. MIT licensed.
