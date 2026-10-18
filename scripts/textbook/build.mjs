@@ -3,6 +3,7 @@ import path from 'node:path';
 import { pages, sources } from './content.mjs';
 import { figure } from './figures.mjs';
 const root=process.cwd(),out=path.join(root,'output/textbook'); fs.mkdirSync(out,{recursive:true});
+fs.mkdirSync(path.join(root,'build/textbook'),{recursive:true});
 const fonts=path.join(root,'docs/textbook/fonts');
 const font=(name,file)=>`@font-face{font-family:${name};src:url(data:font/woff2;base64,${fs.readFileSync(path.join(fonts,file)).toString('base64')}) format('woff2');font-weight:${file.includes('SemiBold')?600:400};font-display:swap}`;
 const fontCSS=font('Anton','Anton-Regular.woff2')+font('LearningSans','IBMPlexSans-Regular.woff2')+font('LearningSans','IBMPlexSans-SemiBold.woff2');
