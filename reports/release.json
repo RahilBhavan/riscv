@@ -14,6 +14,24 @@
     "packed_logic_cells": 5555,
     "board_tested": false
   },
+  "implementation_artifacts": [
+    {
+      "path": "build/core.json",
+      "sha256": "87c7a8b75c5a0e8ecc7164f1b27311c1e4615e59ff9bd298398df1c7a876c29f"
+    },
+    {
+      "path": "build/core.asc",
+      "sha256": "66c368e5e85b033ddd43aad8980a74c98ce78fef1fa46ea4d08cfbc1d32343d4"
+    },
+    {
+      "path": "build/timing.json",
+      "sha256": "f5b3c10a9f1591fa360878042e5acba9d4e0b5a3ac2c320a54bfb531b34ac09e"
+    },
+    {
+      "path": "build/merged.dat",
+      "sha256": "36922317a15ba761c183d3f3db08fe5a237f0f3164b5fc3fac24b3bab396bcd5"
+    }
+  ],
   "documents": [
     {
       "path": "output/textbook/riscv-textbook.pdf",

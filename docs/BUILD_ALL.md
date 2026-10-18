@@ -34,7 +34,7 @@ Each phase stops on failure. Logs are `build/project/tools.log`, `rtl.log`, `lea
 ## Outputs
 
 - `output/START-HERE.html`: entry point for the whole project.
-- `output/riscv-project.zip`: complete source, docs, reports, PDFs, slides, visual lab, scripts and licenses under a `riscv/` folder.
+- `output/riscv-project.zip`: complete source, docs, reports, PDFs, slides, visual lab, scripts, licenses, mapped netlist/route, merged coverage data and build logs under a `riscv/` folder.
 - `reports/release.json`: current source hash, artifact hashes, page counts and measured results.
 - `output/textbook/`: overview, review slides, eight volumes and their archive.
 - `output/visual-lab/`: self-contained interactive lessons and recorded RTL state.
@@ -42,4 +42,4 @@ Each phase stops on failure. Logs are `build/project/tools.log`, `rtl.log`, `lea
 
 Extract the ZIP and open `riscv/output/START-HERE.html`. Keep the folder layout to use relative links. To avoid local browser restrictions, serve the extracted `riscv/` directory with `python3 -m http.server 8878` and open `http://localhost:8878/output/START-HERE.html`.
 
-`make release-check` reruns the artifact checks against an existing complete build. PDF page/text checks establish structure; visual inspection is also needed after changing layout. Historical textbook examples retain the earlier 34.74 MHz baseline; the README, release report and visual lab contain current metrics. No board clock, power, workload speedup, privileged architecture or external ISA certification is claimed.
+`make release-check` reruns the artifact checks against an existing complete build or the extracted complete release. PDF page/text checks establish structure; visual inspection is also needed after changing layout. Historical textbook examples retain the earlier 34.74 MHz baseline; the README, release report and visual lab contain current metrics. No board clock, power, workload speedup, privileged architecture or external ISA certification is claimed.

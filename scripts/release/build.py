@@ -69,7 +69,7 @@ def verify():
         for href in re.findall(r'href="([^"]+)"',html.read_text()):
             if href.startswith(('https:','http:','#','data:')):continue
             require((html.parent/href.split('#')[0]).is_file(),f'Broken local link in {html.name}: {href}')
-    return {'scope':'Complete local build: RTL regression, teaching/reset tests, lint, coverage, synthesis/route, ten PDF/HTML documents, visual models and eight-view lab. No board execution.','rtl_sha256':core,'verification':{'programs':verification['test_cases'],'retirement_records':verification['retired_instructions'],'line_coverage_percent':coverage['percent']},'implementation':{'target':implementation['target'],'internal_fmax_mhz':next(iter(implementation['fmax'].values()))['achieved'],'lut4':implementation['synthesis_primitives']['SB_LUT4'],'flip_flops':implementation['flip_flops'],'packed_logic_cells':implementation['utilization']['ICESTORM_LC']['used'],'board_tested':implementation['board_tested']},'documents':documents,'visual_views':len(manifest['views']),'checked_trace_programs':len(traces)}
+    return {'scope':'Complete local build: RTL regression, teaching/reset tests, lint, coverage, synthesis/route, ten PDF/HTML documents, visual models and eight-view lab. No board execution.','rtl_sha256':core,'verification':{'programs':verification['test_cases'],'retirement_records':verification['retired_instructions'],'line_coverage_percent':coverage['percent']},'implementation':{'target':implementation['target'],'internal_fmax_mhz':next(iter(implementation['fmax'].values()))['achieved'],'lut4':implementation['synthesis_primitives']['SB_LUT4'],'flip_flops':implementation['flip_flops'],'packed_logic_cells':implementation['utilization']['ICESTORM_LC']['used'],'board_tested':implementation['board_tested']},'implementation_artifacts':[{'path':p,'sha256':sha(ROOT/p)} for p in ['build/core.json','build/core.asc','build/timing.json','build/merged.dat']],'documents':documents,'visual_views':len(manifest['views']),'checked_trace_programs':len(traces)}
 
 def landing(report):
     m=report['implementation'];v=report['verification']
@@ -81,13 +81,17 @@ def package():
     files=[ROOT/p for p in ['Makefile','Dockerfile','README.md','LICENSE','.gitignore','.dockerignore','output/START-HERE.html']]
     for directory in roots:
         files.extend(p for p in (ROOT/directory).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc')
+    # Preserve the actual mapped design and evidence, not just source and books.
+    files.extend(ROOT/p for p in ['build/core.json','build/core.asc','build/timing.json','build/merged.dat','build/project/tools.log','build/project/rtl.log','build/project/learning.log','build/learning-series/results.json'])
+    for name in load('reports/visual-traces.json')['traces']:
+        files.extend(ROOT/'build/visual-lab'/(name+suffix) for suffix in ['.hex','.log'])
     target=ROOT/'output/riscv-project.zip'
     with ZipFile(target,'w',compression=ZIP_DEFLATED) as archive:
         for path in sorted(set(files)):
             archive.write(path,'riscv/'+str(path.relative_to(ROOT)))
     with ZipFile(target) as archive:
         require(archive.testzip() is None,'Corrupt project archive')
-        for required in ['rtl/rv32_core.sv','scripts/build.sh','output/START-HERE.html','reports/release.json','output/visual-lab/index.html','docs/BUILD_ALL.md']:
+        for required in ['rtl/rv32_core.sv','scripts/build.sh','output/START-HERE.html','reports/release.json','output/visual-lab/index.html','docs/BUILD_ALL.md','build/core.json','build/core.asc','build/merged.dat','build/project/rtl.log','build/learning-series/results.json']:
             require('riscv/'+required in archive.namelist(),f'Missing release member: {required}')
     print(f'PASS complete release: {target.relative_to(ROOT)} ({target.stat().st_size:,} bytes)')
 
@@ -96,7 +100,9 @@ if __name__=='__main__':
     parser.add_argument('--check-only',action='store_true')
     args=parser.parse_args()
     report=verify()
-    if not args.check_only:
+    if args.check_only:
+        require(load('reports/release.json')==report,'Release manifest differs from current artifacts; rerun make all')
+    else:
         (ROOT/'reports/release.json').write_text(json.dumps(report,indent=2)+'\n')
         (ROOT/'output/START-HERE.html').write_text(landing(report))
         verify()
