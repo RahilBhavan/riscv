@@ -15,7 +15,7 @@ FROM ubuntu:24.04
 ARG ARCH_TEST_TAG=3.10.0
 ARG ARCH_TEST_SHA256=8d8562c348b3cff666d2aff9cd092cad0f15cbcae9610d0b00ffbcc56607ad82
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-    iverilog verilator yosys nextpnr-ice40 python3 make g++ ca-certificates \
+    iverilog verilator yosys nextpnr-ice40 fpga-icestorm python3 make g++ ca-certificates \
     gcc-riscv64-unknown-elf binutils-riscv64-unknown-elf device-tree-compiler curl \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=spike /opt/spike /opt/spike
