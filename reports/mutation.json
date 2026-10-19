@@ -167,8 +167,8 @@
     }
   ],
   "source_sha256": {
-    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
-    "tests/mutants.py": "a47d4e8c614c0d97b4c600a6313fe2381d1bfb106ecfddd7960dfd0332ef2d5c",
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
+    "tests/mutants.py": "9a7534d9f6953d775aaf43f63074e7d3acf8c673990d1cbc7872b75d87495bfd",
     "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
     "tests/hazards.py": "8d6dab20c3b7593de829792e06e99f61fdd3bfb2d4531c79ba63a7cd26639313"
   }

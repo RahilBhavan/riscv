@@ -515,7 +515,7 @@
   ],
   "toolchain": "riscv64-unknown-elf-gcc (13.2.0-11ubuntu1+12) 13.2.0",
   "source_sha256": {
-    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
     "tests/isa/arch_tb.sv": "2e41fb27968859d7fd34d6278f5280e97bb1bdb0df1d97186e4fd70cf37af6bb",
     "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
     "tests/isa_compare.py": "9178b4d88b21495676087247cce42c531aac30b12f83a7f11c98ba534f58aa50",

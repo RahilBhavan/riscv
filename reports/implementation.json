@@ -46,6 +46,7 @@
   },
   "flip_flops": 1692,
   "rtl_sha256": {
+    "rtl/board_top.sv": "21f8d30a0a356d839e2ce914f4d3aa2e4cffe3d6f5d0fec19880dbe0fe05b3a4",
     "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
     "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
   },

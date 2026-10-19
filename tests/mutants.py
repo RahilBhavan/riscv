@@ -43,7 +43,7 @@ MUTANTS = [
      'if (m_valid && m_write && !m_load && !m_trap) begin'),
     ('no_load_use_stall_for_store_data', 'hazard', "wire uses_rs2 = f_op==7'h63 || f_op==7'h23 ||", "wire uses_rs2 = f_op==7'h63 ||"),
     ('no_load_use_stall_for_jalr', 'hazard', "wire uses_rs1 = f_op==7'h67 || ", 'wire uses_rs1 = '),
-    ('no_load_use_stall_for_dot4_rs2', 'hazard', "f_op==7'h33 || f_op==7'h0b;\n    wire hazard", "f_op==7'h33;\n    wire hazard"),
+    ('no_load_use_stall_for_dot4_rs2', 'hazard', "f_op==7'h33 || (DOT4 && f_op==7'h0b);\n    wire hazard", "f_op==7'h33;\n    wire hazard"),
     ('sra_is_logical', 'isa', "result=$signed(a) >>> (op==7'h13 ? x_insn[24:20] : b[4:0]);", "result=a >> (op==7'h13 ? x_insn[24:20] : b[4:0]);"),
     ('sltu_signed', 'isa', "result={31'b0,(a<(op==7'h13 ? imm_i : b))};", "result={31'b0,($signed(a)<$signed(op==7'h13 ? imm_i : b))};"),
     ('lh_zero_extends', 'isa', '1: load_value={{16{shifted_load[15]}},shifted_load[15:0]};', '1: load_value={16\'b0,shifted_load[15:0]};'),

@@ -5,24 +5,24 @@
   "constraint_mhz": 30.0,
   "seed": 1,
   "clock": "clk",
-  "fmax_mhz": 36.73,
+  "fmax_mhz": 37.84,
   "critical_paths": [
     {
       "from": "posedge clk",
       "to": "posedge clk",
-      "delay_ns": 27.22
+      "delay_ns": 26.43
     },
     {
       "from": "posedge clk",
       "to": "<async>",
-      "delay_ns": 7.86
+      "delay_ns": 9.42
     }
   ],
   "note": "nextpnr reports one critical path per clock pair; rising-to-falling block-RAM paths are budgeted at half a period and are included in fmax_mhz.",
   "utilization": {
     "ICESTORM_LC": {
       "available": 7680,
-      "used": 5956
+      "used": 5990
     },
     "ICESTORM_PLL": {
       "available": 2,
@@ -50,14 +50,14 @@
     "SB_RAM40_4KNR": 15
   },
   "flip_flops": 1794,
-  "luts": 4455,
+  "luts": 4426,
   "synthesis_primitives": {
-    "SB_CARRY": 698,
+    "SB_CARRY": 729,
     "SB_DFF": 50,
     "SB_DFFE": 109,
     "SB_DFFESR": 1362,
     "SB_DFFSR": 273,
-    "SB_LUT4": 4455,
+    "SB_LUT4": 4426,
     "SB_PLL40_CORE": 1,
     "SB_RAM40_4KNR": 15,
     "SB_RAM40_4KNRNW": 8
@@ -66,10 +66,10 @@
     "expected_signature": "5a978549",
     "retired_per_pass": 1591
   },
-  "bitstream_sha256": "e0267138a4fe956c08640b6cfed9b9011a935a0eb626a8cdcfe3057b953dfc4f",
+  "bitstream_sha256": "aefc7afd8598df1f3033a651666b43bef9647c0ce0c8b3a190b2e69e7a650092",
   "rtl_sha256": {
     "rtl/board_top.sv": "21f8d30a0a356d839e2ce914f4d3aa2e4cffe3d6f5d0fec19880dbe0fe05b3a4",
-    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
     "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
   },
   "tools": {

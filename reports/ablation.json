@@ -318,13 +318,14 @@
     }
   ],
   "rtl_sha256": {
+    "rtl/board_top.sv": "21f8d30a0a356d839e2ce914f4d3aa2e4cffe3d6f5d0fec19880dbe0fe05b3a4",
     "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
     "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
   },
   "benchmark_sources": {
     "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
-    "tests/tb.sv": "6959323984d5f527faddebb288b23d06a10885a22b949e7fe641e5466eb9aa19",
-    "tests/run.py": "c956e5022d67b9c8ad123250862a0dd8239616a6cfcee929bc08848bc5232578",
+    "tests/tb.sv": "237fd6f79310c2ffa698a11d146228600408f6ae41ab8313f8d4356218aa530f",
+    "tests/run.py": "8d893c4a6b8951d0c920003efb7b1e025b75d87fa0865c5fc17efd742d755f85",
     "scripts/bench.py": "cc2bfc0a479f0b39dceb3df0b667e64069403b86e4a16590943fb03a9ed0dd3d"
   },
   "tools": {
