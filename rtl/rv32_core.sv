@@ -1,6 +1,7 @@
 // Educational RV32I execution core. Harvard, combinational instruction/data reads.
 // See docs/ARCHITECTURE.md for the supported execution environment.
-module rv32_core (
+// DOT4=0 removes the custom unit; custom-0 then traps like any illegal encoding.
+module rv32_core #(parameter bit DOT4 = 1) (
     input wire clk, input wire reset,
     output wire [31:0] imem_addr, input wire [31:0] imem_rdata,
     output wire [31:0] dmem_addr, output wire [31:0] dmem_wdata,
@@ -49,8 +50,9 @@ module rv32_core (
     always @* begin
         result = 0; target = 0; wr = 0; ld = 0; st = 0;
         trap = 0; taken = 0; legal = 1; dot = 0;
-        for (lane = 0; lane < 4; lane = lane + 1)
-            dot = dot + ($signed(a[lane*8 +: 8]) * $signed(b[lane*8 +: 8]));
+        if (DOT4)
+            for (lane = 0; lane < 4; lane = lane + 1)
+                dot = dot + ($signed(a[lane*8 +: 8]) * $signed(b[lane*8 +: 8]));
         case (op)
             7'h37: begin wr=1; result=imm_u; end
             7'h17: begin wr=1; result=x_pc+imm_u; end
@@ -101,7 +103,7 @@ module rv32_core (
                 endcase
             end
             // custom-0: dot4 rd,rs1,rs2, signed packed int8 -> signed int32.
-            7'h0b: begin wr=1; result=dot; legal=funct3==0 && funct7==0; end
+            7'h0b: begin wr=1; result=dot; legal=DOT4 && funct3==0 && funct7==0; end
             7'h0f: legal=funct3==0 && x_insn[31:28]==0; // base FENCE, reserved fields ignored
             7'h73: begin trap=1; legal=x_insn==32'h00000073 || x_insn==32'h00100073; end
             default: legal=0;
@@ -110,8 +112,8 @@ module rv32_core (
         if (trap) begin wr=0; ld=0; st=0; taken=0; end
     end
     wire [6:0] f_op = f_insn[6:0];
-    wire uses_rs1 = f_op==7'h67 || f_op==7'h63 || f_op==7'h03 || f_op==7'h23 || f_op==7'h13 || f_op==7'h33 || f_op==7'h0b;
-    wire uses_rs2 = f_op==7'h63 || f_op==7'h23 || f_op==7'h33 || f_op==7'h0b;
+    wire uses_rs1 = f_op==7'h67 || f_op==7'h63 || f_op==7'h03 || f_op==7'h23 || f_op==7'h13 || f_op==7'h33 || (DOT4 && f_op==7'h0b);
+    wire uses_rs2 = f_op==7'h63 || f_op==7'h23 || f_op==7'h33 || (DOT4 && f_op==7'h0b);
     wire hazard = f_valid && x_valid && ld && !trap && x_insn[11:7]!=0 &&
         ((uses_rs1 && f_insn[19:15]==x_insn[11:7]) || (uses_rs2 && f_insn[24:20]==x_insn[11:7]));
     wire redirect = x_valid && taken;

@@ -1,4 +1,4 @@
-module tb;
+module tb #(parameter DOT4 = 1);
     reg clk=0, reset=1;
     always #5 clk=~clk;
     wire [31:0] ia, da, dw, ri, rp, rv;
@@ -8,9 +8,9 @@ module tb;
     reg [31:0] imem[0:4095];
     reg [7:0] mem[0:16383];
     wire [31:0] data_in={mem[(da+3)&16383],mem[(da+2)&16383],mem[(da+1)&16383],mem[da&16383]};
-    rv32_core dut(clk,reset,ia,imem[ia[13:2]],da,dw,we,dr,data_in,valid,rp,ri,rd,rv,trap,stall,flush);
-    integer i, cycles=0;
-    reg [1023:0] program_file;
+    rv32_core #(.DOT4(DOT4)) dut(clk,reset,ia,imem[ia[13:2]],da,dw,we,dr,data_in,valid,rp,ri,rd,rv,trap,stall,flush);
+    integer i, cycles=0, max_cycles=20000;
+    reg [1023:0] program_file, data_file;
     function [31:0] program_word(input [31:0] address);
         program_word = imem[address[13:2]];
     endfunction
@@ -20,6 +20,8 @@ module tb;
         for(i=0;i<16384;i=i+1) mem[i]=0;
         if(!$value$plusargs("program=%s",program_file)) $fatal(1,"missing program");
         $readmemh(program_file,imem);
+        if($value$plusargs("data=%s",data_file)) $readmemh(data_file,mem);
+        void'($value$plusargs("max_cycles=%d",max_cycles));
         repeat(2) @(negedge clk);
         reset=0;
     end
@@ -45,7 +47,7 @@ module tb;
                 $display("RET %08x %08x %02x %08x %01x",rp,ri,rd,rv,trap);
                 if(trap) begin invariants_done(); $display("CYCLES %0d",cycles); $finish; end
             end
-            if(cycles>20000) $fatal(1,"timeout");
+            if(cycles>max_cycles) $fatal(1,"timeout");
         end
     end
 endmodule

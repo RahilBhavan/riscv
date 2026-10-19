@@ -48,6 +48,8 @@ These limitations are why the public description says **educational RV32I execut
 
 Each lane is signed independently. The four products sum into a signed 32-bit result. There is no accumulator, rounding or saturation. The result range is -65024 through 65536. x0 discards the result. Other funct3/funct7 combinations of custom-0 trap. Example: `0x01020304 DOT4 0x01010101 = 10`.
 
+The `DOT4` module parameter (default 1) can remove the unit; with `DOT4=0`, custom-0 traps like any unsupported encoding. `make test` checks both settings, and `make bench ablation` measures what the unit buys and costs (see EXPERIMENT_LOG.md).
+
 GNU assembly can encode it as `.insn r 0x0b, 0, 0, a0, a1, a2` (destination first). The extension is project-specific; stock compilers and ISA models do not know its semantics. The combinational four-multiplier unit shares the EX cycle, which may limit timing. An ordinary RV32I multiply is a software operation, so a fair baseline must not silently use the M extension.
 
 ## Implementation measurement

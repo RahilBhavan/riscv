@@ -12,6 +12,7 @@ release-check:
 # Differential regression, generated hazard cross (bins must all hit) and testbench invariants.
 test:
 	python3 tests/run.py
+	python3 tests/run.py --no-dot4
 
 # 262,144 isolated-lane DOT4 cases and all 1,024 custom-0 encodings, Icarus and Verilator.
 dot4-sweep:
@@ -79,3 +80,12 @@ visual-models:
 visual-lab:
 	node scripts/visual-lab/build.mjs
 	node scripts/visual-lab/preview.mjs
+
+.PHONY: bench ablation
+# Simulation cycle counts for matched RV32I and DOT4 dot-product kernels.
+bench:
+	python3 scripts/bench.py
+
+# Both DOT4 settings through the timing flow, nextpnr seeds 1-5, combined with bench cycles.
+ablation: bench
+	python3 scripts/ablation.py
