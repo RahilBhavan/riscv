@@ -3,14 +3,14 @@ Warning: No PCF file specified; IO pins will be placed automatically
 Info: Packing constants..
 Info: Packing IOs..
 Info: Packing LUT-FFs..
-Info:     3760 LCs used as LUT4 only
-Info:      202 LCs used as LUT4 and DFF
+Info:     3732 LCs used as LUT4 only
+Info:      203 LCs used as LUT4 and DFF
 Info: Packing non-LUT FFs..
-Info:     1490 LCs used as DFF only
+Info:     1489 LCs used as DFF only
 Info: Packing carries..
-Info:      128 LCs used as CARRY only
+Info:       96 LCs used as CARRY only
 Info: Packing indirect carry+LUT pairs...
-Info:       32 LUTs merged into carry LCs
+Info:       31 LUTs merged into carry LCs
 Info: Packing RAMs..
 Info: Placing PLLs..
 Info: Packing special functions..
@@ -20,19 +20,19 @@ Info: promoting clk$SB_IO_IN (fanout 1692)
 Info: promoting reset$SB_IO_IN [reset] (fanout 531)
 Info: promoting core.m_write_SB_DFFSR_Q_D_SB_LUT4_I2_O [reset] (fanout 32)
 Info: promoting core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_O_SB_LUT4_I2_O[1] [reset] (fanout 32)
-Info: promoting core.w_trap_SB_LUT4_I2_O_SB_LUT4_I3_O[1] [reset] (fanout 32)
-Info: promoting core.halted_SB_LUT4_I1_I2_SB_LUT4_O_I0_SB_LUT4_I1_O_SB_LUT4_I2_O [cen] (fanout 192)
+Info: promoting core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_I3_SB_LUT4_I3_O[1] [reset] (fanout 32)
+Info: promoting core.f_valid_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I2_O_SB_LUT4_I2_O [cen] (fanout 192)
 Info: promoting core.regs[10]_SB_DFFESR_Q_E [cen] (fanout 32)
 Info: promoting core.regs[11]_SB_DFFESR_Q_E [cen] (fanout 32)
 Info: Constraining chains...
-Info:        5 LCs used to legalise carry chains.
-Info: Checksum: 0x1d344977
+Info:        6 LCs used to legalise carry chains.
+Info: Checksum: 0x7bd6d736
 
 Info: Annotating ports with timing budgets for target frequency 12.00 MHz
-Info: Checksum: 0xa6efe26e
+Info: Checksum: 0x6e152cab
 
 Info: Device utilisation:
-Info: 	         ICESTORM_LC:  5555/ 7680    72%
+Info: 	         ICESTORM_LC:  5497/ 7680    71%
 Info: 	        ICESTORM_RAM:     0/   32     0%
 Info: 	               SB_IO:    98/  256    38%
 Info: 	               SB_GB:     8/    8   100%
@@ -40,399 +40,381 @@ Info: 	        ICESTORM_PLL:     0/    2     0%
 Info: 	         SB_WARMBOOT:     0/    1     0%
 
 Info: Placed 0 cells based on constraints.
-Info: Creating initial analytic placement for 5103 cells, random placement wirelen = 154352.
-Info:     at initial placer iter 0, wirelen = 3185
-Info:     at initial placer iter 1, wirelen = 3111
-Info:     at initial placer iter 2, wirelen = 3125
-Info:     at initial placer iter 3, wirelen = 3102
-Info: Running main analytical placer, max placement attempts per cell = 4005865.
-Info:     at iteration #1, type ALL: wirelen solved = 3143, spread = 34897, legal = 39356; time = 0.14s
-Info:     at iteration #2, type ALL: wirelen solved = 4382, spread = 28870, legal = 33559; time = 0.13s
-Info:     at iteration #3, type ALL: wirelen solved = 7545, spread = 27025, legal = 31956; time = 0.11s
-Info:     at iteration #4, type ALL: wirelen solved = 9196, spread = 25870, legal = 30674; time = 0.13s
-Info:     at iteration #5, type ALL: wirelen solved = 10481, spread = 25474, legal = 29769; time = 0.12s
-Info:     at iteration #6, type ALL: wirelen solved = 11200, spread = 25133, legal = 29329; time = 0.10s
-Info:     at iteration #7, type ALL: wirelen solved = 12334, spread = 24564, legal = 28983; time = 0.11s
-Info:     at iteration #8, type ALL: wirelen solved = 12634, spread = 24590, legal = 34025; time = 0.86s
-Info:     at iteration #9, type ALL: wirelen solved = 13794, spread = 24430, legal = 28860; time = 0.10s
-Info:     at iteration #10, type ALL: wirelen solved = 13892, spread = 23618, legal = 34780; time = 0.99s
-Info:     at iteration #11, type ALL: wirelen solved = 15262, spread = 23930, legal = 29014; time = 0.10s
-Info:     at iteration #12, type ALL: wirelen solved = 14725, spread = 22788, legal = 27260; time = 0.10s
-Info:     at iteration #13, type ALL: wirelen solved = 15308, spread = 22458, legal = 27057; time = 0.09s
-Info:     at iteration #14, type ALL: wirelen solved = 15686, spread = 22560, legal = 26816; time = 0.10s
-Info:     at iteration #15, type ALL: wirelen solved = 16202, spread = 22383, legal = 31620; time = 0.15s
-Info:     at iteration #16, type ALL: wirelen solved = 18148, spread = 23486, legal = 28783; time = 0.10s
-Info:     at iteration #17, type ALL: wirelen solved = 17620, spread = 23318, legal = 32092; time = 0.15s
-Info:     at iteration #18, type ALL: wirelen solved = 19386, spread = 24659, legal = 34795; time = 0.17s
-Info:     at iteration #19, type ALL: wirelen solved = 21088, spread = 26635, legal = 30539; time = 0.10s
-Info: HeAP Placer Time: 4.62s
-Info:   of which solving equations: 1.23s
-Info:   of which spreading cells: 0.22s
-Info:   of which strict legalisation: 2.55s
+Info: Creating initial analytic placement for 5075 cells, random placement wirelen = 152812.
+Info:     at initial placer iter 0, wirelen = 3114
+Info:     at initial placer iter 1, wirelen = 3384
+Info:     at initial placer iter 2, wirelen = 3264
+Info:     at initial placer iter 3, wirelen = 3222
+Info: Running main analytical placer, max placement attempts per cell = 3924201.
+Info:     at iteration #1, type ALL: wirelen solved = 3229, spread = 38319, legal = 42048; time = 0.09s
+Info:     at iteration #2, type ALL: wirelen solved = 3996, spread = 31606, legal = 36710; time = 0.10s
+Info:     at iteration #3, type ALL: wirelen solved = 7145, spread = 28624, legal = 33285; time = 0.09s
+Info:     at iteration #4, type ALL: wirelen solved = 9401, spread = 25187, legal = 30016; time = 0.09s
+Info:     at iteration #5, type ALL: wirelen solved = 10287, spread = 24960, legal = 29660; time = 0.09s
+Info:     at iteration #6, type ALL: wirelen solved = 11338, spread = 24372, legal = 35337; time = 0.13s
+Info:     at iteration #7, type ALL: wirelen solved = 12038, spread = 23833, legal = 28894; time = 0.09s
+Info:     at iteration #8, type ALL: wirelen solved = 12919, spread = 23295, legal = 28305; time = 0.08s
+Info:     at iteration #9, type ALL: wirelen solved = 13702, spread = 23452, legal = 28717; time = 0.09s
+Info:     at iteration #10, type ALL: wirelen solved = 14418, spread = 23157, legal = 27987; time = 0.09s
+Info:     at iteration #11, type ALL: wirelen solved = 14829, spread = 23367, legal = 27756; time = 0.08s
+Info:     at iteration #12, type ALL: wirelen solved = 15628, spread = 23114, legal = 32755; time = 0.15s
+Info:     at iteration #13, type ALL: wirelen solved = 16759, spread = 24194, legal = 32228; time = 0.13s
+Info:     at iteration #14, type ALL: wirelen solved = 17238, spread = 23602, legal = 28178; time = 0.08s
+Info:     at iteration #15, type ALL: wirelen solved = 17211, spread = 23058, legal = 30587; time = 0.10s
+Info:     at iteration #16, type ALL: wirelen solved = 17500, spread = 23003, legal = 32766; time = 0.17s
+Info: HeAP Placer Time: 2.16s
+Info:   of which solving equations: 0.84s
+Info:   of which spreading cells: 0.16s
+Info:   of which strict legalisation: 0.83s
 
 Info: Running simulated annealing placer for refinement.
-Info:   at iteration #1: temp = 0.000000, timing cost = 1281, wirelen = 26816
-Info:   at iteration #5: temp = 0.000000, timing cost = 928, wirelen = 23899
-Info:   at iteration #10: temp = 0.000000, timing cost = 832, wirelen = 22968
-Info:   at iteration #15: temp = 0.000000, timing cost = 816, wirelen = 22463
-Info:   at iteration #20: temp = 0.000000, timing cost = 842, wirelen = 22253
-Info:   at iteration #25: temp = 0.000000, timing cost = 835, wirelen = 22193
-Info:   at iteration #28: temp = 0.000000, timing cost = 832, wirelen = 22171 
-Info: SA placement time 5.95s
+Info:   at iteration #1: temp = 0.000000, timing cost = 1344, wirelen = 27756
+Info:   at iteration #5: temp = 0.000000, timing cost = 1451, wirelen = 25016
+Info:   at iteration #10: temp = 0.000000, timing cost = 1284, wirelen = 24000
+Info:   at iteration #15: temp = 0.000000, timing cost = 1241, wirelen = 23390
+Info:   at iteration #20: temp = 0.000000, timing cost = 1234, wirelen = 23172
+Info:   at iteration #25: temp = 0.000000, timing cost = 1231, wirelen = 23094
+Info:   at iteration #25: temp = 0.000000, timing cost = 1231, wirelen = 23094 
+Info: SA placement time 3.68s
 
-Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 33.14 MHz (PASS at 12.00 MHz)
+Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 33.05 MHz (PASS at 12.00 MHz)
 
-Info: Max delay <async>                       -> posedge clk$SB_IO_IN_$glb_clk: 12.81 ns
-Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 3.71 ns
+Info: Max delay <async>                       -> posedge clk$SB_IO_IN_$glb_clk: 13.42 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 3.78 ns
 
 Info: Slack histogram:
-Info:  legend: * represents 26 endpoint(s)
-Info:          + represents [1,26) endpoint(s)
-Info: [ 53162,  54618) |***+
-Info: [ 54618,  56074) |***+
-Info: [ 56074,  57530) |+
-Info: [ 57530,  58986) |*+
-Info: [ 58986,  60442) |*+
-Info: [ 60442,  61898) |*+
-Info: [ 61898,  63354) |+
-Info: [ 63354,  64810) |+
-Info: [ 64810,  66266) |*+
-Info: [ 66266,  67722) |+
-Info: [ 67722,  69178) |+
-Info: [ 69178,  70634) |***+
-Info: [ 70634,  72090) |*********+
-Info: [ 72090,  73546) |*********************************+
-Info: [ 73546,  75002) |************************************************************ 
-Info: [ 75002,  76458) |***********************************************+
-Info: [ 76458,  77914) |***********************+
-Info: [ 77914,  79370) |*******************+
-Info: [ 79370,  80826) |*********************************+
-Info: [ 80826,  82282) |**********************************+
-Info: Checksum: 0xe3a18e01
+Info:  legend: * represents 22 endpoint(s)
+Info:          + represents [1,22) endpoint(s)
+Info: [ 53080,  54540) |***+
+Info: [ 54540,  56000) |*****+
+Info: [ 56000,  57460) |+
+Info: [ 57460,  58920) |*+
+Info: [ 58920,  60380) |*+
+Info: [ 60380,  61840) |+
+Info: [ 61840,  63300) |+
+Info: [ 63300,  64760) |*+
+Info: [ 64760,  66220) |*+
+Info: [ 66220,  67680) |+
+Info: [ 67680,  69140) |**+
+Info: [ 69140,  70600) |************+
+Info: [ 70600,  72060) |**********************************+
+Info: [ 72060,  73520) |*********************************************+
+Info: [ 73520,  74980) |************************************************************ 
+Info: [ 74980,  76440) |***************************************************+
+Info: [ 76440,  77900) |*********************+
+Info: [ 77900,  79360) |*****+
+Info: [ 79360,  80820) |***************************************+
+Info: [ 80820,  82280) |************************************+
+Info: Checksum: 0x2f467f90
 
 Info: Routing..
 Info: Setting up routing queue.
-Info: Routing 17988 arcs.
+Info: Routing 17999 arcs.
 Info:            |   (re-)routed arcs  |   delta    | remaining|       time spent     |
 Info:    IterCnt |  w/ripup   wo/ripup |  w/r  wo/r |      arcs| batch(sec) total(sec)|
-Info:       1000 |       70        929 |   70   929 |     17087|       0.79       0.79|
-Info:       2000 |      281       1718 |  211   789 |     16392|       0.61       1.41|
-Info:       3000 |      495       2504 |  214   786 |     15722|       0.62       2.02|
-Info:       4000 |      733       3266 |  238   762 |     15248|       0.74       2.76|
-Info:       5000 |      945       4054 |  212   788 |     14601|       0.59       3.35|
-Info:       6000 |     1216       4783 |  271   729 |     14091|       0.52       3.87|
-Info:       7000 |     1580       5419 |  364   636 |     13693|       0.57       4.44|
-Info:       8000 |     1940       6032 |  360   613 |     13307|       0.49       4.93|
-Info:       9000 |     2208       6763 |  268   731 |     12782|       0.49       5.42|
-Info:      10000 |     2521       7386 |  313   623 |     12296|       0.37       5.79|
-Info:      11000 |     2787       8104 |  266   718 |     11676|       0.25       6.04|
-Info:      12000 |     3124       8763 |  337   659 |     11131|       0.28       6.32|
-Info:      13000 |     3497       9390 |  373   627 |     10680|       0.44       6.76|
-Info:      14000 |     3847      10040 |  350   650 |     10161|       0.34       7.10|
-Info:      15000 |     4196      10690 |  349   650 |      9801|       0.43       7.53|
-Info:      16000 |     4539      11346 |  343   656 |      9493|       0.57       8.10|
-Info:      17000 |     4865      11992 |  326   646 |      9184|       0.44       8.54|
-Info:      18000 |     5230      12599 |  365   607 |      8854|       0.38       8.92|
-Info:      19000 |     5591      13184 |  361   585 |      8427|       0.38       9.30|
-Info:      20000 |     5967      13781 |  376   597 |      8037|       0.42       9.71|
-Info:      21000 |     6327      14394 |  360   613 |      7645|       0.39      10.10|
-Info:      22000 |     6763      14958 |  436   564 |      7443|       0.33      10.44|
-Info:      23000 |     7227      15494 |  464   536 |      7223|       0.44      10.88|
-Info:      24000 |     7641      16080 |  414   586 |      6895|       0.37      11.25|
-Info:      25000 |     8133      16588 |  492   508 |      6720|       0.46      11.71|
-Info:      26000 |     8476      17245 |  343   657 |      6423|       0.46      12.17|
-Info:      27000 |     8889      17832 |  413   587 |      6210|       0.59      12.76|
-Info:      28000 |     9307      18414 |  418   582 |      5992|       0.41      13.17|
-Info:      29000 |     9685      19036 |  378   622 |      5712|       0.50      13.68|
-Info:      30000 |    10196      19525 |  511   489 |      5567|       0.54      14.21|
-Info:      31000 |    10636      20085 |  440   560 |      5345|       0.42      14.63|
-Info:      32000 |    11118      20562 |  482   477 |      5165|       0.50      15.13|
-Info:      33000 |    11505      21126 |  387   564 |      4843|       0.40      15.53|
-Info:      34000 |    12001      21627 |  496   501 |      4605|       0.51      16.04|
-Info:      35000 |    12385      22243 |  384   616 |      4146|       0.42      16.46|
-Info:      36000 |    12757      22848 |  372   605 |      3873|       0.49      16.95|
-Info:      37000 |    13205      23400 |  448   552 |      3597|       0.42      17.37|
-Info:      38000 |    13631      23973 |  426   573 |      3392|       0.50      17.86|
-Info:      39000 |    14031      24573 |  400   600 |      3084|       0.50      18.36|
-Info:      40000 |    14442      25161 |  411   588 |      2740|       0.37      18.74|
-Info:      41000 |    14883      25720 |  441   559 |      2432|       0.57      19.31|
-Info:      42000 |    15329      26274 |  446   554 |      2117|       0.43      19.74|
-Info:      43000 |    15882      26721 |  553   447 |      2183|       0.77      20.51|
-Info:      44000 |    16368      27235 |  486   514 |      1910|       0.56      21.06|
-Info:      45000 |    16845      27758 |  477   523 |      1759|       0.71      21.77|
-Info:      46000 |    17244      28359 |  399   601 |      1620|       0.48      22.26|
-Info:      47000 |    17724      28879 |  480   520 |      1528|       0.70      22.96|
-Info:      48000 |    18217      29386 |  493   507 |      1346|       0.51      23.47|
-Info:      49000 |    18695      29908 |  478   522 |      1164|       0.53      24.00|
-Info:      50000 |    18963      30640 |  268   732 |       597|       0.59      24.59|
-Info:      51000 |    19184      31419 |  221   779 |        57|       0.71      25.30|
-Info:      51069 |    19190      31483 |    6    64 |         0|       0.06      25.36|
+Info:       1000 |       75        924 |   75   924 |     17125|       0.61       0.61|
+Info:       2000 |      322       1677 |  247   753 |     16500|       0.37       0.99|
+Info:       3000 |      557       2442 |  235   765 |     15907|       0.43       1.42|
+Info:       4000 |      839       3160 |  282   718 |     15370|       0.47       1.88|
+Info:       5000 |     1197       3802 |  358   642 |     15011|       0.46       2.35|
+Info:       6000 |     1551       4448 |  354   646 |     14578|       0.69       3.03|
+Info:       7000 |     1853       5146 |  302   698 |     14082|       0.60       3.63|
+Info:       8000 |     2172       5827 |  319   681 |     13653|       0.53       4.16|
+Info:       9000 |     2627       6372 |  455   545 |     13429|       0.66       4.82|
+Info:      10000 |     2977       7022 |  350   650 |     13017|       0.41       5.23|
+Info:      11000 |     3366       7633 |  389   611 |     12713|       0.50       5.73|
+Info:      12000 |     3812       8187 |  446   554 |     12462|       0.54       6.26|
+Info:      13000 |     4143       8828 |  331   641 |     12133|       0.50       6.76|
+Info:      14000 |     4477       9433 |  334   605 |     11725|       0.34       7.10|
+Info:      15000 |     4898      10005 |  421   572 |     11417|       0.35       7.45|
+Info:      16000 |     5230      10668 |  332   663 |     11129|       0.42       7.87|
+Info:      17000 |     5655      11241 |  425   573 |     10819|       0.33       8.20|
+Info:      18000 |     6127      11760 |  472   519 |     10523|       0.44       8.64|
+Info:      19000 |     6561      12326 |  434   566 |     10123|       0.29       8.93|
+Info:      20000 |     6959      12927 |  398   601 |      9738|       0.38       9.31|
+Info:      21000 |     7428      13458 |  469   531 |      9510|       0.48       9.79|
+Info:      22000 |     7883      13974 |  455   516 |      9275|       0.41      10.19|
+Info:      23000 |     8424      14433 |  541   459 |      9167|       0.58      10.78|
+Info:      24000 |     8903      14925 |  479   492 |      8897|       0.51      11.28|
+Info:      25000 |     9367      15461 |  464   536 |      8642|       0.55      11.83|
+Info:      26000 |     9717      16111 |  350   650 |      8297|       0.45      12.29|
+Info:      27000 |    10067      16682 |  350   571 |      7867|       0.41      12.69|
+Info:      28000 |    10489      17258 |  422   576 |      7562|       0.37      13.07|
+Info:      29000 |    10978      17769 |  489   511 |      7236|       0.42      13.49|
+Info:      30000 |    11498      18249 |  520   480 |      7114|       0.66      14.15|
+Info:      31000 |    11985      18762 |  487   513 |      7010|       0.75      14.89|
+Info:      32000 |    12394      19353 |  409   591 |      6750|       0.51      15.41|
+Info:      33000 |    12773      19974 |  379   621 |      6339|       0.38      15.79|
+Info:      34000 |    13086      20661 |  313   687 |      6032|       0.42      16.21|
+Info:      35000 |    13375      21351 |  289   690 |      5714|       0.54      16.74|
+Info:      36000 |    13876      21850 |  501   499 |      5624|       0.64      17.38|
+Info:      37000 |    14375      22346 |  499   496 |      5368|       0.41      17.79|
+Info:      38000 |    14739      22919 |  364   573 |      5042|       0.52      18.31|
+Info:      39000 |    15145      23511 |  406   592 |      4790|       0.67      18.99|
+Info:      40000 |    15634      24022 |  489   511 |      4565|       0.50      19.49|
+Info:      41000 |    16099      24557 |  465   535 |      4451|       0.49      19.97|
+Info:      42000 |    16490      25164 |  391   607 |      4309|       0.38      20.36|
+Info:      43000 |    17082      25572 |  592   408 |      4205|       0.53      20.89|
+Info:      44000 |    17491      26163 |  409   591 |      3833|       0.42      21.31|
+Info:      45000 |    17992      26662 |  501   499 |      3565|       0.39      21.70|
+Info:      46000 |    18494      27136 |  502   474 |      3331|       0.52      22.22|
+Info:      47000 |    18943      27687 |  449   551 |      3088|       0.46      22.68|
+Info:      48000 |    19311      28319 |  368   632 |      2794|       0.38      23.06|
+Info:      49000 |    19686      28943 |  375   624 |      2506|       0.30      23.36|
+Info:      50000 |    20168      29461 |  482   518 |      2292|       0.44      23.80|
+Info:      51000 |    20676      29953 |  508   492 |      2126|       0.50      24.30|
+Info:      52000 |    21129      30500 |  453   547 |      1786|       0.47      24.77|
+Info:      53000 |    21591      31038 |  462   538 |      1719|       0.42      25.20|
+Info:      54000 |    22158      31471 |  567   433 |      1579|       0.60      25.80|
+Info:      55000 |    22684      31945 |  526   474 |      1425|       0.60      26.40|
+Info:      56000 |    22988      32641 |  304   696 |       869|       0.34      26.74|
+Info:      57000 |    23130      33499 |  142   858 |       124|       0.60      27.33|
+Info:      57299 |    23226      33703 |   96   204 |         0|       0.20      27.53|
 Info: Routing complete.
-Info: Router1 time 25.36s
-Info: Checksum: 0xb3bbf325
+Info: Router1 time 27.53s
+Info: Checksum: 0xc71edddc
 
 Info: Critical path report for clock 'clk$SB_IO_IN_$glb_clk' (posedge -> posedge):
 Info: curr total
-Info:  0.5  0.5  Source core.w_rd_SB_DFFSR_Q_1_DFFLC.O
-Info:  0.6  1.1    Net core.w_insn[9] budget 0.000000 ns (17,18) -> (18,18)
-Info:                Sink core.w_write_SB_LUT4_I3_2_I0_SB_LUT4_O_LC.I1
+Info:  0.5  0.5  Source core.ld_SB_LUT4_O_LC.O
+Info:  1.9  2.4    Net core.m_load budget 0.000000 ns (5,3) -> (15,7)
+Info:                Sink core.m_write_SB_LUT4_I3_LC.I0
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4  1.5  Source core.w_write_SB_LUT4_I3_2_I0_SB_LUT4_O_LC.O
-Info:  0.6  2.1    Net core.w_write_SB_LUT4_I3_1_O[0] budget 0.000000 ns (18,18) -> (17,18)
-Info:                Sink core.w_write_SB_LUT4_I3_2_LC.I0
+Info:  0.4  2.9  Source core.m_write_SB_LUT4_I3_LC.O
+Info:  0.6  3.5    Net core.m_write_SB_LUT4_I3_O[3] budget 0.000000 ns (15,7) -> (15,8)
+Info:                Sink core.m_write_SB_LUT4_I3_O_SB_LUT4_I2_LC.I3
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4  2.6  Source core.w_write_SB_LUT4_I3_2_LC.O
-Info:  2.0  4.5    Net core.b_SB_LUT4_O_I1_SB_LUT4_O_I3[2] budget 0.000000 ns (17,18) -> (22,10)
-Info:                Sink core.a_SB_LUT4_O_20_I1_SB_LUT4_O_LC.I2
+Info:  0.3  3.8  Source core.m_write_SB_LUT4_I3_O_SB_LUT4_I2_LC.O
+Info:  1.3  5.1    Net core.m_write_SB_LUT4_I3_O_SB_LUT4_I2_O[0] budget 0.000000 ns (15,8) -> (14,13)
+Info:                Sink core.m_write_SB_LUT4_I3_O_SB_LUT4_I2_O_SB_LUT4_I1_LC.I1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4  4.9  Source core.a_SB_LUT4_O_20_I1_SB_LUT4_O_LC.O
-Info:  1.6  6.5    Net core.a_SB_LUT4_O_20_I1[0] budget 0.000000 ns (22,10) -> (16,9)
-Info:                Sink core.a_SB_LUT4_O_20_LC.I1
+Info:  0.4  5.5  Source core.m_write_SB_LUT4_I3_O_SB_LUT4_I2_O_SB_LUT4_I1_LC.O
+Info:  2.4  7.9    Net core.b_SB_LUT4_O_10_I1[2] budget 0.000000 ns (14,13) -> (12,27)
+Info:                Sink core.b_SB_LUT4_O_4_LC.I3
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4  6.9  Source core.a_SB_LUT4_O_20_LC.O
-Info:  2.0  8.8    Net core.a[4] budget 4.983000 ns (16,9) -> (10,2)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_9_I1_SB_LUT4_O_I1_SB_LUT4_I3_O_SB_LUT4_O_I3_SB_LUT4_O_LC.I2
-Info:                Defined in:
-Info:                  rtl/timing_top.sv:11.15-12.68
-Info:                  rtl/rv32_core.sv:33.16-33.17
-Info:  0.4  9.2  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_9_I1_SB_LUT4_O_I1_SB_LUT4_I3_O_SB_LUT4_O_I3_SB_LUT4_O_LC.O
-Info:  0.6  9.8    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_I2_SB_LUT4_O_1_I0_SB_LUT4_I2_O[3] budget 4.983000 ns (10,2) -> (9,2)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_I2_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I0_SB_LUT4_I2_O_SB_LUT4_O_1_LC.I0
+Info:  0.3  8.2  Source core.b_SB_LUT4_O_4_LC.O
+Info:  1.6  9.8    Net core.b[25] budget 4.241000 ns (12,27) -> (7,30)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_LC.I2
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4 10.3  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_I2_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I0_SB_LUT4_I2_O_SB_LUT4_O_1_LC.O
-Info:  1.3 11.5    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_I2_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I0_SB_LUT4_I2_O[0] budget 4.983000 ns (9,2) -> (7,1)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_I2_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I0_SB_LUT4_I2_O_SB_LUT4_I1_LC.I1
+Info:  0.4 10.2  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_LC.O
+Info:  0.6 10.8    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O[3] budget 4.241000 ns (7,30) -> (6,29)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_LC.I0
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4 11.9  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_I2_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I0_SB_LUT4_I2_O_SB_LUT4_I1_LC.O
-Info:  0.6 12.5    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_1_I1[0] budget 4.983000 ns (7,1) -> (7,1)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_1_LC.I1
+Info:  0.4 11.2  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_LC.O
+Info:  0.6 11.8    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_I1_O_SB_LUT4_O_I1[0] budget 4.241000 ns (6,29) -> (7,30)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I2_O_SB_LUT4_O_LC.I2
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4 12.9  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1_SB_LUT4_O_1_LC.O
-Info:  1.3 14.2    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_8_I1[1] budget 4.982000 ns (7,1) -> (9,4)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_7_LC.I2
+Info:  0.4 12.2  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I2_O_SB_LUT4_O_LC.O
+Info:  1.3 13.5    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I2_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I1_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_I2_SB_LUT4_I0_O_SB_LUT4_O_1_I2_SB_LUT4_I0_O_SB_LUT4_O_2_I3_SB_LUT4_I1_O_SB_LUT4_O_1_I3_SB_LUT4_I2_O[3] budget 4.241000 ns (7,30) -> (9,31)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.I3
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4 14.6  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_7_LC.O
-Info:  0.6 15.2    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O[8] budget 4.982000 ns (9,4) -> (9,5)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_1_LC.I1
+Info:  0.3 13.8  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_O_LC.O
+Info:  0.6 14.4    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I3_SB_LUT4_O_I2[1] budget 4.241000 ns (9,31) -> (9,31)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_I3_1_LC.I3
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:  0.3 14.7  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_I3_1_LC.O
+Info:  0.6 15.3    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_I3_SB_LUT4_O_I2_SB_LUT4_I3_1_O[2] budget 4.241000 ns (9,31) -> (9,30)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_2_LC.I1
+Info:                Defined in:
+Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:  0.4 15.7  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_O_2_LC.O
+Info:  1.6 17.3    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_O_I2_SB_LUT4_I2_O[13] budget 4.241000 ns (9,30) -> (7,25)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_I2_8_LC.I1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/techmap.v:200.24-200.25
-Info:  0.3 15.4  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_1_LC.COUT
-Info:  0.0 15.4    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[9] budget 0.000000 ns (9,5) -> (9,5)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_LC.CIN
+Info:  0.3 17.6  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_I2_8_LC.COUT
+Info:  0.3 17.8    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[14] budget 0.260000 ns (7,25) -> (7,25)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_I2_7_LC.I3
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 15.5  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_LC.COUT
-Info:  0.0 15.5    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[10] budget 0.000000 ns (9,5) -> (9,5)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_10_LC.CIN
+Info:  0.3 18.2  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_13_I1_SB_LUT4_O_2_I1_SB_LUT4_O_2_I2_SB_LUT4_I2_O_SB_LUT4_I2_7_LC.O
+Info:  1.6 19.7    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_I1[14] budget 4.241000 ns (7,25) -> (12,22)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_1_LC.I2
 Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 15.7  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_10_LC.COUT
-Info:  0.0 15.7    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[11] budget 0.000000 ns (9,5) -> (9,5)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_9_LC.CIN
+Info:                  /usr/bin/../share/yosys/techmap.v:198.20-198.21
+Info:  0.4 20.1  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_1_LC.O
+Info:  0.6 20.7    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1[0] budget 4.241000 ns (12,22) -> (11,22)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_I1_LC.I1
 Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 15.8  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_9_LC.COUT
-Info:  0.0 15.8    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[12] budget 0.000000 ns (9,5) -> (9,5)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_8_LC.CIN
-Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 15.9  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_8_LC.COUT
-Info:  0.2 16.1    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[13] budget 0.190000 ns (9,5) -> (9,6)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_7_LC.CIN
-Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 16.2  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_7_LC.COUT
-Info:  0.0 16.2    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[14] budget 0.000000 ns (9,6) -> (9,6)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_6_LC.CIN
-Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 16.4  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_6_LC.COUT
-Info:  0.3 16.6    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_CARRY_I1_CO[15] budget 0.260000 ns (9,6) -> (9,6)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_5_LC.I3
-Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.3 16.9  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_12_I1_SB_LUT4_O_I2_SB_LUT4_I2_O_SB_LUT4_I2_5_LC.O
-Info:  1.7 18.6    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1[2] budget 4.594000 ns (9,6) -> (10,15)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_I1_LC.I3
-Info:                Defined in:
-Info:                  /usr/bin/../share/yosys/techmap.v:198.26-198.27
-Info:  0.3 19.0  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_I1_LC.O
-Info:  1.3 20.3    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_9_I1_SB_LUT4_I1_O[15] budget 4.241000 ns (10,15) -> (10,11)
+Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info:  0.4 21.1  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_I1_LC.O
+Info:  1.7 22.8    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_I0_SB_LUT4_O_I2_SB_LUT4_I1_O_SB_LUT4_O_1_I1_SB_LUT4_O_2_I2_SB_LUT4_I1_O_SB_LUT4_O_9_I1_SB_LUT4_I1_O[15] budget 4.241000 ns (11,22) -> (11,14)
 Info:                Sink core.dot_SB_LUT4_O_25_LC.I1
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/techmap.v:200.24-200.25
-Info:  0.3 20.6  Source core.dot_SB_LUT4_O_25_LC.COUT
-Info:  0.0 20.6    Net core.dot_SB_LUT4_O_I3[16] budget 0.000000 ns (10,11) -> (10,11)
+Info:  0.3 23.1  Source core.dot_SB_LUT4_O_25_LC.COUT
+Info:  0.0 23.1    Net core.dot_SB_LUT4_O_I3[16] budget 0.000000 ns (11,14) -> (11,14)
 Info:                Sink core.dot_SB_LUT4_O_24_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 20.7  Source core.dot_SB_LUT4_O_24_LC.COUT
-Info:  0.2 20.9    Net core.dot_SB_LUT4_O_I3[17] budget 0.190000 ns (10,11) -> (10,12)
+Info:  0.1 23.2  Source core.dot_SB_LUT4_O_24_LC.COUT
+Info:  0.2 23.4    Net core.dot_SB_LUT4_O_I3[17] budget 0.190000 ns (11,14) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_23_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.0  Source core.dot_SB_LUT4_O_23_LC.COUT
-Info:  0.0 21.0    Net core.dot_SB_LUT4_O_I3[18] budget 0.000000 ns (10,12) -> (10,12)
+Info:  0.1 23.5  Source core.dot_SB_LUT4_O_23_LC.COUT
+Info:  0.0 23.5    Net core.dot_SB_LUT4_O_I3[18] budget 0.000000 ns (11,15) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_22_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.1  Source core.dot_SB_LUT4_O_22_LC.COUT
-Info:  0.0 21.1    Net core.dot_SB_LUT4_O_I3[19] budget 0.000000 ns (10,12) -> (10,12)
+Info:  0.1 23.6  Source core.dot_SB_LUT4_O_22_LC.COUT
+Info:  0.0 23.6    Net core.dot_SB_LUT4_O_I3[19] budget 0.000000 ns (11,15) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_21_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.3  Source core.dot_SB_LUT4_O_21_LC.COUT
-Info:  0.0 21.3    Net core.dot_SB_LUT4_O_I3[20] budget 0.000000 ns (10,12) -> (10,12)
+Info:  0.1 23.8  Source core.dot_SB_LUT4_O_21_LC.COUT
+Info:  0.0 23.8    Net core.dot_SB_LUT4_O_I3[20] budget 0.000000 ns (11,15) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_19_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.4  Source core.dot_SB_LUT4_O_19_LC.COUT
-Info:  0.0 21.4    Net core.dot_SB_LUT4_O_I3[21] budget 0.000000 ns (10,12) -> (10,12)
+Info:  0.1 23.9  Source core.dot_SB_LUT4_O_19_LC.COUT
+Info:  0.0 23.9    Net core.dot_SB_LUT4_O_I3[21] budget 0.000000 ns (11,15) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_18_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.5  Source core.dot_SB_LUT4_O_18_LC.COUT
-Info:  0.0 21.5    Net core.dot_SB_LUT4_O_I3[22] budget 0.000000 ns (10,12) -> (10,12)
+Info:  0.1 24.0  Source core.dot_SB_LUT4_O_18_LC.COUT
+Info:  0.0 24.0    Net core.dot_SB_LUT4_O_I3[22] budget 0.000000 ns (11,15) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_17_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.6  Source core.dot_SB_LUT4_O_17_LC.COUT
-Info:  0.0 21.6    Net core.dot_SB_LUT4_O_I3[23] budget 0.000000 ns (10,12) -> (10,12)
+Info:  0.1 24.1  Source core.dot_SB_LUT4_O_17_LC.COUT
+Info:  0.0 24.1    Net core.dot_SB_LUT4_O_I3[23] budget 0.000000 ns (11,15) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_16_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.8  Source core.dot_SB_LUT4_O_16_LC.COUT
-Info:  0.0 21.8    Net core.dot_SB_LUT4_O_I3[24] budget 0.000000 ns (10,12) -> (10,12)
+Info:  0.1 24.3  Source core.dot_SB_LUT4_O_16_LC.COUT
+Info:  0.0 24.3    Net core.dot_SB_LUT4_O_I3[24] budget 0.000000 ns (11,15) -> (11,15)
 Info:                Sink core.dot_SB_LUT4_O_15_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 21.9  Source core.dot_SB_LUT4_O_15_LC.COUT
-Info:  0.2 22.1    Net core.dot_SB_LUT4_O_I3[25] budget 0.190000 ns (10,12) -> (10,13)
+Info:  0.1 24.4  Source core.dot_SB_LUT4_O_15_LC.COUT
+Info:  0.2 24.6    Net core.dot_SB_LUT4_O_I3[25] budget 0.190000 ns (11,15) -> (11,16)
 Info:                Sink core.dot_SB_LUT4_O_14_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 22.2  Source core.dot_SB_LUT4_O_14_LC.COUT
-Info:  0.0 22.2    Net core.dot_SB_LUT4_O_I3[26] budget 0.000000 ns (10,13) -> (10,13)
+Info:  0.1 24.7  Source core.dot_SB_LUT4_O_14_LC.COUT
+Info:  0.0 24.7    Net core.dot_SB_LUT4_O_I3[26] budget 0.000000 ns (11,16) -> (11,16)
 Info:                Sink core.dot_SB_LUT4_O_13_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 22.3  Source core.dot_SB_LUT4_O_13_LC.COUT
-Info:  0.0 22.3    Net core.dot_SB_LUT4_O_I3[27] budget 0.000000 ns (10,13) -> (10,13)
+Info:  0.1 24.8  Source core.dot_SB_LUT4_O_13_LC.COUT
+Info:  0.0 24.8    Net core.dot_SB_LUT4_O_I3[27] budget 0.000000 ns (11,16) -> (11,16)
 Info:                Sink core.dot_SB_LUT4_O_12_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 22.5  Source core.dot_SB_LUT4_O_12_LC.COUT
-Info:  0.0 22.5    Net core.dot_SB_LUT4_O_I3[28] budget 0.000000 ns (10,13) -> (10,13)
+Info:  0.1 25.0  Source core.dot_SB_LUT4_O_12_LC.COUT
+Info:  0.0 25.0    Net core.dot_SB_LUT4_O_I3[28] budget 0.000000 ns (11,16) -> (11,16)
 Info:                Sink core.dot_SB_LUT4_O_11_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 22.6  Source core.dot_SB_LUT4_O_11_LC.COUT
-Info:  0.0 22.6    Net core.dot_SB_LUT4_O_I3[29] budget 0.000000 ns (10,13) -> (10,13)
+Info:  0.1 25.1  Source core.dot_SB_LUT4_O_11_LC.COUT
+Info:  0.0 25.1    Net core.dot_SB_LUT4_O_I3[29] budget 0.000000 ns (11,16) -> (11,16)
 Info:                Sink core.dot_SB_LUT4_O_10_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 22.7  Source core.dot_SB_LUT4_O_10_LC.COUT
-Info:  0.0 22.7    Net core.dot_SB_LUT4_O_I3[30] budget 0.000000 ns (10,13) -> (10,13)
+Info:  0.1 25.2  Source core.dot_SB_LUT4_O_10_LC.COUT
+Info:  0.0 25.2    Net core.dot_SB_LUT4_O_I3[30] budget 0.000000 ns (11,16) -> (11,16)
 Info:                Sink core.dot_SB_LUT4_O_8_LC.CIN
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.1 22.8  Source core.dot_SB_LUT4_O_8_LC.COUT
-Info:  0.3 23.1    Net core.dot_SB_LUT4_O_I3[31] budget 0.260000 ns (10,13) -> (10,13)
+Info:  0.1 25.3  Source core.dot_SB_LUT4_O_8_LC.COUT
+Info:  0.3 25.6    Net core.dot_SB_LUT4_O_I3[31] budget 0.260000 ns (11,16) -> (11,16)
 Info:                Sink core.dot_SB_LUT4_O_7_LC.I3
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/arith_map.v:51.21-51.22
-Info:  0.3 23.4  Source core.dot_SB_LUT4_O_7_LC.O
-Info:  1.3 24.7    Net core.dot[31] budget 4.567000 ns (10,13) -> (12,15)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_1_I1_SB_LUT4_O_1_LC.I1
+Info:  0.3 25.9  Source core.dot_SB_LUT4_O_7_LC.O
+Info:  1.3 27.3    Net core.dot[31] budget 4.567000 ns (11,16) -> (12,20)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_I1_SB_LUT4_O_1_LC.I1
 Info:                Defined in:
 Info:                  rtl/timing_top.sv:11.15-12.68
-Info:                  rtl/rv32_core.sv:35.23-35.26
-Info:  0.4 25.1  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_1_I1_SB_LUT4_O_1_LC.O
-Info:  0.6 25.7    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_1_I1[1] budget 4.567000 ns (12,15) -> (13,16)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_1_LC.I2
+Info:                  rtl/rv32_core.sv:36.23-36.26
+Info:  0.4 27.7  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_I1_SB_LUT4_O_1_LC.O
+Info:  0.6 28.2    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_I1[1] budget 4.567000 ns (12,20) -> (13,21)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_LC.I2
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4 26.0  Source core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_1_LC.O
-Info:  0.6 26.6    Net core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0[3] budget 4.567000 ns (13,16) -> (13,16)
-Info:                Sink core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_LC.I3
+Info:  0.4 28.6  Source core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0_SB_LUT4_O_LC.O
+Info:  0.6 29.2    Net core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_I0[3] budget 4.567000 ns (13,21) -> (13,21)
+Info:                Sink core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_LC.I3
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.3 27.0  Setup core.ld_SB_LUT4_O_I1_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_LC.I3
-Info: 9.4 ns logic, 17.6 ns routing
+Info:  0.3 29.5  Setup core.target_SB_LUT4_I2_O_SB_LUT4_O_I0_SB_LUT4_O_I0_SB_LUT4_O_1_I1_SB_LUT4_I3_O_SB_LUT4_I0_O_SB_LUT4_I1_O_SB_LUT4_O_12_LC.I3
+Info: 9.2 ns logic, 20.4 ns routing
 
 Info: Critical path report for cross-domain path '<async>' -> 'posedge clk$SB_IO_IN_$glb_clk':
 Info: curr total
 Info:  0.0  0.0  Source reset$sb_io.D_IN_0
-Info:  2.3  2.3    Net reset$SB_IO_IN budget 13.521000 ns (25,33) -> (21,18)
+Info:  1.7  1.7    Net reset$SB_IO_IN budget 13.521000 ns (33,6) -> (16,6)
 Info:                Sink core.w_trap_SB_LUT4_I2_LC.I1
 Info:                Defined in:
 Info:                  rtl/timing_top.sv:3.46-3.51
-Info:  0.4  2.7  Source core.w_trap_SB_LUT4_I2_LC.O
-Info:  0.6  3.3    Net core.w_trap_SB_LUT4_I2_O[0] budget 11.494000 ns (21,18) -> (22,18)
-Info:                Sink core.w_write_SB_LUT4_I3_2_I0_SB_LUT4_I3_LC.I2
+Info:  0.4  2.1  Source core.w_trap_SB_LUT4_I2_LC.O
+Info:  0.6  2.7    Net core.w_trap_SB_LUT4_I2_O[1] budget 11.494000 ns (16,6) -> (17,6)
+Info:                Sink core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_LC.I2
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4  3.7  Source core.w_write_SB_LUT4_I3_2_I0_SB_LUT4_I3_LC.O
-Info:  1.2  4.9    Net core.w_trap_SB_LUT4_I2_O_SB_LUT4_I1_O_SB_LUT4_I2_1_I3[0] budget 11.494000 ns (22,18) -> (26,18)
-Info:                Sink core.w_trap_SB_LUT4_I2_O_SB_LUT4_I3_1_LC.I2
+Info:  0.4  3.0  Source core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_LC.O
+Info:  1.3  4.4    Net core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_O[0] budget 11.494000 ns (17,6) -> (17,2)
+Info:                Sink core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_O_SB_LUT4_I2_4_LC.I2
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.4  5.3  Source core.w_trap_SB_LUT4_I2_O_SB_LUT4_I3_1_LC.O
-Info:  2.0  7.3    Net core.w_trap_SB_LUT4_I2_O_SB_LUT4_I3_1_O[1] budget 11.494000 ns (26,18) -> (19,19)
-Info:                Sink core.w_trap_SB_LUT4_I2_O_SB_LUT4_I3_1_O_SB_LUT4_I3_LC.I3
+Info:  0.4  4.7  Source core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_O_SB_LUT4_I2_4_LC.O
+Info:  2.8  7.5    Net core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_O_SB_LUT4_I2_4_O[1] budget 11.494000 ns (17,2) -> (21,19)
+Info:                Sink core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_O_SB_LUT4_I2_4_O_SB_LUT4_I3_LC.I3
 Info:                Defined in:
 Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
-Info:  0.3  7.6  Source core.w_trap_SB_LUT4_I2_O_SB_LUT4_I3_1_O_SB_LUT4_I3_LC.O
-Info:  3.8 11.5    Net core.regs[8]_SB_DFFESR_Q_E budget 11.494000 ns (19,19) -> (2,2)
-Info:                Sink core.regs[8]_SB_DFFESR_Q_6_DFFLC.CEN
-Info:  0.1 11.6  Setup core.regs[8]_SB_DFFESR_Q_6_DFFLC.CEN
-Info: 1.6 ns logic, 10.0 ns routing
+Info:  0.3  7.8  Source core.w_trap_SB_LUT4_I2_O_SB_LUT4_I2_1_O_SB_LUT4_I2_4_O_SB_LUT4_I3_LC.O
+Info:  3.7 11.5    Net core.regs[12]_SB_DFFESR_Q_E budget 11.494000 ns (21,19) -> (11,2)
+Info:                Sink core.regs[12]_SB_DFFESR_Q_8_DFFLC.CEN
+Info:  0.1 11.6  Setup core.regs[12]_SB_DFFESR_Q_8_DFFLC.CEN
+Info: 1.6 ns logic, 10.1 ns routing
 
 Info: Critical path report for cross-domain path 'posedge clk$SB_IO_IN_$glb_clk' -> '<async>':
 Info: curr total
-Info:  0.5  0.5  Source scan_SB_DFFSR_Q_24_D_SB_LUT4_O_LC.O
-Info:  3.5  4.0    Net observe[7]$SB_IO_OUT budget 82.792999 ns (1,15) -> (33,15)
-Info:                Sink observe[7]$sb_io.D_OUT_0
+Info:  0.5  0.5  Source scan_SB_DFFSR_Q_27_D_SB_LUT4_O_LC.O
+Info:  3.7  4.2    Net observe[4]$SB_IO_OUT budget 82.792999 ns (16,9) -> (11,33)
+Info:                Sink observe[4]$sb_io.D_OUT_0
 Info:                Defined in:
-Info:                  rtl/timing_top.sv:10.16-10.20
-Info: 0.5 ns logic, 3.5 ns routing
+Info:                  /usr/bin/../share/yosys/ice40/cells_map.v:6.21-6.22
+Info: 0.5 ns logic, 3.7 ns routing
 
-Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 37.08 MHz (PASS at 12.00 MHz)
+Info: Max frequency for clock 'clk$SB_IO_IN_$glb_clk': 33.85 MHz (PASS at 12.00 MHz)
 
-Info: Max delay <async>                       -> posedge clk$SB_IO_IN_$glb_clk: 11.58 ns
-Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 4.02 ns
+Info: Max delay <async>                       -> posedge clk$SB_IO_IN_$glb_clk: 11.65 ns
+Info: Max delay posedge clk$SB_IO_IN_$glb_clk -> <async>                      : 4.19 ns
 
 Info: Slack histogram:
-Info:  legend: * represents 23 endpoint(s)
-Info:          + represents [1,23) endpoint(s)
-Info: [ 56362,  57658) |+
-Info: [ 57658,  58954) |********+
-Info: [ 58954,  60250) |*+
-Info: [ 60250,  61546) |*+
-Info: [ 61546,  62842) |+
-Info: [ 62842,  64138) |+
-Info: [ 64138,  65434) |+
-Info: [ 65434,  66730) |*+
-Info: [ 66730,  68026) |+
-Info: [ 68026,  69322) |+
-Info: [ 69322,  70618) |+
-Info: [ 70618,  71914) |*********+
-Info: [ 71914,  73210) |**********************************+
-Info: [ 73210,  74506) |***********************************************************+
-Info: [ 74506,  75802) |************************************************+
-Info: [ 75802,  77098) |***************************+
-Info: [ 77098,  78394) |****************+
-Info: [ 78394,  79690) |*****+
-Info: [ 79690,  80986) |************************************************************ 
-Info: [ 80986,  82282) |*********************************+
+Info:  legend: * represents 17 endpoint(s)
+Info:          + represents [1,17) endpoint(s)
+Info: [ 53793,  55218) |+
+Info: [ 55218,  56643) |+
+Info: [ 56643,  58068) |***********+
+Info: [ 58068,  59493) |*+
+Info: [ 59493,  60918) |*+
+Info: [ 60918,  62343) |+
+Info: [ 62343,  63768) |+
+Info: [ 63768,  65193) |**+
+Info: [ 65193,  66618) |*+
+Info: [ 66618,  68043) |+
+Info: [ 68043,  69468) |*+
+Info: [ 69468,  70893) |*********************+
+Info: [ 70893,  72318) |***********************************+
+Info: [ 72318,  73743) |************************************************************ 
+Info: [ 73743,  75168) |********************************************************+
+Info: [ 75168,  76593) |*********************************************+
+Info: [ 76593,  78018) |*************************************+
+Info: [ 78018,  79443) |*************************************+
+Info: [ 79443,  80868) |*****************************************************+
+Info: [ 80868,  82293) |***************************************+
 1 warning, 0 errors
 
 Info: Program finished normally.

@@ -1,0 +1,334 @@
+{
+  "what": "Post-route estimates for timing_top (core plus registered measurement shell) on iCE40 HX8K CT256; not board measurements.",
+  "flow": "Same commands as make timing: synth_ice40, nextpnr-ice40 --hx8k --package ct256 --pcf-allow-unconstrained --freq 12. dot4_1 and dot4_0 set DOT4 with chparam; dot4_1_default_flow is make timing unchanged.",
+  "official_seed1_reproduced": true,
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "variants": {
+    "dot4_1": {
+      "dot4": 1,
+      "chparam": true,
+      "lut4": 4098,
+      "flip_flops": 1692,
+      "carry": 371,
+      "synthesis_primitives": {
+        "SB_CARRY": 371,
+        "SB_DFF": 64,
+        "SB_DFFESR": 1218,
+        "SB_DFFSR": 410,
+        "SB_LUT4": 4098
+      },
+      "logic_cells": {
+        "min": 5627,
+        "median": 5627,
+        "max": 5627
+      },
+      "logic_cells_available": 7680,
+      "fmax_mhz": {
+        "min": 34.12037658691406,
+        "median": 36.871795654296875,
+        "max": 38.74617385864258
+      },
+      "seeds": [
+        {
+          "seed": 1,
+          "fmax_mhz": 38.74617385864258,
+          "logic_cells": 5627
+        },
+        {
+          "seed": 2,
+          "fmax_mhz": 37.857276916503906,
+          "logic_cells": 5627
+        },
+        {
+          "seed": 3,
+          "fmax_mhz": 36.20433807373047,
+          "logic_cells": 5627
+        },
+        {
+          "seed": 4,
+          "fmax_mhz": 36.871795654296875,
+          "logic_cells": 5627
+        },
+        {
+          "seed": 5,
+          "fmax_mhz": 34.12037658691406,
+          "logic_cells": 5627
+        }
+      ]
+    },
+    "dot4_0": {
+      "dot4": 0,
+      "chparam": true,
+      "lut4": 3168,
+      "flip_flops": 1692,
+      "carry": 387,
+      "synthesis_primitives": {
+        "SB_CARRY": 387,
+        "SB_DFF": 64,
+        "SB_DFFESR": 1218,
+        "SB_DFFSR": 410,
+        "SB_LUT4": 3168
+      },
+      "logic_cells": {
+        "min": 4759,
+        "median": 4759,
+        "max": 4759
+      },
+      "logic_cells_available": 7680,
+      "fmax_mhz": {
+        "min": 39.59298324584961,
+        "median": 40.67024612426758,
+        "max": 42.33879470825195
+      },
+      "seeds": [
+        {
+          "seed": 1,
+          "fmax_mhz": 40.67024612426758,
+          "logic_cells": 4759
+        },
+        {
+          "seed": 2,
+          "fmax_mhz": 39.86286926269531,
+          "logic_cells": 4759
+        },
+        {
+          "seed": 3,
+          "fmax_mhz": 42.33879470825195,
+          "logic_cells": 4759
+        },
+        {
+          "seed": 4,
+          "fmax_mhz": 39.59298324584961,
+          "logic_cells": 4759
+        },
+        {
+          "seed": 5,
+          "fmax_mhz": 42.119449615478516,
+          "logic_cells": 4759
+        }
+      ]
+    },
+    "dot4_1_default_flow": {
+      "dot4": 1,
+      "chparam": false,
+      "lut4": 3935,
+      "flip_flops": 1692,
+      "carry": 427,
+      "synthesis_primitives": {
+        "SB_CARRY": 427,
+        "SB_DFF": 64,
+        "SB_DFFESR": 1218,
+        "SB_DFFSR": 410,
+        "SB_LUT4": 3935
+      },
+      "logic_cells": {
+        "min": 5497,
+        "median": 5497,
+        "max": 5497
+      },
+      "logic_cells_available": 7680,
+      "fmax_mhz": {
+        "min": 33.85240173339844,
+        "median": 35.75770568847656,
+        "max": 37.07685852050781
+      },
+      "seeds": [
+        {
+          "seed": 1,
+          "fmax_mhz": 33.85240173339844,
+          "logic_cells": 5497
+        },
+        {
+          "seed": 2,
+          "fmax_mhz": 36.22138595581055,
+          "logic_cells": 5497
+        },
+        {
+          "seed": 3,
+          "fmax_mhz": 35.75770568847656,
+          "logic_cells": 5497
+        },
+        {
+          "seed": 4,
+          "fmax_mhz": 35.282081604003906,
+          "logic_cells": 5497
+        },
+        {
+          "seed": 5,
+          "fmax_mhz": 37.07685852050781,
+          "logic_cells": 5497
+        }
+      ]
+    }
+  },
+  "delta_dot4_on_minus_off": {
+    "lut4": 930,
+    "flip_flops": 0,
+    "carry": -16,
+    "median_logic_cells": 868,
+    "median_fmax_mhz": -3.798
+  },
+  "same_logic_netlist_spread": {
+    "lut4": 163,
+    "carry": -56,
+    "median_fmax_mhz": 1.114
+  },
+  "throughput_definition": "One output is one N-element int8 dot product. outputs/s = median Fmax / simulation cycles. Baselines run on dot4_0, DOT4 on dot4_1 (the chparam pair).",
+  "throughput": [
+    {
+      "n": 16,
+      "dot4": {
+        "cycles": 45,
+        "core": "DOT4=1",
+        "dot_products_per_s": 819373,
+        "macs_per_s": 13109972
+      },
+      "rv32i_qsquare": {
+        "cycles": 223,
+        "core": "DOT4=0",
+        "dot_products_per_s": 182378,
+        "macs_per_s": 2918045
+      },
+      "speedup_vs_rv32i_qsquare": {
+        "cycles": 4.956,
+        "clock_adjusted_median": 4.493,
+        "clock_adjusted_min": 3.994,
+        "clock_adjusted_max": 4.85
+      },
+      "rv32i_lb": {
+        "cycles": 865,
+        "core": "DOT4=0",
+        "dot_products_per_s": 47018,
+        "macs_per_s": 752282
+      },
+      "speedup_vs_rv32i_lb": {
+        "cycles": 19.222,
+        "clock_adjusted_median": 17.427,
+        "clock_adjusted_min": 15.491,
+        "clock_adjusted_max": 18.811
+      },
+      "rv32i_shift": {
+        "cycles": 897,
+        "core": "DOT4=0",
+        "dot_products_per_s": 45340,
+        "macs_per_s": 725445
+      },
+      "speedup_vs_rv32i_shift": {
+        "cycles": 19.933,
+        "clock_adjusted_median": 18.072,
+        "clock_adjusted_min": 16.064,
+        "clock_adjusted_max": 19.507
+      }
+    },
+    {
+      "n": 64,
+      "dot4": {
+        "cycles": 153,
+        "core": "DOT4=1",
+        "dot_products_per_s": 240992,
+        "macs_per_s": 15423496
+      },
+      "rv32i_qsquare": {
+        "cycles": 859,
+        "core": "DOT4=0",
+        "dot_products_per_s": 47346,
+        "macs_per_s": 3030146
+      },
+      "speedup_vs_rv32i_qsquare": {
+        "cycles": 5.614,
+        "clock_adjusted_median": 5.09,
+        "clock_adjusted_min": 4.525,
+        "clock_adjusted_max": 5.494
+      },
+      "rv32i_lb": {
+        "cycles": 3661,
+        "core": "DOT4=0",
+        "dot_products_per_s": 11109,
+        "macs_per_s": 710979
+      },
+      "speedup_vs_rv32i_lb": {
+        "cycles": 23.928,
+        "clock_adjusted_median": 21.693,
+        "clock_adjusted_min": 19.283,
+        "clock_adjusted_max": 23.416
+      },
+      "rv32i_shift": {
+        "cycles": 3789,
+        "core": "DOT4=0",
+        "dot_products_per_s": 10734,
+        "macs_per_s": 686961
+      },
+      "speedup_vs_rv32i_shift": {
+        "cycles": 24.765,
+        "clock_adjusted_median": 22.452,
+        "clock_adjusted_min": 19.958,
+        "clock_adjusted_max": 24.235
+      }
+    },
+    {
+      "n": 256,
+      "dot4": {
+        "cycles": 585,
+        "core": "DOT4=1",
+        "dot_products_per_s": 63029,
+        "macs_per_s": 16135350
+      },
+      "rv32i_qsquare": {
+        "cycles": 3403,
+        "core": "DOT4=0",
+        "dot_products_per_s": 11951,
+        "macs_per_s": 3059531
+      },
+      "speedup_vs_rv32i_qsquare": {
+        "cycles": 5.817,
+        "clock_adjusted_median": 5.274,
+        "clock_adjusted_min": 4.688,
+        "clock_adjusted_max": 5.693
+      },
+      "rv32i_lb": {
+        "cycles": 14077,
+        "core": "DOT4=0",
+        "dot_products_per_s": 2889,
+        "macs_per_s": 739617
+      },
+      "speedup_vs_rv32i_lb": {
+        "cycles": 24.063,
+        "clock_adjusted_median": 21.816,
+        "clock_adjusted_min": 19.392,
+        "clock_adjusted_max": 23.549
+      },
+      "rv32i_shift": {
+        "cycles": 14589,
+        "core": "DOT4=0",
+        "dot_products_per_s": 2788,
+        "macs_per_s": 713660
+      },
+      "speedup_vs_rv32i_shift": {
+        "cycles": 24.938,
+        "clock_adjusted_median": 22.609,
+        "clock_adjusted_min": 20.098,
+        "clock_adjusted_max": 24.405
+      }
+    }
+  ],
+  "rtl_sha256": {
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
+    "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
+  },
+  "benchmark_sources": {
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
+    "tests/tb.sv": "6959323984d5f527faddebb288b23d06a10885a22b949e7fe641e5466eb9aa19",
+    "tests/run.py": "c956e5022d67b9c8ad123250862a0dd8239616a6cfcee929bc08848bc5232578",
+    "scripts/bench.py": "cc2bfc0a479f0b39dceb3df0b667e64069403b86e4a16590943fb03a9ed0dd3d"
+  },
+  "tools": {
+    "yosys": "Yosys 0.33 (git sha1 2584903a060)",
+    "nextpnr-ice40": "\"nextpnr-ice40\" -- Next Generation Place and Route (Version 0.6-3build5)"
+  }
+}

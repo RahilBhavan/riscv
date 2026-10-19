@@ -6,10 +6,10 @@
   "percent": 97.37,
   "uncovered": [
     [
-      "65",
+      "67",
       "case"
     ]
   ],
   "tool": "Verilator 5.020 2024-01-01 rev (Debian 5.020-1)",
-  "rtl_sha256": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757"
+  "rtl_sha256": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4"
 }

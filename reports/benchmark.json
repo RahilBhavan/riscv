@@ -1,0 +1,320 @@
+{
+  "what": "Cycle counts of matched int8 dot-product kernels in Icarus RTL simulation of rv32_core; not board measurements.",
+  "memory_layout": {
+    "a_base": "0x1000",
+    "b_base": "0x2000",
+    "packing": "4 signed int8 per little-endian word, lane 0 lowest byte",
+    "output": "0x100",
+    "squares_table": "0x3000..0x37ff, present in every image, read only by rv32i_qsquare"
+  },
+  "cycle_window": "Falling edges from reset release through the EBREAK trap retirement, inclusive. Includes setup, loop overhead, pipeline fill and drain.",
+  "cycle_identity": "cycles = retired + load_use_stalls + 2 * flushes + 3 for every run",
+  "verification": "Stored word equals Python sum(a*b); retirement trace and byte stores equal tests/run.py reference model; DOT4=0 core gives identical RV32I cycle counts and traps at the first DOT4.",
+  "multiply": "rv32i_shift and rv32i_lb: libgcc __mulsi3 shift-and-add loop, inlined; operands negated when the multiplier is negative so it runs at most 8 iterations and exits when no bits remain. Data dependent.",
+  "input_seed": 2026,
+  "kernels": {
+    "rv32i_lb": "RV32I: LB sign-extending byte loads, inlined shift-and-add multiply",
+    "rv32i_shift": "RV32I: LW per word, SLLI/SRAI byte sign extension, inlined shift-and-add multiply",
+    "rv32i_qsquare": "RV32I: LB byte loads, quarter-square multiply from a 512-word table (2048 bytes)",
+    "dot4": "DOT4: LW per word, one DOT4 and one ADD per four elements"
+  },
+  "runs": [
+    {
+      "kernel": "rv32i_lb",
+      "dataset": "uniform",
+      "n": 16,
+      "result": -22587,
+      "verified": true,
+      "program_words": 53,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 865,
+      "retired": 590,
+      "stalls": 0,
+      "flushes": 136
+    },
+    {
+      "kernel": "rv32i_shift",
+      "dataset": "uniform",
+      "n": 16,
+      "result": -22587,
+      "verified": true,
+      "program_words": 61,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 897,
+      "retired": 622,
+      "stalls": 0,
+      "flushes": 136
+    },
+    {
+      "kernel": "rv32i_qsquare",
+      "dataset": "uniform",
+      "n": 16,
+      "result": -22587,
+      "verified": true,
+      "program_words": 59,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 223,
+      "retired": 212,
+      "stalls": 0,
+      "flushes": 4
+    },
+    {
+      "kernel": "dot4",
+      "dataset": "uniform",
+      "n": 16,
+      "result": -22587,
+      "verified": true,
+      "program_words": 13,
+      "dot4_disabled_core": {
+        "traps_at_first_dot4": true,
+        "retired_including_trap": 9
+      },
+      "cycles": 45,
+      "retired": 34,
+      "stalls": 0,
+      "flushes": 4
+    },
+    {
+      "kernel": "rv32i_lb",
+      "dataset": "uniform",
+      "n": 64,
+      "result": -19580,
+      "verified": true,
+      "program_words": 53,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 3661,
+      "retired": 2566,
+      "stalls": 0,
+      "flushes": 546
+    },
+    {
+      "kernel": "rv32i_shift",
+      "dataset": "uniform",
+      "n": 64,
+      "result": -19580,
+      "verified": true,
+      "program_words": 61,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 3789,
+      "retired": 2694,
+      "stalls": 0,
+      "flushes": 546
+    },
+    {
+      "kernel": "rv32i_qsquare",
+      "dataset": "uniform",
+      "n": 64,
+      "result": -19580,
+      "verified": true,
+      "program_words": 59,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 859,
+      "retired": 824,
+      "stalls": 0,
+      "flushes": 16
+    },
+    {
+      "kernel": "dot4",
+      "dataset": "uniform",
+      "n": 64,
+      "result": -19580,
+      "verified": true,
+      "program_words": 13,
+      "dot4_disabled_core": {
+        "traps_at_first_dot4": true,
+        "retired_including_trap": 9
+      },
+      "cycles": 153,
+      "retired": 118,
+      "stalls": 0,
+      "flushes": 16
+    },
+    {
+      "kernel": "rv32i_lb",
+      "dataset": "uniform",
+      "n": 256,
+      "result": 13498,
+      "verified": true,
+      "program_words": 53,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 14077,
+      "retired": 9794,
+      "stalls": 0,
+      "flushes": 2140
+    },
+    {
+      "kernel": "rv32i_shift",
+      "dataset": "uniform",
+      "n": 256,
+      "result": 13498,
+      "verified": true,
+      "program_words": 61,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 14589,
+      "retired": 10306,
+      "stalls": 0,
+      "flushes": 2140
+    },
+    {
+      "kernel": "rv32i_qsquare",
+      "dataset": "uniform",
+      "n": 256,
+      "result": 13498,
+      "verified": true,
+      "program_words": 59,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 3403,
+      "retired": 3272,
+      "stalls": 0,
+      "flushes": 64
+    },
+    {
+      "kernel": "dot4",
+      "dataset": "uniform",
+      "n": 256,
+      "result": 13498,
+      "verified": true,
+      "program_words": 13,
+      "dot4_disabled_core": {
+        "traps_at_first_dot4": true,
+        "retired_including_trap": 9
+      },
+      "cycles": 585,
+      "retired": 454,
+      "stalls": 0,
+      "flushes": 64
+    },
+    {
+      "kernel": "rv32i_lb",
+      "dataset": "extremes",
+      "n": 16,
+      "result": -64000,
+      "verified": true,
+      "program_words": 53,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 1153,
+      "retired": 750,
+      "stalls": 0,
+      "flushes": 200
+    },
+    {
+      "kernel": "rv32i_shift",
+      "dataset": "extremes",
+      "n": 16,
+      "result": -64000,
+      "verified": true,
+      "program_words": 61,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 1185,
+      "retired": 782,
+      "stalls": 0,
+      "flushes": 200
+    },
+    {
+      "kernel": "rv32i_qsquare",
+      "dataset": "extremes",
+      "n": 16,
+      "result": -64000,
+      "verified": true,
+      "program_words": 59,
+      "dot4_disabled_core": {
+        "identical_cycles": true
+      },
+      "cycles": 223,
+      "retired": 212,
+      "stalls": 0,
+      "flushes": 4
+    },
+    {
+      "kernel": "dot4",
+      "dataset": "extremes",
+      "n": 16,
+      "result": -64000,
+      "verified": true,
+      "program_words": 13,
+      "dot4_disabled_core": {
+        "traps_at_first_dot4": true,
+        "retired_including_trap": 9
+      },
+      "cycles": 45,
+      "retired": 34,
+      "stalls": 0,
+      "flushes": 4
+    }
+  ],
+  "speedup": [
+    {
+      "dataset": "uniform",
+      "n": 16,
+      "cycles_rv32i_lb": 865,
+      "cycles_rv32i_shift": 897,
+      "cycles_rv32i_qsquare": 223,
+      "cycles_dot4": 45,
+      "speedup_vs_rv32i_lb": 19.222,
+      "speedup_vs_rv32i_shift": 19.933,
+      "speedup_vs_rv32i_qsquare": 4.956
+    },
+    {
+      "dataset": "uniform",
+      "n": 64,
+      "cycles_rv32i_lb": 3661,
+      "cycles_rv32i_shift": 3789,
+      "cycles_rv32i_qsquare": 859,
+      "cycles_dot4": 153,
+      "speedup_vs_rv32i_lb": 23.928,
+      "speedup_vs_rv32i_shift": 24.765,
+      "speedup_vs_rv32i_qsquare": 5.614
+    },
+    {
+      "dataset": "uniform",
+      "n": 256,
+      "cycles_rv32i_lb": 14077,
+      "cycles_rv32i_shift": 14589,
+      "cycles_rv32i_qsquare": 3403,
+      "cycles_dot4": 585,
+      "speedup_vs_rv32i_lb": 24.063,
+      "speedup_vs_rv32i_shift": 24.938,
+      "speedup_vs_rv32i_qsquare": 5.817
+    },
+    {
+      "dataset": "extremes",
+      "n": 16,
+      "cycles_rv32i_lb": 1153,
+      "cycles_rv32i_shift": 1185,
+      "cycles_rv32i_qsquare": 223,
+      "cycles_dot4": 45,
+      "speedup_vs_rv32i_lb": 25.622,
+      "speedup_vs_rv32i_shift": 26.333,
+      "speedup_vs_rv32i_qsquare": 4.956
+    }
+  ],
+  "sources": {
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
+    "tests/tb.sv": "6959323984d5f527faddebb288b23d06a10885a22b949e7fe641e5466eb9aa19",
+    "tests/run.py": "c956e5022d67b9c8ad123250862a0dd8239616a6cfcee929bc08848bc5232578",
+    "scripts/bench.py": "cc2bfc0a479f0b39dceb3df0b667e64069403b86e4a16590943fb03a9ed0dd3d"
+  },
+  "simulator": "Icarus Verilog version 12.0 (stable) ()"
+}

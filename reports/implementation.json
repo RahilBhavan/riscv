@@ -7,14 +7,14 @@
   "io_constraints": "Unconstrained package I/O; registered shell, no external timing closure",
   "fmax": {
     "clk$SB_IO_IN_$glb_clk": {
-      "achieved": 37.07685852050781,
+      "achieved": 33.85240173339844,
       "constraint": 12
     }
   },
   "utilization": {
     "ICESTORM_LC": {
       "available": 7680,
-      "used": 5555
+      "used": 5497
     },
     "ICESTORM_PLL": {
       "available": 2,
@@ -38,15 +38,15 @@
     }
   },
   "synthesis_primitives": {
-    "SB_CARRY": 457,
+    "SB_CARRY": 427,
     "SB_DFF": 64,
     "SB_DFFESR": 1218,
     "SB_DFFSR": 410,
-    "SB_LUT4": 3962
+    "SB_LUT4": 3935
   },
   "flip_flops": 1692,
   "rtl_sha256": {
-    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
     "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
   },
   "tools": {

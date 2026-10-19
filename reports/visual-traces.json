@@ -1,9 +1,9 @@
 {
   "scope": "Icarus RTL snapshots at falling edges; displayed stages describe the interval before the next rising edge. IF is fetch address, ID=f, EX=x, MEM=m, WB=w. Stall/flush apply at the next rising edge. Retirement interface is registered after WB.",
   "source_sha256": {
-    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
-    "tests/tb.sv": "751a78ed28217c86d98e0ec2811d82a69708be968e0f73910105fdc228c1f87a",
-    "tests/run.py": "2fd4e2328b9f8d7698ef4f51947ca4a9a1fe96143a2e579fa3137c72b8fd16f0"
+    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
+    "tests/tb.sv": "6959323984d5f527faddebb288b23d06a10885a22b949e7fe641e5466eb9aa19",
+    "tests/run.py": "c956e5022d67b9c8ad123250862a0dd8239616a6cfcee929bc08848bc5232578"
   },
   "traces": {
     "decode_add": {

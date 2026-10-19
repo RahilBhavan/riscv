@@ -47,12 +47,12 @@ L_NAMES = {0: 'lb', 1: 'lh', 2: 'lw', 4: 'lbu', 5: 'lhu'}
 S_NAMES = {0: 'sb', 1: 'sh', 2: 'sw'}
 
 
-def reference(program):
+def reference(program, memory=None, dot4=True, limit=20000):
     regs = [0] * 32
-    memory = bytearray(16384)
+    memory = bytearray(memory or 16384)
     pc = 0
     trace, writes, bins = [], [], set()
-    for _ in range(20000):
+    for _ in range(limit):
         ins = program[pc // 4] if pc // 4 < len(program) else 0x13
         op, rd, f3 = ins & 127, (ins >> 7) & 31, (ins >> 12) & 7
         ra, rb, f7 = (ins >> 15) & 31, (ins >> 20) & 31, ins >> 25
@@ -135,7 +135,7 @@ def reference(program):
                             byte = (b >> (8 * offset)) & 255
                             memory[addr + offset] = byte
                             writes.append((addr + offset, byte))
-        elif op == 0x0b:
+        elif op == 0x0b and dot4:
             trap = f3 != 0 or f7 != 0
             dest, value, name = rd, sum(signed(a >> (8 * k), 8) * signed(b >> (8 * k), 8) for k in range(4)), 'dot4'
         elif op == 0x0f:
@@ -219,17 +219,19 @@ def suite():
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--verilator', action='store_true')
+    parser.add_argument('--no-dot4', action='store_true', help='check the DOT4=0 core, where custom-0 must trap')
     args = parser.parse_args()
     BUILD.mkdir(exist_ok=True)
+    sim = BUILD / ('sim-nodot4' if args.no_dot4 else 'sim')
     if not args.verilator:
-        subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-o', str(BUILD / 'sim'), 'rtl/rv32_core.sv', 'tests/tb.sv'], cwd=ROOT, check=True)
+        subprocess.run(['iverilog', '-g2012', '-s', 'tb', f'-Ptb.DOT4={int(not args.no_dot4)}', '-o', str(sim), 'rtl/rv32_core.sv', 'tests/tb.sv'], cwd=ROOT, check=True)
     hit, cases, retired, stalls, flushes = set(), 0, 0, 0, 0
     logs = []
     for name, program in suite():
         path = BUILD / f'{name}.hex'
         path.write_text(''.join(f'{word:08x}\n' for word in program))
-        expected, expected_writes, bins = reference(program)
-        command = [str(BUILD / 'obj_dir' / 'Vtb')] if args.verilator else ['vvp', str(BUILD / 'sim')]
+        expected, expected_writes, bins = reference(program, dot4=not args.no_dot4)
+        command = [str(BUILD / 'obj_dir' / 'Vtb')] if args.verilator else ['vvp', str(sim)]
         proc = subprocess.run(command + [f'+program={path}', '+coverage=' + str(BUILD / (name + '.dat'))], capture_output=True, text=True, check=True)
         observed, writes = [], []
         for line in proc.stdout.splitlines():
@@ -254,12 +256,16 @@ def main():
     required = set(R_NAMES + I_NAMES + ['sub', 'sra', 'srai', 'lui', 'auipc', 'jal', 'jalr', 'dot4', 'fence', 'trap'] + list(L_NAMES.values()) + list(S_NAMES.values()))
     required |= {n + outcome for n in B_NAMES.values() for outcome in (':taken', ':not_taken')}
     # Instruction bins and branch outcome bins are deliberately a fixed, small plan.
+    if args.no_dot4:
+        required.discard('dot4')
     covered = hit & required
     report = dict(test_cases=cases, retired_instructions=retired, random_seeds=20, load_use_stall_cycles=stalls, redirects_and_trap_flushes=flushes, functional_bins_hit=len(covered), functional_bins_total=len(required), functional_coverage_percent=round(100 * len(covered) / len(required), 2), missing_bins=sorted(required - hit), coverage_definition='Named instruction classes, both outcomes of each branch, and trap notification; not RTL line/toggle coverage or ISA certification.', bins=sorted(required))
     report['simulator'] = 'Verilator' if args.verilator else 'Icarus Verilog'
     report['source_sha256'] = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT / 'rtl/rv32_core.sv', ROOT / 'tests/tb.sv', ROOT / 'tests/run.py']}
-    (ROOT / 'reports' / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
-    (BUILD / 'regression.log').write_text('\n'.join(logs) + '\n')
+    report['dot4_enabled'] = not args.no_dot4
+    report_path = BUILD / 'verification-nodot4.json' if args.no_dot4 else ROOT / 'reports' / 'verification.json'
+    report_path.write_text(json.dumps(report, indent=2) + '\n')
+    (BUILD / ('regression-nodot4.log' if args.no_dot4 else 'regression.log')).write_text('\n'.join(logs) + '\n')
     assert not required - hit, report
     assert stalls > 0 and flushes > 0
     print(json.dumps(report, indent=2))

@@ -11,6 +11,7 @@ release-check:
 
 test:
 	python3 tests/run.py
+	python3 tests/run.py --no-dot4
 
 lint:
 	verilator --lint-only -Wall --top-module rv32_core rtl/rv32_core.sv
@@ -66,3 +67,12 @@ visual-models:
 visual-lab:
 	node scripts/visual-lab/build.mjs
 	node scripts/visual-lab/preview.mjs
+
+.PHONY: bench ablation
+# Simulation cycle counts for matched RV32I and DOT4 dot-product kernels.
+bench:
+	python3 scripts/bench.py
+
+# Both DOT4 settings through the timing flow, nextpnr seeds 1-5, combined with bench cycles.
+ablation: bench
+	python3 scripts/ablation.py
