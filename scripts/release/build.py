@@ -23,7 +23,7 @@ def require(condition, message):
 
 def verify():
     core=sha(ROOT/'rtl/rv32_core.sv')
-    for report,key in [('reports/verification.json','source_sha256'),('reports/visual-traces.json','source_sha256'),('reports/implementation.json','rtl_sha256')]:
+    for report,key in [('reports/verification.json','source_sha256'),('reports/visual-traces.json','source_sha256'),('reports/implementation.json','rtl_sha256'),('reports/dot4-sweep.json','source_sha256'),('reports/isa-compare.json','source_sha256'),('reports/mutation.json','source_sha256')]:
         for path,digest in load(report)[key].items():
             require(sha(ROOT/path)==digest,f'Stale source in {report}: {path}')
     coverage=load('reports/line-coverage.json')
@@ -31,6 +31,13 @@ def verify():
     require(coverage['percent']>=95,'Core line coverage below 95%')
     verification=load('reports/verification.json')
     require(verification['test_cases']>=144 and not verification['missing_bins'],'Regression/bin report incomplete')
+    require(not verification['hazard_cross_missing'] and verification['invariant_cycles_checked']>0,'Hazard cross or invariants incomplete')
+    dot4=load('reports/dot4-sweep.json')
+    require(all(r['sweep_cases']==262144 and r['custom0_trapped']==1023 for r in dot4['simulators'].values()) and len(dot4['simulators'])==2,'DOT4 sweep incomplete')
+    isa=load('reports/isa-compare.json')
+    require(isa['arch_test']['tests_passed']+len(isa['arch_test']['tests_excluded'])==isa['arch_test']['tests_total'] and isa['random_commit_log']['programs']>0,'Spike comparison incomplete')
+    mutation=load('reports/mutation.json')
+    require(mutation['killed']==mutation['mutants'],'A mutant survived its checker')
     teaching=load('build/learning-series/results.json')
     require(len(teaching['unit_benches'])==2 and len(teaching['core_programs'])==14 and all(x['passed'] for x in teaching['core_programs']),'Teaching labs incomplete')
     require('PASS pending store reset' in (ROOT/'build/project/rtl.log').read_text(),'Pending-memory reset test did not pass in the full build')
@@ -69,7 +76,7 @@ def verify():
         for href in re.findall(r'href="([^"]+)"',html.read_text()):
             if href.startswith(('https:','http:','#','data:')):continue
             require((html.parent/href.split('#')[0]).is_file(),f'Broken local link in {html.name}: {href}')
-    return {'scope':'Complete local build: RTL regression, teaching/reset tests, lint, coverage, synthesis/route, ten PDF/HTML documents, visual models and eight-view lab. No board execution.','rtl_sha256':core,'verification':{'programs':verification['test_cases'],'retirement_records':verification['retired_instructions'],'line_coverage_percent':coverage['percent']},'implementation':{'target':implementation['target'],'internal_fmax_mhz':next(iter(implementation['fmax'].values()))['achieved'],'lut4':implementation['synthesis_primitives']['SB_LUT4'],'flip_flops':implementation['flip_flops'],'packed_logic_cells':implementation['utilization']['ICESTORM_LC']['used'],'board_tested':implementation['board_tested']},'implementation_artifacts':[{'path':p,'sha256':sha(ROOT/p)} for p in ['build/core.json','build/core.asc','build/timing.json','build/merged.dat']],'documents':documents,'visual_views':len(manifest['views']),'checked_trace_programs':len(traces)}
+    return {'scope':'Complete local build: RTL regression, teaching/reset tests, lint, coverage, synthesis/route, ten PDF/HTML documents, visual models and eight-view lab. No board execution.','rtl_sha256':core,'verification':{'programs':verification['test_cases'],'retirement_records':verification['retired_instructions'],'line_coverage_percent':coverage['percent'],'hazard_cross_bins':verification['hazard_cross_bins_total'],'arch_tests_matching_spike':isa['arch_test']['tests_passed'],'spike_random_retirements':isa['random_commit_log']['retirements_compared'],'dot4_lane_cases':262144,'mutants_killed':mutation['killed']},'implementation':{'target':implementation['target'],'internal_fmax_mhz':next(iter(implementation['fmax'].values()))['achieved'],'lut4':implementation['synthesis_primitives']['SB_LUT4'],'flip_flops':implementation['flip_flops'],'packed_logic_cells':implementation['utilization']['ICESTORM_LC']['used'],'board_tested':implementation['board_tested']},'implementation_artifacts':[{'path':p,'sha256':sha(ROOT/p)} for p in ['build/core.json','build/core.asc','build/timing.json','build/merged.dat']],'documents':documents,'visual_views':len(manifest['views']),'checked_trace_programs':len(traces)}
 
 def landing(report):
     m=report['implementation'];v=report['verification']

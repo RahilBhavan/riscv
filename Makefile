@@ -7,10 +7,23 @@ all:
 release-check:
 	python3 scripts/release/build.py --check-only
 
-.PHONY: test lint synth timing clean
+.PHONY: test lint synth timing clean dot4-sweep isa-compare mutants
 
+# Differential regression, generated hazard cross (bins must all hit) and testbench invariants.
 test:
 	python3 tests/run.py
+
+# 262,144 isolated-lane DOT4 cases and all 1,024 custom-0 encodings, Icarus and Verilator.
+dot4-sweep:
+	python3 tests/dot4_sweep.py
+
+# riscv-arch-test 3.10.0 RV32I signatures and random-program commit logs against Spike.
+isa-compare:
+	python3 tests/isa_compare.py
+
+# Deliberate RTL bugs that the invariants, hazard programs and Spike comparison must each catch.
+mutants:
+	python3 tests/mutants.py
 
 lint:
 	verilator --lint-only -Wall --top-module rv32_core rtl/rv32_core.sv

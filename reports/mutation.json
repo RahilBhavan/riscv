@@ -1,0 +1,175 @@
+{
+  "scope": "Each mutant is a single deliberate edit to a copy of rtl/rv32_core.sv. A mutant counts as killed only by its named checker: invariant = tests/invariants.svh stops the Icarus run on its own; hazard = the generated hazard programs diverge from the reference model; isa = a riscv-arch-test signature differs from Spike. killed_by_original_144 records whether the pre-existing programs already caught a hazard mutant.",
+  "mutants": 23,
+  "killed": 23,
+  "results": [
+    {
+      "mutant": "bubble_writes_register",
+      "checker": "invariant",
+      "killed": true,
+      "by": "random_0",
+      "message": "register written without a valid WB commit"
+    },
+    {
+      "mutant": "trapping_store_writes",
+      "checker": "invariant",
+      "killed": true,
+      "by": "trap_7",
+      "message": "memory access by a non-memory or trapping instruction"
+    },
+    {
+      "mutant": "squashed_store_writes",
+      "checker": "invariant",
+      "killed": true,
+      "by": "branch_0_1_1",
+      "message": "memory access by an instruction that never retired"
+    },
+    {
+      "mutant": "flush_keeps_fetch",
+      "checker": "invariant",
+      "killed": true,
+      "by": "forwarding",
+      "message": "valid fetch after halt"
+    },
+    {
+      "mutant": "stall_without_bubble",
+      "checker": "invariant",
+      "killed": true,
+      "by": "load_0_0",
+      "message": "stall did not hold IF/ID and insert a bubble"
+    },
+    {
+      "mutant": "x0_writable",
+      "checker": "invariant",
+      "killed": true,
+      "by": "priority_x0",
+      "message": "x0 is not zero"
+    },
+    {
+      "mutant": "retire_wrong_pc",
+      "checker": "invariant",
+      "killed": true,
+      "by": "forwarding",
+      "message": "retired word differs from program memory"
+    },
+    {
+      "mutant": "fetch_after_halt",
+      "checker": "invariant",
+      "killed": true,
+      "by": "forwarding",
+      "message": "valid fetch after halt"
+    },
+    {
+      "mutant": "no_mem_forward_rs2",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_alu_alu_rs1",
+      "message": "hazard_alu_alu_rs1 retire 9: expected (2080, 23792435, 22, 2816, 0), observed (2080, 23792435, 22, 1408, 0)",
+      "killed_by_original_144": true
+    },
+    {
+      "mutant": "no_wb_forward_rs1",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_alu_alu_rs1",
+      "message": "hazard_alu_alu_rs1 retire 28: expected (2156, 3736467, 7, 2035, 0), observed (2156, 3736467, 7, 4294965854, 0)",
+      "killed_by_original_144": true
+    },
+    {
+      "mutant": "no_wb_id_bypass_rs2",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_alu_alu_rs2",
+      "message": "hazard_alu_alu_rs2 retire 38: expected (2196, 1106445235, 7, 4294965555, 0), observed (2196, 1106445235, 7, 1736, 0)",
+      "killed_by_original_144": true
+    },
+    {
+      "mutant": "mem_forward_wrong_stage_rs1",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_alu_alu_rs1",
+      "message": "hazard_alu_alu_rs1 retire 2: expected (2052, 3222146579, 28, 3072, 0), observed (2052, 3222146579, 28, 4294966272, 0)",
+      "killed_by_original_144": true
+    },
+    {
+      "mutant": "mem_forwards_x0",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_x0_alu",
+      "message": "hazard_x0_alu retire 16: expected (2108, 6292403, 7, 291, 0), observed (2108, 6292403, 7, 2323, 0)",
+      "killed_by_original_144": true
+    },
+    {
+      "mutant": "no_load_use_stall_for_store_data",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_load_store_data",
+      "message": "('hazard_load_store_data', 'store mismatch', [(3328, 0), (3329, 11), (3330, 0), (3331, 0), (3200, 35), (3201, 1), (3202, 0), (3203, 0), (3588, 91), (3589, 250),",
+      "killed_by_original_144": true
+    },
+    {
+      "mutant": "no_load_use_stall_for_jalr",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_load_jalr_rs1",
+      "message": "hazard_load_jalr_rs1 retire 19: expected (2120, 3573711847, 7, 2124, 0), observed (2120, 3573711847, 0, 0, 1)",
+      "killed_by_original_144": false
+    },
+    {
+      "mutant": "no_load_use_stall_for_dot4_rs2",
+      "checker": "hazard",
+      "killed": true,
+      "by": "hazard_load_dot4_rs2",
+      "message": "hazard_load_dot4_rs2 retire 19: expected (2120, 5997451, 7, 11, 0), observed (2120, 5997451, 7, 83, 0)",
+      "killed_by_original_144": true
+    },
+    {
+      "mutant": "sra_is_logical",
+      "checker": "isa",
+      "killed": true,
+      "by": "sra-01 icarus: signature word 1 is ['00800000'], Spike ff800000"
+    },
+    {
+      "mutant": "sltu_signed",
+      "checker": "isa",
+      "killed": true,
+      "by": "sltiu-01 icarus: signature word 2 is ['00000000'], Spike 00000001"
+    },
+    {
+      "mutant": "lh_zero_extends",
+      "checker": "isa",
+      "killed": true,
+      "by": "lh-align-01 icarus: signature word 1 is ['0000cafe'], Spike ffffcafe"
+    },
+    {
+      "mutant": "jalr_keeps_bit0",
+      "checker": "isa",
+      "killed": true,
+      "by": "icarus ['+image=/work/build/isa/misalign1-jalr-01.dut.hex', '+halt=22c', '+sig_begin=2000', '+sig_end=200c', '+signature=/work/build/mutants/jalr_keeps_bit0/mis"
+    },
+    {
+      "mutant": "bge_strict",
+      "checker": "isa",
+      "killed": true,
+      "by": "bge-01 icarus: signature word 1 is ['00000002'], Spike 00000003"
+    },
+    {
+      "mutant": "auipc_ignores_pc",
+      "checker": "isa",
+      "killed": true,
+      "by": "add-01 icarus: signature word 0 is ['55560a59'], Spike 6f5ca309"
+    },
+    {
+      "mutant": "sb_wrong_lane",
+      "checker": "isa",
+      "killed": true,
+      "by": "sb-align-01 icarus: signature word 6 is ['de40beef'], Spike de00beef"
+    }
+  ],
+  "source_sha256": {
+    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "tests/mutants.py": "a47d4e8c614c0d97b4c600a6313fe2381d1bfb106ecfddd7960dfd0332ef2d5c",
+    "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
+    "tests/hazards.py": "8d6dab20c3b7593de829792e06e99f61fdd3bfb2d4531c79ba63a7cd26639313"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "scope": "Every signed byte pair (65,536) in each of the four DOT4 lanes with the other lanes zero: 262,144 DOT4 instructions executed by the full core. Each retirement is compared with a scalar product of the expected bytes (tests/dot4_tb.sv), the forwarded EX operands are checked per case, and the ordered checksum is compared with an independent Python scalar oracle. All 1,024 custom-0 funct3/funct7 combinations run from reset; only funct3=0/funct7=0 executes, the other 1,023 trap with no register or store side effect. Multi-lane sums are covered by directed and random programs, not exhaustively.",
+  "oracle_checksum": "475d6000",
+  "simulators": {
+    "verilator": {
+      "sweep_cases": 262144,
+      "sweep_cycles": 1840145,
+      "checksum": "475d6000",
+      "sweep_seconds": 0.5,
+      "custom0_encodings": 1024,
+      "custom0_trapped": 1023,
+      "custom0_executed": 1,
+      "encoding_seconds": 0.0
+    },
+    "icarus": {
+      "sweep_cases": 262144,
+      "sweep_cycles": 1840145,
+      "checksum": "475d6000",
+      "sweep_seconds": 87.8,
+      "custom0_encodings": 1024,
+      "custom0_trapped": 1023,
+      "custom0_executed": 1,
+      "encoding_seconds": 1.5
+    }
+  },
+  "source_sha256": {
+    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "tests/dot4_tb.sv": "e1215726e7fc1bb1ce43caa169f7cfd0e243deee633ef2bfed056942ac450e6a",
+    "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
+    "tests/dot4_sweep.py": "b9d0d1e5712594964ce8c907d7e7c77faad07a3f664bcd17a4e709b62bef46f7"
+  }
+}

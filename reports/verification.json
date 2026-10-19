@@ -1,9 +1,9 @@
 {
-  "test_cases": 144,
-  "retired_instructions": 7358,
+  "test_cases": 252,
+  "retired_instructions": 11924,
   "random_seeds": 20,
-  "load_use_stall_cycles": 104,
-  "redirects_and_trap_flushes": 661,
+  "load_use_stall_cycles": 118,
+  "redirects_and_trap_flushes": 1054,
   "functional_bins_hit": 46,
   "functional_bins_total": 46,
   "functional_coverage_percent": 100.0,
@@ -57,10 +57,23 @@
     "xor",
     "xori"
   ],
+  "hazard_programs": 108,
+  "hazard_cross_bins_hit": 327,
+  "hazard_cross_bins_total": 327,
+  "hazard_cross_missing": [],
+  "hazard_cross_definition": "Measured on the sequential reference trace of every program. producer>consumer.operand:dN = the newest writer of a consumer source register retired N instructions earlier (7 producer classes x 14 consumer operand slots x N=1..3); x0:producer>read:dN = an x0-writing producer N instructions before a read of x0; redirect:transfer:event = squashed wrong-path or first target instruction depends on the transfer or its recent producers.",
+  "invariant_cycles_checked": 14906,
+  "invariants": "tests/invariants.svh: x0 constant, register writes only from valid non-trap WB, every store/load strobe matched to the retirement of the same instruction (no squashed-path memory access), retirement PC follows program order and instruction memory, stall holds IF/ID and inserts one bubble, flush squashes IF/ID and EX, stall and flush exclusive, no fetch after halt.",
+  "related_reports": [
+    "reports/dot4-sweep.json",
+    "reports/isa-compare.json"
+  ],
   "simulator": "Verilator",
   "source_sha256": {
     "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
-    "tests/tb.sv": "751a78ed28217c86d98e0ec2811d82a69708be968e0f73910105fdc228c1f87a",
-    "tests/run.py": "2fd4e2328b9f8d7698ef4f51947ca4a9a1fe96143a2e579fa3137c72b8fd16f0"
+    "tests/tb.sv": "ca2bef8a9c1215b43860f2720249cb0551d05f7af5ecffb7249dcd26c769b849",
+    "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
+    "tests/run.py": "9a05a2d4e642de24e7a8aa4b5a8b08554438db9234392aae546c8402b5b6852c",
+    "tests/hazards.py": "8d6dab20c3b7593de829792e06e99f61fdd3bfb2d4531c79ba63a7cd26639313"
   }
 }

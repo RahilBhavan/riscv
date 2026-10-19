@@ -11,6 +11,10 @@ module tb;
     rv32_core dut(clk,reset,ia,imem[ia[13:2]],da,dw,we,dr,data_in,valid,rp,ri,rd,rv,trap,stall,flush);
     integer i, cycles=0;
     reg [1023:0] program_file;
+    function [31:0] program_word(input [31:0] address);
+        program_word = imem[address[13:2]];
+    endfunction
+    `include "tests/invariants.svh"
     initial begin
         for(i=0;i<4096;i=i+1) imem[i]=32'h00000013;
         for(i=0;i<16384;i=i+1) mem[i]=0;
@@ -29,6 +33,7 @@ module tb;
     end
     always @(negedge clk) begin
         if(!reset) begin
+            invariants_step();
             cycles=cycles+1;
             if($test$plusargs("trace"))
                 $display("TRACE %0d %08x %01x %08x %01x %08x %01x %08x %01x %08x %01x %01x %08x %08x",
@@ -38,7 +43,7 @@ module tb;
             if(flush) $display("FLUSH");
             if(valid) begin
                 $display("RET %08x %08x %02x %08x %01x",rp,ri,rd,rv,trap);
-                if(trap) begin $display("CYCLES %0d",cycles); $finish; end
+                if(trap) begin invariants_done(); $display("CYCLES %0d",cycles); $finish; end
             end
             if(cycles>20000) $fatal(1,"timeout");
         end

@@ -214,6 +214,33 @@ def suite():
             else:
                 p.extend([branch(rng.choice(list(B_NAMES)), a, b, 8), imm(0, rd, a, 1)])
         yield f'random_{seed}', p + end
+    import hazards
+    yield from hazards.suite()
+
+
+def check(name, program, command):
+    """Run one program on a simulator command; raise AssertionError on any divergence from reference()."""
+    path = BUILD / f'{name}.hex'
+    path.write_text(''.join(f'{word:08x}\n' for word in program))
+    expected, expected_writes, bins = reference(program)
+    proc = subprocess.run(command + [f'+program={path}', '+coverage=' + str(BUILD / (name + '.dat'))], capture_output=True, text=True)
+    if proc.returncode:
+        raise AssertionError(f'{name}: simulator failed: {proc.stdout[-600:]}{proc.stderr[-600:]}')
+    observed, writes = [], []
+    for line in proc.stdout.splitlines():
+        fields = line.split()
+        if fields and fields[0] == 'RET':
+            observed.append(tuple(int(n, 16) for n in fields[1:]))
+        elif fields and fields[0] == 'STORE':
+            writes.append(tuple(int(n, 16) for n in fields[1:]))
+    if observed != expected:
+        for index in range(max(len(expected), len(observed))):
+            exp = expected[index] if index < len(expected) else None
+            obs = observed[index] if index < len(observed) else None
+            if exp != obs:
+                raise AssertionError(f'{name} retire {index}: expected {exp}, observed {obs}')
+    assert writes == expected_writes, (name, 'store mismatch', writes, expected_writes)
+    return expected, bins, proc.stdout
 
 
 def main():
@@ -223,44 +250,44 @@ def main():
     BUILD.mkdir(exist_ok=True)
     if not args.verilator:
         subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-o', str(BUILD / 'sim'), 'rtl/rv32_core.sv', 'tests/tb.sv'], cwd=ROOT, check=True)
+    command = [str(BUILD / 'obj_dir' / 'Vtb')] if args.verilator else ['vvp', str(BUILD / 'sim')]
+    import hazards
     hit, cases, retired, stalls, flushes = set(), 0, 0, 0, 0
+    cross_hit, hazard_programs, invariant_cycles = set(), 0, 0
     logs = []
     for name, program in suite():
-        path = BUILD / f'{name}.hex'
-        path.write_text(''.join(f'{word:08x}\n' for word in program))
-        expected, expected_writes, bins = reference(program)
-        command = [str(BUILD / 'obj_dir' / 'Vtb')] if args.verilator else ['vvp', str(BUILD / 'sim')]
-        proc = subprocess.run(command + [f'+program={path}', '+coverage=' + str(BUILD / (name + '.dat'))], capture_output=True, text=True, check=True)
-        observed, writes = [], []
-        for line in proc.stdout.splitlines():
-            fields = line.split()
-            if fields and fields[0] == 'RET':
-                observed.append(tuple(int(n, 16) for n in fields[1:]))
-            elif fields and fields[0] == 'STORE':
-                writes.append(tuple(int(n, 16) for n in fields[1:]))
-        if observed != expected:
-            for index in range(max(len(expected), len(observed))):
-                exp = expected[index] if index < len(expected) else None
-                obs = observed[index] if index < len(observed) else None
-                if exp != obs:
-                    raise AssertionError(f'{name} retire {index}: expected {exp}, observed {obs}')
-        assert writes == expected_writes, (name, 'store mismatch', writes, expected_writes)
+        expected, bins, stdout = check(name, program, command)
+        lines = stdout.splitlines()
         hit |= bins
+        cross_hit |= hazards.cross_bins(program, expected)
+        hazard_programs += name.startswith('hazard_')
+        invariant_cycles += sum(int(line.split()[1]) for line in lines if line.startswith('INVARIANTS '))
         cases += 1
-        retired += len(observed)
-        stalls += proc.stdout.splitlines().count('STALL')
-        flushes += proc.stdout.splitlines().count('FLUSH')
-        logs.append(f'PASS {name}: {len(observed)} retired')
+        retired += len(expected)
+        stalls += lines.count('STALL')
+        flushes += lines.count('FLUSH')
+        logs.append(f'PASS {name}: {len(expected)} retired')
     required = set(R_NAMES + I_NAMES + ['sub', 'sra', 'srai', 'lui', 'auipc', 'jal', 'jalr', 'dot4', 'fence', 'trap'] + list(L_NAMES.values()) + list(S_NAMES.values()))
     required |= {n + outcome for n in B_NAMES.values() for outcome in (':taken', ':not_taken')}
     # Instruction bins and branch outcome bins are deliberately a fixed, small plan.
     covered = hit & required
     report = dict(test_cases=cases, retired_instructions=retired, random_seeds=20, load_use_stall_cycles=stalls, redirects_and_trap_flushes=flushes, functional_bins_hit=len(covered), functional_bins_total=len(required), functional_coverage_percent=round(100 * len(covered) / len(required), 2), missing_bins=sorted(required - hit), coverage_definition='Named instruction classes, both outcomes of each branch, and trap notification; not RTL line/toggle coverage or ISA certification.', bins=sorted(required))
+    report.update(
+        hazard_programs=hazard_programs,
+        hazard_cross_bins_hit=len(cross_hit & set(hazards.ALL_BINS)),
+        hazard_cross_bins_total=len(hazards.ALL_BINS),
+        hazard_cross_missing=sorted(set(hazards.ALL_BINS) - cross_hit),
+        hazard_cross_definition='Measured on the sequential reference trace of every program. producer>consumer.operand:dN = the newest writer of a consumer source register retired N instructions earlier (7 producer classes x 14 consumer operand slots x N=1..3); x0:producer>read:dN = an x0-writing producer N instructions before a read of x0; redirect:transfer:event = squashed wrong-path or first target instruction depends on the transfer or its recent producers.',
+        invariant_cycles_checked=invariant_cycles,
+        invariants='tests/invariants.svh: x0 constant, register writes only from valid non-trap WB, every store/load strobe matched to the retirement of the same instruction (no squashed-path memory access), retirement PC follows program order and instruction memory, stall holds IF/ID and inserts one bubble, flush squashes IF/ID and EX, stall and flush exclusive, no fetch after halt.',
+        related_reports=['reports/dot4-sweep.json', 'reports/isa-compare.json'])
     report['simulator'] = 'Verilator' if args.verilator else 'Icarus Verilog'
-    report['source_sha256'] = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT / 'rtl/rv32_core.sv', ROOT / 'tests/tb.sv', ROOT / 'tests/run.py']}
+    report['source_sha256'] = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT / 'rtl/rv32_core.sv', ROOT / 'tests/tb.sv', ROOT / 'tests/invariants.svh', ROOT / 'tests/run.py', ROOT / 'tests/hazards.py']}
     (ROOT / 'reports' / 'verification.json').write_text(json.dumps(report, indent=2) + '\n')
     (BUILD / 'regression.log').write_text('\n'.join(logs) + '\n')
     assert not required - hit, report
+    assert not report['hazard_cross_missing'], report['hazard_cross_missing']
+    assert invariant_cycles > 0, 'testbench invariants did not run'
     assert stalls > 0 and flushes > 0
     print(json.dumps(report, indent=2))
 
