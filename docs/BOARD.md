@@ -25,7 +25,7 @@ docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools make board
 ```
 
 - `make board-sim` lints the board top, then simulates it with Icarus Verilog twice: once with the real program image (must report PASS) and once with an image that has one wrong immediate (must report FAIL with cause 1).
-- `make board-netlist-sim` runs the same testbench on the yosys iCE40 netlist, so the mapped `SB_RAM40_4K` cells, their initial contents and their falling-edge clocks are what gets simulated. It is slow, about ten minutes or more.
+- `make board-netlist-sim` runs the same testbench on the yosys iCE40 netlist, so the mapped `SB_RAM40_4K` cells, their initial contents and their falling-edge clocks are what gets simulated. It is slow (22 minutes on the development machine), so `scripts/build.sh` does not run it. Its last run printed the same UART lines as the RTL simulation.
 - `make board` writes `build/board/board.bin` and `reports/board.json`. The report script fails the build if the memories did not map to block RAM or if the post-route Fmax is below the 12 MHz target.
 
 ## Flash
