@@ -1,0 +1,78 @@
+{
+  "board": "Lattice iCE40-HX8K Breakout Board (ICE40HX8K-B-EVN), iCE40HX8K CT256",
+  "design": "board_top (board): core, 8 KiB program ROM and 4 KiB data RAM in falling-edge block RAM, signature checker, LEDs, UART",
+  "board_tested": false,
+  "constraint_mhz": 12.0,
+  "seed": 1,
+  "clock": "clk_12mhz$SB_IO_IN_$glb_clk",
+  "fmax_mhz": 37.14,
+  "critical_paths": [
+    {
+      "from": "posedge clk_12mhz$SB_IO_IN_$glb_clk",
+      "to": "posedge clk_12mhz$SB_IO_IN_$glb_clk",
+      "delay_ns": 26.93
+    },
+    {
+      "from": "posedge clk_12mhz$SB_IO_IN_$glb_clk",
+      "to": "<async>",
+      "delay_ns": 8.16
+    }
+  ],
+  "note": "nextpnr reports one critical path per clock pair; rising-to-falling block-RAM paths are budgeted at half a period and are included in fmax_mhz.",
+  "utilization": {
+    "ICESTORM_LC": {
+      "available": 7680,
+      "used": 5956
+    },
+    "ICESTORM_PLL": {
+      "available": 2,
+      "used": 0
+    },
+    "ICESTORM_RAM": {
+      "available": 32,
+      "used": 23
+    },
+    "SB_GB": {
+      "available": 8,
+      "used": 8
+    },
+    "SB_IO": {
+      "available": 256,
+      "used": 10
+    },
+    "SB_WARMBOOT": {
+      "available": 1,
+      "used": 0
+    }
+  },
+  "block_ram_cells": {
+    "SB_RAM40_4KNRNW": 8,
+    "SB_RAM40_4KNR": 15
+  },
+  "flip_flops": 1794,
+  "luts": 4455,
+  "synthesis_primitives": {
+    "SB_CARRY": 698,
+    "SB_DFF": 50,
+    "SB_DFFE": 109,
+    "SB_DFFESR": 1362,
+    "SB_DFFSR": 273,
+    "SB_LUT4": 4455,
+    "SB_RAM40_4KNR": 15,
+    "SB_RAM40_4KNRNW": 8
+  },
+  "self_test": {
+    "expected_signature": "5a978549",
+    "retired_per_pass": 1591
+  },
+  "bitstream_sha256": "94e60f920e52eb856106177cf06f1c4b9015883e385c39a1808dca1f590b3923",
+  "rtl_sha256": {
+    "rtl/board_top.sv": "21f8d30a0a356d839e2ce914f4d3aa2e4cffe3d6f5d0fec19880dbe0fe05b3a4",
+    "rtl/rv32_core.sv": "cf82d634602b581589efd80a7172ec384885a25fd4d5faf449ad407cff213757",
+    "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
+  },
+  "tools": {
+    "yosys": "Yosys 0.33 (git sha1 2584903a060)",
+    "nextpnr-ice40": "\"nextpnr-ice40\" -- Next Generation Place and Route (Version 0.6-3build5)"
+  }
+}

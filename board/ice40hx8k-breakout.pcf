@@ -1,0 +1,21 @@
+# Lattice iCE40-HX8K Breakout Board (ICE40HX8K-B-EVN), CT256 package.
+# Sources, checked against each other:
+#   Lattice EB85 "iCE40HX-8K Breakout Board User Guide" v1.1 (Jan 2016) schematic:
+#     12 MHz clock on GBIN6/PIO3_26 ball J3; nets LED0..LED7 on balls B5 B4 A2 A1 C5 C4 B3 C3;
+#     RS232_Tx_TTL on ball B12 and RS232_Rx_TTL on ball B10 (FT2232H channel B).
+#   YosysHQ icestorm examples/hx8kboard/hx8kboard.pcf (commit 13e654f): same clock and LED balls.
+#   YosysHQ picorv32 picosoc/hx8kdemo.pcf: same clock and LED balls; ser_tx on B12.
+# leds[i] drives schematic net LEDi.
+
+set_io clk_12mhz J3
+
+set_io leds[0] B5
+set_io leds[1] B4
+set_io leds[2] A2
+set_io leds[3] A1
+set_io leds[4] C5
+set_io leds[5] C4
+set_io leds[6] B3
+set_io leds[7] C3
+
+set_io uart_tx B12
