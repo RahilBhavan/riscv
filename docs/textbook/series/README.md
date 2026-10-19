@@ -191,4 +191,4 @@ Run one case with `python3 docs/textbook/series/labs/run_labs.py --case load_jal
 
 Node.js, Chromium and Python 3 are required. The committed overview HTML supplies the existing personal design CSS. Fonts and figures are local/self-contained. Run `make textbook-series`. No Python PDF library is needed to export.
 
-The editable content is in scripts/textbook/series/content.mjs. The renderer is build.mjs and export is export.sh. Full technical readings are in ../SOURCES.md. Work on a learning branch, preserve raw experiment evidence and do not promote planned board/formal/workload experiments into completed claims.
+The editable content is in scripts/textbook/series/content.mjs. The renderer is build.mjs and export is export.sh. Full technical readings are in ../SOURCES.md. Work on a learning branch, preserve raw experiment evidence and do not promote planned board or formal experiments into completed claims.

@@ -6,7 +6,7 @@
 
 ## Why this board
 
-The timing estimates in `reports/implementation.json` are for the same iCE40HX8K CT256 device. The complete board image uses 5,956 of 7,680 logic cells and 23 of 32 block RAMs (`reports/board.json`). The iCE40 UltraPlus UP5K on the iCEBreaker has 5,280 logic cells, so this design does not fit it without first shrinking the core. The register file alone is 1,024 flip-flops because the core resets all 32 registers. The HX8K board also has its own FTDI programmer, a 12 MHz oscillator and eight LEDs, so it needs nothing else.
+The timing estimates in `reports/implementation.json` are for the same iCE40HX8K CT256 device. The complete board image uses 5,928 of 7,680 logic cells and 23 of 32 block RAMs (`reports/board.json`). The iCE40 UltraPlus UP5K on the iCEBreaker has 5,280 logic cells, so this design does not fit it without first shrinking the core. The register file alone is 1,024 flip-flops because the core resets all 32 registers. The HX8K board also has its own FTDI programmer, a 12 MHz oscillator and eight LEDs, so it needs nothing else.
 
 ## Shopping list
 
@@ -92,7 +92,7 @@ The expected signature comes from the Python reference model, not from the RTL. 
 
 The core expects instruction and load data in the same cycle as the address (see `docs/ARCHITECTURE.md`). iCE40 block RAM registers its read. `board_top` clocks both RAMs on the falling edge: the core updates the address at the rising edge, the RAM samples it half a cycle later, and the data is ready at the next rising edge. The core sees exactly what a combinational memory would give, and the core itself is unchanged.
 
-The cost is that address-to-RAM and RAM-to-register paths get half a clock period. nextpnr budgets these rising-to-falling paths at half a period. A small probe design confirmed this: the same block-RAM read path reported 135 MHz on a rising-edge RAM and 71 MHz on a falling-edge RAM. In this design the limiting path is still a full-cycle path inside the core, from writeback forwarding to the branch target, at 26.9 ns.
+The cost is that address-to-RAM and RAM-to-register paths get half a clock period. nextpnr budgets these rising-to-falling paths at half a period. A small probe design confirmed this: the same block-RAM read path reported 135 MHz on a rising-edge RAM and 71 MHz on a falling-edge RAM. In this design the limiting path is still a full-cycle path inside the core, from writeback forwarding to the branch target, at 27.1 ns.
 
 There is no reset button input. A power-on counter holds the core in reset for 2^16 cycles (5.5 ms at 12 MHz), because iCE40 block RAM can read as zero for a short time after configuration. With the PLL, the counter also waits for the PLL LOCK signal, which passes through a two-flip-flop synchronizer first. To rerun from reset, reprogram or power-cycle the board.
 

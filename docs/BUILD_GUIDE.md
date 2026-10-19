@@ -1,6 +1,6 @@
 # Extended build and research guide
 
-**Active deadline:** use [TWO_DAY_BUILD.md](TWO_DAY_BUILD.md) for October 17–18. This document is the optional deeper learning path after that sprint. There is no earlier draft to recover.
+**Original sprint:** [TWO_DAY_BUILD.md](TWO_DAY_BUILD.md) was the October 17–18 plan. This document is the optional deeper learning path after that sprint. The reference has since built the external checks, hazard cross, benchmark, ablation and board image these days describe; each day names the target and report to compare against. There is no earlier draft to recover.
 
 This guide is for making the project your own: rebuilding the datapath, explaining hazards, designing experiments and earning claims you can defend in a lab conversation. The checked-in implementation is a working reference, not evidence that you personally spent three weeks constructing it. The user confirmed there was no original single-cycle draft. Treat this as a new project.
 
@@ -81,19 +81,19 @@ Research question: why does the sum require more than 16 signed bits? Deliverabl
 
 ### Day 8 — Stress DOT4 and its pipeline interactions
 
-Expand seeded random operands. In an additional exhaustive experiment, sweep all 65,536 signed-byte pairs in each isolated lane. Distinguish this planned exhaustive sweep from the existing random programs. Add load → DOT4, DOT4 → DOT4, DOT4 → branch, DOT4 → store, both source ports and x0.
+Expand seeded random operands. In an additional exhaustive experiment, sweep all 65,536 signed-byte pairs in each isolated lane. `make dot4-sweep` is the reference version (`reports/dot4-sweep.json`); write yours before reading it. Add load → DOT4, DOT4 → DOT4, DOT4 → branch, DOT4 → store, both source ports and x0.
 
 Research question: does the custom instruction reuse every hazard path correctly? Deliverable: seed/count/result report. Gate: no special software NOPs are required for DOT4.
 
 ### Day 9 — Measure coverage honestly
 
-Run `make coverage`, inspect `reports/line-coverage.json`, then inspect the uncovered source point(s). Verilator 5.020 instruments only 38 line/control points in this compact core; the percentage is a narrow metric. It is not the fraction of all possible inputs tested. The separate 46-bin functional plan covers instruction classes and branch outcomes, not all hazard crosses.
+Run `make coverage`, inspect `reports/line-coverage.json`, then inspect the uncovered source point(s). Verilator instruments only a few dozen line/control points in this compact core (`total` in the report); the percentage is a narrow metric. It is not the fraction of all possible inputs tested. The separate functional bin plan covers instruction classes and branch outcomes. The reference's generated hazard cross (`tests/hazards.py`) is a separate plan.
 
 Research question: what important bug could still survive 95% line coverage? Add a test for a missing scenario, not just to hit a line. Expand functional coverage with explicit hazard/operand crosses. Keep the original denominator and explain any revised plan. Deliverable: a coverage note with scope, numerator, denominator and limitations.
 
 ### Day 10 — Add invariants and external checks
 
-Add simulator assertions for x0, no memory writes from invalid stages, PC/IF-ID stability during a stall, and younger instruction squash. Test reset while instructions are in flight. Use separate directed cases to check one-cycle stalls and absence of false stalls. Then investigate ACT4 configuration or an RVFI adapter using the official sources; this is additional work, not already integrated here.
+Add simulator assertions for x0, no memory writes from invalid stages, PC/IF-ID stability during a stall, and younger instruction squash. Test reset while instructions are in flight. Use separate directed cases to check one-cycle stalls and absence of false stalls. The reference has these invariants in `tests/invariants.svh` and compares against Spike with `make isa-compare`. ACT4 and an RVFI adapter are still not integrated; investigate them using the official sources.
 
 Research question: which failures cannot be detected by final register values alone? Deliverable: assertions and a negative test proving they fire. Gate: no unexplained failures in both simulators.
 
@@ -103,7 +103,7 @@ Research question: which failures cannot be detected by final register values al
 
 Write a tiny scalar RV32I dot-product kernel with an explicit software signed multiply; RV32I has no MUL. Compare to DOT4 using identical packed inputs, output checks and included loop overhead. Count retired instructions, total cycles and stalls. Include packing and memory loads if they are part of the intended workload. Do not substitute a host Python timing or an RV32IM baseline.
 
-Research question: do fewer instructions translate to fewer cycles for this workload? Deliverable: checked inputs/outputs and a cycle report for both kernels. The present regression does not yet establish application speedup.
+Research question: do fewer instructions translate to fewer cycles for this workload? Deliverable: checked inputs/outputs and a cycle report for both kernels. Compare with the reference kernels in `scripts/bench.py` and `reports/benchmark.json`.
 
 ### Day 12 — Map and route
 
@@ -115,13 +115,13 @@ Research question: is the critical path the dot product or forwarding/decode? De
 
 On a separate experiment branch, remove DOT4 or replace it with an explicitly trapping decode. Synthesize both configurations with identical shell, device, tool versions, constraints and seeds. Repeat with several seeds to see placement variability; keep the default reproducible run unchanged. Report resource delta and each configuration's own timing estimate. Convert cycles to estimated time only using the corresponding clock.
 
-Research question: is the speedup worth the extra logic and possible clock reduction? Deliverable: matched baseline/extension report. Do not call this an energy result without a power measurement/model.
+Research question: is the speedup worth the extra logic and possible clock reduction? Deliverable: matched baseline/extension report. `make ablation` and `reports/ablation.json` are the reference version. Do not call this an energy result without a power measurement/model.
 
 ### Day 14 — Optional board integration, or strengthen synthesis evidence
 
 The open-source synthesis/route route already satisfies the project's no-board option. A physical demo is separate. Before buying a board, verify current availability, capacity, clock, supported open toolchain and programmer. This core uses most of an HX8K's logic in the measurement shell; do not assume a smaller iCE40 board fits.
 
-For a board: replace the timing fixture with a real top, supply a board pin file and clock/reset circuit, adapt the memory interface for synchronous RAM, provide program loading and expose a signature/UART result. Simulate that entire top before programming. Verify actual inputs/outputs and the configured hardware clock. Keep board costs and measured operation separate from synthesis estimates.
+For a board: replace the timing fixture with a real top, supply a board pin file and clock/reset circuit, adapt the memory interface for synchronous RAM, provide program loading and expose a signature/UART result. `rtl/board_top.sv` and [BOARD.md](BOARD.md) are the reference version; it has not run on hardware. Simulate that entire top before programming. Verify actual inputs/outputs and the configured hardware clock. Keep board costs and measured operation separate from synthesis estimates.
 
 Without a board: reproduce from a clean clone, archive the raw timing report, investigate the critical path and review the unsupported behavior. Deliverable: reproducibility evidence or an actual board-demo procedure and observed result.
 
@@ -133,7 +133,7 @@ Use the recipient-specific guidance in [RESEARCH.md](RESEARCH.md) after verifyin
 
 ## When to change the outreach sentence
 
-For the current synthesis-only state, use the exact README wording and numbers. Say “estimated after place-and-route,” and name the coverage metric. Only say “running at X MHz” after a physical board runs a checked program at that clock. Only claim workload speedup after the matched kernel experiment. Never round a limited functional checklist into generic “test coverage.”
+For the current state, simulation and route only, use the exact README wording and numbers. Say “estimated after place-and-route,” and name the coverage metric. Only say “running at X MHz” after a physical board runs a checked program at that clock ([BOARD.md](BOARD.md#recording-a-hardware-run)). Quote the workload speedup with its kernel and baseline. Never round a limited functional checklist into generic “test coverage.”
 
 Before sending, you should be able to answer: why one load-use bubble, how forwarding priority works, what gets flushed, why DOT4 is signed, what the coverage denominator counts, what the timing shell excludes, and which observation would change your design decision.
 

@@ -55,4 +55,6 @@ Deliverables: 35-page textbook PDF, self-contained interactive HTML, 14-slide re
 
 ## Follow-up topics
 
-Formal/ACT4 integration, complete hazard crosses, mid-flight reset assertions, scalar/DOT4 workload comparison, area ablation and synchronous-memory board integration remain outside this two-day teaching scope.
+The reference now has a Spike comparison, a generated hazard cross, mid-flight reset tests, a DOT4 benchmark and ablation, and an HX8K board image. The book teaches the mechanisms behind them. The README and reports carry the results.
+
+Still open: a physical board run, formal verification (riscv-formal and RVFI), ACT4 integration, and CSRs with privileged traps.

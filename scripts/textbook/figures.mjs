@@ -1,4 +1,5 @@
 import * as k from './vendor/iso-kit.mjs';
+import {metrics} from './metrics.mjs';
 const esc=s=>String(s).replaceAll('&','&amp;').replaceAll('<','&lt;');
 const ink='#111214',gray='#52545A',paper='#F5F5EF',yellow='#FFE500';
 const text=(x,y,t,size=19,extra='')=>`<text x="${x}" y="${y}" font-size="${size}" fill="${ink}" ${extra}>${esc(t)}</text>`;
@@ -67,7 +68,7 @@ export function figure(name){
  case 'dot':return cap('FIG 09 / DOT4 DATAFLOW','Illustration: independent signed-byte products feed one sum.',svg([0,1,2,3].map(i=>{let x=20+i*176;return rect(x,20,148,45,paper,ink)+text(x+15,48,`a[${i}] × b[${i}]`,18)+line(x+74,65,x+74,98)+line(x+74,98,360,98);}).join('')+line(360,98,360,127)+rect(271,127,178,52,yellow,ink)+text(291,160,'signed 32-bit sum',17),200));
  case 'dotworked':return table(['Lane','A byte','A signed','B signed','Product'],[['0','0x80','−128','−1','128'],['1','0xFF','−1','4','−4'],['2','0x02','2','3','6'],['3','0x01','1','2','2'],['Total','','','','132']]);
  case 'oracle':return cap('FIG 10 / TWO EXECUTIONS, ONE COMPARISON','Same program words drive both implementations. A mismatch identifies the first divergent result.',svg(rect(10,75,130,55,paper,ink)+text(24,109,'Program',20)+line(140,102,193,102)+line(193,45,193,165)+arrow(193,45,260,45)+arrow(193,165,260,165)+rect(260,17,190,58,paper,ink)+text(277,52,'Sequential model',18)+rect(260,137,190,58,paper,ink)+text(277,172,'Pipelined RTL',18)+line(450,45,496,45)+line(496,45,496,165)+line(450,165,496,165)+arrow(496,102,560,102,'results')+rect(560,75,145,55,yellow,ink)+text(575,109,'Comparator',19),220));
- case 'coverage':return table(['Metric','Reference result','Scope'],[['Passing programs','144 / 144','Local directed and random suite'],['Retired instructions','7,358 checked','Ordered architectural trace'],['Line instrumentation','37 / 38 = 97.37%','Core only, Verilator 5.020'],['Functional bins','46 / 46','Named class/outcome plan']]);
+ case 'coverage':{const {regression:g,coverage:c}=metrics;return table(['Metric','Reference result','Scope'],[['Passing programs',`${g.programs} / ${g.programs}`,'Directed, random and hazard suite'],['Retired instructions',`${g.retired} checked`,'Ordered architectural trace'],['Line instrumentation',`${c.hit} / ${c.total} = ${c.percent}%`,`Core only, ${c.tool}`],['Functional bins',`${g.binsHit} / ${g.binsTotal}`,'Named class/outcome plan'],['Hazard cross',`${g.hazardBinsHit} / ${g.hazardBinsTotal}`,'Producer × consumer × distance']]);}
  case 'synthesis':return cap('FIG 11 / IMPLEMENTATION FLOW','The final timing estimate belongs to a device, constraints, tools and route seed.',svg(['RTL','Synthesis','Placement','Routing'].map((n,i)=>rect(10+i*180,35,150,58,i===3?yellow:paper,ink)+text(22+i*180,72,n,20)+(i<3?arrow(160+i*180,64,190+i*180,64):'')).join(''),118));
  default:return '';
  }

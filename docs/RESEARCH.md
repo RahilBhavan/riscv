@@ -48,9 +48,9 @@ Decision gate: traces and architectural state agree, with directed evidence for 
 
 Question: does packed arithmetic improve this workload after accounting for clock and area? Hypothesis: DOT4 reduces instruction count but its multiplier/adder path may lower the achievable clock.
 
-Experiments: an independent scalar signed-byte oracle; all 65,536 byte operand pairs placed in each lane separately; randomized packed inputs; all -128, all 127, mixed signs, cancellation and lane-order checks. Exercise dependent DOT4 chains, loads feeding either input, and DOT4 feeding stores/branches/ALU instructions. Test invalid encodings.
+Experiments: an independent scalar signed-byte oracle; all 65,536 byte operand pairs placed in each lane separately; randomized packed inputs; all -128, all 127, mixed signs, cancellation and lane-order checks. Exercise dependent DOT4 chains, loads feeding either input, and DOT4 feeding stores/branches/ALU instructions. Test invalid encodings. The reference ran the isolated-lane sweep and every custom-0 encoding through the RTL (`reports/dot4-sweep.json`).
 
-Build identical small vector kernels with a pure RV32I software implementation and DOT4. Keep input/output values, memory layout and included loop overhead fixed. RV32I excludes multiply, so the scalar baseline needs a documented software multiplication routine; a C expression silently compiled for RV32IM is not a valid RV32I comparison. Report total cycles and useful outputs per second using each configuration's own measured timing estimate. Include packing and memory traffic when claiming end-to-end benefit.
+Build identical small vector kernels with a pure RV32I software implementation and DOT4. Keep input/output values, memory layout and included loop overhead fixed. RV32I excludes multiply, so the scalar baseline needs a documented software multiplication routine; a C expression silently compiled for RV32IM is not a valid RV32I comparison. Report total cycles and useful outputs per second using each configuration's own measured timing estimate. Include packing and memory traffic when claiming end-to-end benefit. The reference result is in `reports/benchmark.json` and `reports/ablation.json`, summarized in the README and the experiment log.
 
 ### Days 11–13: verification evidence
 
@@ -58,7 +58,7 @@ Question: what does a reported percentage actually measure? Hypothesis: directed
 
 Measure RTL line coverage and branch/expression coverage if the installed simulator supports them, with exact numerator, denominator, source scope and exclusions. Keep functional coverage as a separate checklist crossing operation classes, operand boundaries and hazard scenarios. A custom functional checklist, Python code coverage and RTL line coverage are different metrics. Set 95% as a target for a named metric, never as an assumed property of the core. Explain uncovered behavior instead of deleting difficult cases to improve the headline. Report test pass counts separately; 100% passing tests is not 100% coverage.
 
-Add assertions for x0, valid-controlled side effects, redirect squashing, stall stability and forwarding priority. As a stretch goal, integrate ACT4 or RVFI formal checks and state exactly which configuration/properties passed. Do not call local randomized simulation certification or formal proof.
+Add assertions for x0, valid-controlled side effects, redirect squashing, stall stability and forwarding priority. The reference now compares against Spike on riscv-arch-test 3.10.0 (`reports/isa-compare.json`), checks invariants in every simulation and measures a generated hazard cross. As a stretch goal, integrate ACT4 or RVFI formal checks and state exactly which configuration/properties passed; neither is done. Do not call local randomized simulation certification or formal proof.
 
 ### Days 14–17: synthesize and place/route
 
@@ -66,13 +66,13 @@ Question: what implementation cost and timing does the custom unit add? Hypothes
 
 Run baseline and DOT4-enabled configurations through the same target, toolchain, constraints and seeds. Preserve synthesis resource reports, placement/routing logs, maximum-frequency estimates and timing failures. Publish LUTs, flip-flops, RAM blocks and DSP blocks separately; a generic cell count is not an FPGA LUT count or silicon area in square millimeters. State memory sizes, inferred implementation and whether memory/peripherals are included. Keep inputs and observable outputs alive so optimization cannot discard the datapath.
 
-Yosys-only synthesis establishes mapping/resource estimates, not a routed clock speed. A nextpnr timing estimate is not a physical board measurement. Report the constrained clock and achieved timing status separately. An FPGA board demonstration additionally needs board pin constraints, clock/reset treatment, a program-loading path and an observable pass/fail or serial output. Do not claim board operation from a generated netlist.
+Yosys-only synthesis establishes mapping/resource estimates, not a routed clock speed. A nextpnr timing estimate is not a physical board measurement. Report the constrained clock and achieved timing status separately. An FPGA board demonstration additionally needs board pin constraints, clock/reset treatment, a program-loading path and an observable pass/fail or serial output. Do not claim board operation from a generated netlist. The reference board image ([BOARD.md](BOARD.md)) passes its self-test in simulation and has not run on hardware.
 
 ### Days 18–21: reproduce, explain and publish
 
 Question: can another person reproduce the claims from a clean clone? Have a clean environment run the documented commands; resolve missing dependencies and preserve logs as release artifacts. Publish source, license, test instructions, custom instruction contract, limitations and metrics provenance. A README headline should link to the exact report supporting every number.
 
-Before outreach, replace placeholders only with measurements. Suitable synthesis-only wording is: “A five-stage educational RV32I-subset core with a custom signed-byte dot product; [measured metric]% RTL line coverage and [measured frequency] MHz estimated after place and route on [device].” Use “RV32I” without “subset” only when the supported behavior and execution environment justify it. Use “running at” for demonstrated hardware operation and describe what ran.
+Before outreach, replace placeholders only with measurements. Use the outreach line in the README, which names the measured speedup, the Spike comparison and the post-route estimate. Its general shape is: “A pipelined RV32I core with a custom signed-byte dot product that is [measured speedup] faster on [kernel] after its clock cost, verified against [reference] on [tests], [median] MHz post-route on [device].” Use “RV32I” without “subset” only when the supported behavior and execution environment justify it. Use “running at” for demonstrated hardware operation and describe what ran.
 
 ## Connecting this artifact to the five emails
 

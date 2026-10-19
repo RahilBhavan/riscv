@@ -24,7 +24,7 @@ Implemented integer operations: LUI, AUIPC, JAL, JALR; BEQ, BNE, BLT, BGE, BLTU,
 
 ECALL and EBREAK emit a trap record and halt. Unsupported encodings and misaligned data accesses/taken instruction targets also emit a trap and halt without the faulting operation's register/memory side effect. This interface supplies no trap cause, trap-vector entry, recovery or privilege implementation. Reassert reset to resume. The fetch address must always have a valid instruction response from the environment. There is no access-fault handshake.
 
-These limitations are why the public description says **educational RV32I execution core**, not certified full-system processor. Neither ACT4 nor riscv-formal has been integrated. The Python oracle was written independently of the RTL but is maintained in this same project; both could share a mistaken interpretation of the ISA.
+These limitations are why the public description says **educational RV32I execution core**, not certified full-system processor. Neither ACT4 nor riscv-formal has been integrated. The Python oracle was written independently of the RTL but is maintained in this same project, so both could share a mistaken reading of the ISA. An external reference narrows that risk. `make isa-compare` runs the riscv-arch-test 3.10.0 RV32I suite and seeded random programs on both the core and Spike, then compares signatures and commit logs (`reports/isa-compare.json`). Spike is the only external reference, and that suite is the older RISCOF-format release, not ACT4.
 
 ## Memory contract
 
@@ -35,7 +35,7 @@ These limitations are why the public description says **educational RV32I execut
 - Stores use four byte strobes and lane-shifted write data, sampled on the rising edge. The core traps on unaligned halfword/word accesses.
 - A store completes in MEM; a following load sees the updated contents. The environment must implement that ordering.
 - Tests supply 16 KiB each of instruction/data space. The testbench wraps addresses; generated programs stay in range. No address-wrap test is a proof of access-fault behavior.
-- FPGA block RAM generally has synchronous reads. Attaching it directly violates this contract. Adding memory wait states/pipeline alignment is future work, required before a typical board integration.
+- FPGA block RAM generally has synchronous reads, so attaching it directly violates this contract. `rtl/board_top.sv` clocks its block RAM on the falling edge instead. That meets the contract with no core change and leaves half a clock period for each memory path ([BOARD.md](BOARD.md)). Memory wait states and a ready/valid handshake are not implemented.
 
 ## DOT4 custom instruction
 
@@ -54,9 +54,9 @@ GNU assembly can encode it as `.insn r 0x0b, 0, 0, a0, a1, a2` (destination firs
 
 ## Implementation measurement
 
-`timing_top` registers external instruction/load inputs and folds all core outputs into an observable rotating XOR register to preserve the logic through synthesis. This is a measurement shell. It contains no instruction/data memory, clock generator, UART, bootloader or board pins. Its instruction input is deliberately arbitrary: timing analysis evaluates structural paths, not program correctness.
+`timing_top` registers external instruction/load inputs and folds all core outputs into an observable rotating XOR register to preserve the logic through synthesis. This is a measurement shell. It contains no instruction/data memory, clock generator, UART, bootloader or board pins; `rtl/board_top.sv` is the separate board top that has them. Its instruction input is deliberately arbitrary: timing analysis evaluates structural paths, not program correctness.
 
-The target is an iCE40 HX8K CT256 with a 12 MHz constraint, seed 1 and unconstrained package I/O. The registered endpoints enable internal timing analysis. Placement and routing estimates are for this shell, including its registers, not a complete system. External input/output timing and reset distribution to a real board are not signed off. HX8K has no hard DSP blocks; DOT4 maps into logic. Resources are FPGA implementation resources, not ASIC silicon area.
+The target is an iCE40 HX8K CT256 with a 12 MHz constraint and unconstrained package I/O. `make timing` routes with seed 1. `make ablation` repeats the route over seeds 1 to 5 for DOT4=1 and DOT4=0, because a single seed can move the estimate by several MHz with no logic change. The registered endpoints enable internal timing analysis. Placement and routing estimates are for this shell, including its registers, not a complete system. External input/output timing and reset distribution to a real board are not signed off. HX8K has no hard DSP blocks; DOT4 maps into logic. Resources are FPGA implementation resources, not ASIC silicon area.
 
 ## Reset boundary
 

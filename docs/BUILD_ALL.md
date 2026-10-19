@@ -9,7 +9,7 @@ Run `make all` from the repository root. This runs the real RTL tools, checks th
 - Chromium available as `chromium`, or set `CHROMIUM_BIN` to its executable.
 - Poppler tools `pdfinfo` and `pdftotext` for document checks.
 
-The existing Dockerfile pins the Linux distribution to Ubuntu 24.04 and installs Icarus, Verilator, Yosys and nextpnr-ice40. These packages come from that distribution's repositories; tool versions are recorded in the evidence. No RISC-V cross-compiler is needed for the encoded regression programs.
+The existing Dockerfile pins the Linux distribution to Ubuntu 24.04 and installs Icarus, Verilator, Yosys and nextpnr-ice40. These packages come from that distribution's repositories; tool versions are recorded in the evidence. The image also builds Spike from a pinned commit and adds a RISC-V cross-compiler and the riscv-arch-test 3.10.0 sources for the external ISA comparison. The regression programs themselves are encoded in Python and need no compiler.
 
 ```sh
 git clone https://github.com/RahilBhavan/riscv.git
@@ -23,9 +23,9 @@ The default `make` command also runs the full build. For individual tasks, use t
 
 1. Check required tools and acquire an exclusive full-build lock.
 2. Build the RTL tool image.
-3. Run Icarus differential tests, both standalone teaching benches, 14 teaching core programs, pending-memory reset tests, lint, Verilator differential tests and core line coverage.
-4. Synthesize and place/route the registered HX8K measurement shell; archive raw results and export six oracle-checked cycle traces.
-5. Generate the 35-page overview, 14-slide review, eight textbooks, textbook archive, JavaScript model checks and eight-part Anatomy lab.
+3. Run Icarus differential tests with DOT4 on and off, both standalone teaching benches, 14 teaching core programs, reset tests, the exhaustive isolated-lane DOT4 sweep, the Spike comparison, the mutants, lint, Verilator differential tests and core line coverage.
+4. Synthesize and place/route the registered HX8K measurement shell, run the DOT4 benchmark and the five-seed DOT4 on/off ablation, simulate and route the HX8K Breakout board image, archive raw results and export six oracle-checked cycle traces.
+5. Check README.md against the reports, then generate the 35-page overview, 14-slide review, eight textbooks, textbook archive, JavaScript model checks and eight-part Anatomy lab. Their measured numbers come from `reports/` through `scripts/textbook/metrics.mjs`.
 6. Verify source hashes, correctness reports, the timing constraint, all ten PDF page counts and readable pages, matching archive members, HTML companions and local navigation links.
 7. Write the release report, start page and complete ZIP.
 
@@ -42,4 +42,4 @@ Each phase stops on failure. Logs are `build/project/tools.log`, `rtl.log`, `lea
 
 Extract the ZIP and open `riscv/output/START-HERE.html`. Keep the folder layout to use relative links. To avoid local browser restrictions, serve the extracted `riscv/` directory with `python3 -m http.server 8878` and open `http://localhost:8878/output/START-HERE.html`.
 
-`make release-check` reruns the artifact checks against an existing complete build or the extracted complete release. PDF page/text checks establish structure; visual inspection is also needed after changing layout. Historical textbook examples retain the earlier 34.74 MHz baseline; the README, release report and visual lab contain current metrics. No board clock, power, workload speedup, privileged architecture or external ISA certification is claimed.
+`make release-check` reruns the artifact checks against an existing complete build or the extracted complete release. PDF page/text checks establish structure; visual inspection is also needed after changing layout. The books, slides, visual lab and start page read their numbers from `reports/` at build time, and the textbook build stops if README.md quotes a different number. No board clock, power, privileged architecture or ISA certification is claimed. The workload speedup covers one dot-product kernel.

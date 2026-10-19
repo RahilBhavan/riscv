@@ -21,7 +21,7 @@ Node.js and Chromium are required. Fonts and SVG geometry helpers are included i
 make textbook
 ```
 
-Set `CHROMIUM_BIN` if your Chromium executable has another name. HTML text and chapter data are authored in `scripts/textbook/content.mjs`; diagrams are in `figures.mjs`; layouts and interactions are in `build.mjs`. `export.sh` generates both PDFs. No Python packages are needed to rebuild. PDF generation is a deterministic browser export, separate from live browser inspection.
+Set `CHROMIUM_BIN` if your Chromium executable has another name. HTML text and chapter data are authored in `scripts/textbook/content.mjs`; measured values come from `metrics.mjs`; diagrams are in `figures.mjs`; layouts and interactions are in `build.mjs`. `export.sh` generates both PDFs. No Python packages are needed to rebuild. PDF generation is a deterministic browser export, separate from live browser inspection.
 
 To read through a local server:
 
@@ -31,6 +31,6 @@ python3 -m http.server 8876
 
 Open `http://localhost:8876/output/textbook/riscv-textbook.html`.
 
-The reference metrics remain 144 programs, 7,358 retirements, 37/38 line instrumentation points and a 34.74 MHz internal post-route estimate. The new recipe tests are teaching additions, not part of those baseline counts. No physical board run or workload speedup is implied. The current implementation and teaching material were created with assistant support.
+Measured numbers in the book and slides come from `reports/*.json` through `scripts/textbook/metrics.mjs` each time the book is built, so they match the README. The recipe tests are teaching additions, not part of those baseline counts. No physical board run is implied, and the DOT4 speedup covers one kernel. The current implementation and teaching material were created with assistant support.
 
 Design follows Rahil's personal charcoal/white/yellow system, Anton display and IBM Plex Sans body. The print textbook uses a light reading surface to reduce ink. Font licenses and geometry attribution are included. The review deck is HTML/PDF, not a claimed PowerPoint export.

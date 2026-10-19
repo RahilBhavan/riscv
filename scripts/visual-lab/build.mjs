@@ -1,6 +1,7 @@
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {instrument} from './geometry.mjs';
+import {metrics} from '../textbook/metrics.mjs';
 const read=p=>readFileSync(p,'utf8');
 const json=p=>JSON.parse(read(p));
 const kinds=['bits','decode','pipeline','hazards','dot','verify','synth','research'];
@@ -8,7 +9,7 @@ const traces=json('reports/visual-traces.json'),verification=json('reports/verif
 const hash=traces.source_sha256['rtl/rv32_core.sv'];
 if(createHash('sha256').update(readFileSync('rtl/rv32_core.sv')).digest('hex')!==hash)throw Error('RTL changed: regenerate evidence.');
 if(verification.source_sha256['rtl/rv32_core.sv']!==hash||coverage.rtl_sha256!==hash||implementation.rtl_sha256['rtl/rv32_core.sv']!==hash)throw Error('Evidence is stale: regenerate test, coverage, timing and visual-evidence for the same RTL.');
-const DATA={traces,verification,coverage,implementation,fmax:Object.values(implementation.fmax)[0].achieved,art:kinds.map(instrument),bookBase:'../textbook/series/'};
+const DATA={traces,verification,coverage,implementation,metrics,art:kinds.map(instrument),bookBase:'../textbook/series/'};
 const models=read('scripts/visual-lab/models.mjs').replaceAll('export ','');
 const app=read('scripts/visual-lab/app.mjs').replace(/^import .*;\n/,'').replace('export ','');
 const fonts=['Anton-Regular','IBMPlexSans-Regular','IBMPlexSans-SemiBold'].map((n,i)=>`@font-face{font-family:${i?'LearningSans':'Anton'};font-weight:${i===2?600:400};src:url(data:font/woff2;base64,${readFileSync('docs/textbook/fonts/'+n+'.woff2').toString('base64')})}`).join('');

@@ -1,6 +1,6 @@
 # RISC-V visual lab build plan
 
-The outcome is a reproducible RV32I + DOT4 learning project: real RTL, an independent checker, eight textbooks, and eight interactive Anatomy views. Open-source synthesis is the implementation target; a physical board remains a separate integration task.
+The outcome is a reproducible RV32I + DOT4 learning project: real RTL, an independent checker, eight textbooks, and eight interactive Anatomy views. Open-source synthesis is the implementation target. A board image exists for the iCE40-HX8K Breakout; running it on hardware remains a separate task.
 
 ## Build sequence and completion gates
 
@@ -24,7 +24,7 @@ Insert inventory: up to 8 switch sockets and 8 sliding caps; card reader has 6 f
 
 For each numbered textbook: predict an outcome on paper, change one input in its visual, run the linked lab, then inspect the RTL and raw log. Keep prediction, observed result and explanation in an experiment note. A passing example is evidence for that example; it does not certify the ISA.
 
-For an extension: state a falsifiable question, choose a baseline, vary one factor, record source hashes/tool versions/seed/constraints, rerun correctness, and report the scope of the result. Prioritize an external ISA checker, hazard cross coverage, a scalar RV32I software-multiply comparison, and synchronous-memory integration. Keep board frequency and energy claims pending real measurements.
+For an extension: state a falsifiable question, choose a baseline, vary one factor, record source hashes/tool versions/seed/constraints, rerun correctness, and report the scope of the result. The reference has since added an external ISA comparison against Spike, hazard cross coverage, a scalar RV32I software-multiply comparison and a falling-edge block-RAM board image. Next: a physical board run, formal checks and ACT4. Keep board frequency and energy claims pending real measurements.
 
 ## Two-day route
 
