@@ -1,5 +1,7 @@
 # Architecture and execution contract
 
+This document describes the pipeline, hazards, instruction behavior, memory contract, DOT4 encoding and FPGA measurement boundary of `rtl/rv32_core.sv`.
+
 This is a new educational implementation created with assistant support in this workspace. The user confirmed there is no earlier draft; the project started from a placeholder README.
 
 ## Five stages

@@ -72,7 +72,11 @@ Yosys-only synthesis establishes mapping/resource estimates, not a routed clock 
 
 Question: can another person reproduce the claims from a clean clone? Have a clean environment run the documented commands; resolve missing dependencies and preserve logs as release artifacts. Publish source, license, test instructions, custom instruction contract, limitations and metrics provenance. A README headline should link to the exact report supporting every number.
 
-Before outreach, replace placeholders only with measurements. Use the outreach line in the README, which names the measured speedup, the Spike comparison and the post-route estimate. Its general shape is: “A pipelined RV32I core with a custom signed-byte dot product that is [measured speedup] faster on [kernel] after its clock cost, verified against [reference] on [tests], [median] MHz post-route on [device].” Use “RV32I” without “subset” only when the supported behavior and execution environment justify it. Use “running at” for demonstrated hardware operation and describe what ran.
+Before outreach, replace placeholders only with measurements. For the current simulation-and-route-only state, use this line. It names the measured speedup, the Spike comparison and the post-route estimate from the README's Results section:
+
+> “A pipelined RV32I core with a custom int8 dot-product instruction that is 5.3× faster on a dot-product kernel after its clock cost, verified against Spike on the RV32I architecture tests, ~36 MHz post-route on iCE40 HX8K.”
+
+Its general shape is: “A pipelined RV32I core with a custom signed-byte dot product that is [measured speedup] faster on [kernel] after its clock cost, verified against [reference] on [tests], [median] MHz post-route on [device].” Use “RV32I” without “subset” only when the supported behavior and execution environment justify it. Use “running at” for demonstrated hardware operation and describe what ran.
 
 ## Connecting this artifact to the five emails
 

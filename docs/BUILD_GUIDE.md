@@ -133,7 +133,7 @@ Use the recipient-specific guidance in [RESEARCH.md](RESEARCH.md) after verifyin
 
 ## When to change the outreach sentence
 
-For the current state, simulation and route only, use the exact README wording and numbers. Say “estimated after place-and-route,” and name the coverage metric. Only say “running at X MHz” after a physical board runs a checked program at that clock ([BOARD.md](BOARD.md#recording-a-hardware-run)). Quote the workload speedup with its kernel and baseline. Never round a limited functional checklist into generic “test coverage.”
+For the current state, simulation and route only, use the exact outreach line in [RESEARCH.md](RESEARCH.md) and the numbers in the README's Results section. Say “estimated after place-and-route,” and name the coverage metric. Only say “running at X MHz” after a physical board runs a checked program at that clock ([BOARD.md](BOARD.md#recording-a-hardware-run)). Quote the workload speedup with its kernel and baseline. Never round a limited functional checklist into generic “test coverage.”
 
 Before sending, you should be able to answer: why one load-use bubble, how forwarding priority works, what gets flushed, why DOT4 is signed, what the coverage denominator counts, what the timing shell excludes, and which observation would change your design decision.
 

@@ -1,5 +1,7 @@
 # Experiment log
 
+Dated questions, methods and measurements, oldest first. Earlier entries keep the numbers measured at the time. The README and `reports/` have the current figures.
+
 ## Initial implementation — 2026-10-17
 
 The workspace initially contained only a placeholder README and icon. No week-one core or remote was present. A new educational implementation, test oracle and open-source implementation flow were created. The user subsequently confirmed there is no earlier draft. These are baseline measurements of the new implementation.
