@@ -85,6 +85,7 @@ must(qsq(ta + tb) - qsq(ta - tb) === ta * tb, 'quarter-square illustration is wr
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const repo = 'https://github.com/RahilBhavan/riscv';
+const site = 'https://rahilbhavan.com/riscv';
 const reportLink = name => `<a href="${repo}/blob/main/reports/${name}.json">${name}.json</a>`;
 const m = metrics;
 
@@ -185,7 +186,7 @@ const html = `<!doctype html>
     <p>Those rules account for every cycle. The benchmark checks this identity on every run:</p>
     <pre class="code">${esc(bench('cycle_identity').replace(/ for every run$/, ''))}</pre>
     <p>For the ${m.speedup.n}-element DOT4 kernel that's ${count(dotRun.retired)} + ${count(dotRun.stalls)} + 2 × ${count(dotRun.flushes)} + 3 = ${count(dotRun.cycles)} cycles.</p>
-    <p class="see-also">See it cycle by cycle from real RTL traces in the <a href="../pipeline-machine/">pipeline machine</a> and the <a href="../load-use-explainer/">load-use explainer</a>.</p>
+    <p class="see-also">See it cycle by cycle from real RTL traces in the <a href="${site}/pipeline-machine">pipeline machine</a> and the <a href="${site}/load-use-explainer">load-use explainer</a>.</p>
   </div>
 </section>
 
@@ -197,7 +198,7 @@ const html = `<!doctype html>
 rd = a0·b0 + a1·b1
    + a2·b2 + a3·b3</pre>
     <p>It lives in custom-0, the opcode space RISC-V leaves for extensions (opcode 0x0b, funct3 0, funct7 0). Every other custom-0 encoding traps. The four 8×8 multiplies and their adder tree fit inside the existing execute stage, so DOT4 forwards and stalls like any other instruction. Int8 dot products are the inner loop of a lot of quantized ML inference, which made this a reasonable thing to try.</p>
-    <p class="see-also">Try your own bytes in the <a href="../dot4-machine/">DOT4 machine</a>.</p>
+    <p class="see-also">Try your own bytes in the <a href="${site}/dot4-machine">DOT4 machine</a>.</p>
   </div>
 </section>
 
@@ -266,7 +267,7 @@ rd = a0·b0 + a1·b1
       <li><strong>Mutants.</strong> ${m.mutants.killed} of ${m.mutants.total} deliberate single-bug edits to the RTL are caught by the check meant to catch them. For example, making SRA shift in zeros instead of copying the sign bit makes the ${esc(sraMatch[1])} test write <code>${sraMatch[2]}</code> where Spike writes <code>${sraMatch[3]}</code>.</li>
     </ul>
     <p>The mutants test the tests. A passing suite says little until it has been seen to fail on a real bug.</p>
-    <p class="see-also">All of it as charts on the <a href="../evidence/">evidence page</a>.</p>
+    <p class="see-also">All of it as charts on the <a href="${site}/evidence">evidence page</a>.</p>
   </div>
 </section>
 
@@ -286,11 +287,11 @@ rd = a0·b0 + a1·b1
 <section class="story" id="explore" aria-labelledby="explore-title">
   <h2 id="explore-title">Explore it</h2>
   <ul class="link-list">
-    <li><a href="../pipeline-machine/">Pipeline machine</a><span>Step through real RTL traces, stage by stage.</span></li>
-    <li><a href="../load-use-explainer/">Load-use explainer</a><span>Why a load costs one bubble, and when.</span></li>
-    <li><a href="../dot4-machine/">DOT4 machine</a><span>Four byte lanes, four products, one sum.</span></li>
-    <li><a href="../evidence/">Evidence</a><span>Speedup, cost, seeds and verification as charts.</span></li>
-    <li><a href="../video/riscv.mp4">Video</a><span>The short version.</span></li>
+    <li><a href="${site}/pipeline-machine">Pipeline machine</a><span>Step through real RTL traces, stage by stage.</span></li>
+    <li><a href="${site}/load-use-explainer">Load-use explainer</a><span>Why a load costs one bubble, and when.</span></li>
+    <li><a href="${site}/dot4-machine">DOT4 machine</a><span>Four byte lanes, four products, one sum.</span></li>
+    <li><a href="${site}/evidence">Evidence</a><span>Speedup, cost, seeds and verification as charts.</span></li>
+    <li><a href="${site}/video/riscv.mp4">Video</a><span>The short version.</span></li>
     <li><a href="${repo}">Source on GitHub</a><span>RTL, tests, reports and the full README.</span></li>
   </ul>
   <p class="sources">Reports: ${['benchmark', 'ablation', 'implementation', 'isa-compare', 'verification', 'dot4-sweep', 'mutation', 'board'].map(reportLink).join(', ')}.</p>

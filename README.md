@@ -32,13 +32,13 @@ Performance and FPGA estimates:
 
 ## Interactive figures
 
-Each page is self-contained and reads its numbers from `reports/` and its cycle-by-cycle behaviour from the RTL traces in `reports/visual-traces.json`. They are hosted on [GitHub Pages](https://rahilbhavan.github.io/riscv/output/START-HERE.html) and also work offline from a clone. `make figures` rebuilds them.
+Each page is self-contained and reads its numbers from `reports/` and its cycle-by-cycle behaviour from the RTL traces in `reports/visual-traces.json`. They are hosted at [rahilbhavan.com/riscv](https://rahilbhavan.com/riscv) and also work offline from a clone. `make figures` rebuilds them, and `make publish-site SITE=<website checkout>` copies them into the site.
 
-- [Pipeline machine](https://rahilbhavan.github.io/riscv/output/figures/pipeline-machine/): the five stages as an isometric machine. Step six recorded traces and watch stalls, flushes and forwarding.
-- [Why a load stalls](https://rahilbhavan.github.io/riscv/output/figures/load-use-explainer/): a stepped explainer of the load-use interlock, with a "try it" model checked against the traces.
-- [DOT4 machine](https://rahilbhavan.github.io/riscv/output/figures/dot4-machine/): edit the eight lane bytes and follow them through the multipliers and adder tree. It also plays the board self-test, which has only run in simulation.
-- [Evidence charts](https://rahilbhavan.github.io/riscv/output/figures/evidence/): cycles, speedup after clock cost, Fmax per seed, area and hazard coverage. Static SVG copies are in `output/figures/evidence/svg/`.
-- [Write-up](https://rahilbhavan.github.io/riscv/output/figures/post/) and a [20-second video](https://rahilbhavan.github.io/riscv/output/figures/video/riscv.mp4) (`make figure-video`).
+- [Pipeline machine](https://rahilbhavan.com/riscv/pipeline-machine): the five stages as an isometric machine. Step six recorded traces and watch stalls, flushes and forwarding.
+- [Why a load stalls](https://rahilbhavan.com/riscv/load-use-explainer): a stepped explainer of the load-use interlock, with a "try it" model checked against the traces.
+- [DOT4 machine](https://rahilbhavan.com/riscv/dot4-machine): edit the eight lane bytes and follow them through the multipliers and adder tree. It also plays the board self-test, which has only run in simulation.
+- [Evidence charts](https://rahilbhavan.com/riscv/evidence): cycles, speedup after clock cost, Fmax per seed, area and hazard coverage. Static SVG copies are in `output/figures/evidence/svg/`.
+- [Write-up](https://rahilbhavan.com/riscv/post) and a [20-second video](https://rahilbhavan.com/riscv/video/riscv.mp4) (`make figure-video`).
 
 ## How it works
 

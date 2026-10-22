@@ -150,7 +150,7 @@ bench:
 ablation: bench
 	python3 scripts/ablation.py
 
-.PHONY: figures figures-check figure-video
+.PHONY: figures figures-check figure-video publish-site
 FIGURES := pipeline-machine dot4-machine evidence load-use-explainer post
 # Standalone interactive figures in output/figures, rebuilt from reports/*.json (Node on the host).
 figures:
@@ -166,3 +166,7 @@ figures-check: figures
 # Needs the motion-director skill's render engine; not part of make all.
 figure-video:
 	node scripts/figures/video/build.mjs
+
+# Copy the built figures into a RahilBhavan/website checkout: make publish-site SITE=../website
+publish-site: figures
+	node scripts/figures/publish-site.mjs $(SITE)
