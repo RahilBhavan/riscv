@@ -149,3 +149,20 @@ bench:
 # Both DOT4 settings through the timing flow, nextpnr seeds 1-5, combined with bench cycles.
 ablation: bench
 	python3 scripts/ablation.py
+
+.PHONY: figures figures-check figure-video
+FIGURES := pipeline-machine dot4-machine evidence load-use-explainer post
+# Standalone interactive figures in output/figures, rebuilt from reports/*.json (Node on the host).
+figures:
+	node --test scripts/figures/dot4-machine/model.test.mjs scripts/figures/load-use-explainer/model.test.mjs
+	for f in $(FIGURES); do node scripts/figures/$$f/build.mjs || exit 1; done
+
+# Headless-Chromium interaction checks for the figures that have them.
+figures-check: figures
+	node scripts/figures/dot4-machine/drive.mjs
+	node scripts/figures/evidence/verify.mjs
+	node scripts/figures/load-use-explainer/verify.mjs
+
+# Needs the motion-director skill's render engine; not part of make all.
+figure-video:
+	node scripts/figures/video/build.mjs

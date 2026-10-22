@@ -29,7 +29,7 @@ run_phase() {
 run_phase tools docker build -t rv32-tools .
 run_phase rtl docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools \
     make test learning-labs reset-test dot4-sweep isa-compare mutants lint coverage timing bench ablation board-sim board visual-evidence
-run_phase learning make -j1 textbook textbook-series visual-models visual-lab
+run_phase learning make -j1 textbook textbook-series visual-models visual-lab figures
 run_phase release python3 scripts/release/build.py
 touch build/project/SUCCESS
 echo 'Complete: output/riscv-project.zip'

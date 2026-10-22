@@ -28,13 +28,25 @@ Performance and FPGA estimates:
 - **Timing estimate.** 35.76 MHz median internal post-route estimate over nextpnr seeds 1–5, range 33.85–37.08 MHz. The official seed-1 report is 33.85 MHz. The 12 MHz constraint passes on every seed. The shell excludes the memories, peripherals and external I/O timing. Round it to ~36 MHz post-route on iCE40 HX8K. Do not write "runs at" until a board runs a checked program at that clock. Sources: [`reports/implementation.json`](reports/implementation.json), [`reports/raw/nextpnr.log`](reports/raw/nextpnr.log).
 - **Board image.** `make board` builds a bitstream for the iCE40-HX8K Breakout with block-RAM memories and a self-test that reports on the LEDs and UART. The self-test passes in RTL simulation, and the image routes at 36.92 MHz post-route against the board's 12 MHz oscillator. It has not run on a board. Sources: [`docs/BOARD.md`](docs/BOARD.md), [`reports/board.json`](reports/board.json).
 
+<img src="output/figures/evidence/svg/1-cycles.svg" alt="Cycles against vector length for the four dot-product kernels, log scale: DOT4 needs 5.8 times fewer cycles than quarter-square at n = 256" width="49%"> <img src="output/figures/evidence/svg/2-speedup.svg" alt="DOT4 speedup per kernel and vector length, before and after its clock cost" width="49%">
+
+## Interactive figures
+
+Each page is self-contained and reads its numbers from `reports/` and its cycle-by-cycle behaviour from the RTL traces in `reports/visual-traces.json`. Open them from a local clone. `make figures` rebuilds them.
+
+- [Pipeline machine](output/figures/pipeline-machine/index.html): the five stages as an isometric machine. Step six recorded traces and watch stalls, flushes and forwarding.
+- [Why a load stalls](output/figures/load-use-explainer/index.html): a stepped explainer of the load-use interlock, with a "try it" model checked against the traces.
+- [DOT4 machine](output/figures/dot4-machine/index.html): edit the eight lane bytes and follow them through the multipliers and adder tree. It also plays the board self-test, which has only run in simulation.
+- [Evidence charts](output/figures/evidence/index.html): cycles, speedup after clock cost, Fmax per seed, area and hazard coverage. Static SVG copies are in `output/figures/evidence/svg/`.
+- [Write-up](output/figures/post/index.html) and a [20-second video](output/figures/video/riscv.mp4) (`make figure-video`).
+
 ## How it works
 
 - `rtl/rv32_core.sv` is the core. EX takes operands from EX/MEM, then MEM/WB, then ID/EX. A load followed directly by a consumer stalls one cycle. Taken branches and jumps resolve in EX and squash the two younger stages. ECALL, EBREAK, illegal encodings and misaligned accesses halt through a local trap record.
 - DOT4 uses custom-0 (`opcode=0x0b`, `funct3=0`, `funct7=0`): `rd = Σ signed8(rs1.byte[i]) × signed8(rs2.byte[i])` for `i = 0..3`, with no accumulation or saturation. The GNU assembler form is `.insn r 0x0b, 0, 0, a0, a1, a2`.
 - `tests/run.py` generates the programs, runs them on `tests/tb.sv` and compares every retirement and byte write with its own sequential model. `tests/isa_compare.py`, `tests/dot4_sweep.py` and `tests/mutants.py` add Spike, the lane sweep and the mutants.
 - `rtl/timing_top.sv` is the registered shell for synthesis and route. `rtl/board_top.sv` is the board image.
-- `scripts/build.sh` (`make all`) runs the RTL steps in Docker, then builds the textbooks, visual lab and release ZIP from `reports/`.
+- `scripts/build.sh` (`make all`) runs the RTL steps in Docker, then builds the textbooks, visual lab, figures and release ZIP from `reports/`.
 
 ## Run it
 
@@ -56,7 +68,7 @@ docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools \
 	make coverage timing isa-compare dot4-sweep mutants bench ablation board-sim board
 ```
 
-`make all` runs everything, then builds the textbooks, visual lab and `output/riscv-project.zip`. It also needs Node.js 22 or newer, Chromium and Poppler on the host. See [`docs/BUILD_ALL.md`](docs/BUILD_ALL.md), then open [`output/START-HERE.html`](output/START-HERE.html).
+`make all` runs everything, then builds the textbooks, visual lab, interactive figures and `output/riscv-project.zip`. It also needs Node.js 22 or newer, Chromium and Poppler on the host. See [`docs/BUILD_ALL.md`](docs/BUILD_ALL.md), then open [`output/START-HERE.html`](output/START-HERE.html).
 
 ## Repository layout
 
@@ -66,7 +78,7 @@ docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools \
 - `reports/`: checked-in JSON reports and raw route and synthesis logs.
 - `board/`: pin constraints for the iCE40-HX8K Breakout.
 - `docs/`: architecture, build guides, research workflow, experiment log, textbook sources and the visual-lab plan.
-- `output/`: built textbooks, visual lab, start page and release ZIP.
+- `output/`: built textbooks, visual lab, interactive figures, start page and release ZIP.
 - `assets/`: the project icon.
 
 ## Documentation

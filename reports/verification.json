@@ -71,7 +71,7 @@
   "simulator": "Verilator",
   "source_sha256": {
     "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
-    "tests/tb.sv": "237fd6f79310c2ffa698a11d146228600408f6ae41ab8313f8d4356218aa530f",
+    "tests/tb.sv": "3af0fcc9590740871eb29eb8c593f469668dbdfd7d9e93b6cbd5f65b9a99f3ca",
     "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
     "tests/run.py": "8d893c4a6b8951d0c920003efb7b1e025b75d87fa0865c5fc17efd742d755f85",
     "tests/hazards.py": "8d6dab20c3b7593de829792e06e99f61fdd3bfb2d4531c79ba63a7cd26639313"

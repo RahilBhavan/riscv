@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DOT4 unit</title><style>#fig{max-height:none!important}</style></head><body>
+<script src="core.js"></script>
+<script>/*__MODEL__*/</script>
+<script>
+/* The DOT4 unit (rtl/rv32_core.sv lines 53-55, 106) drawn as a machine on a board.
+   How it works, in the order the data moves:
+     1. rs1 and rs2 arrive as two 32-bit words. Each is split into four signed bytes: lane i is bits [8i+7:8i].
+     2. Each lane has its own multiplier: signed8(rs1 lane) x signed8(rs2 lane), a 16-bit signed product.
+     3. An adder tree sums the products: lanes 0+1 and lanes 2+3, then the two partial sums.
+     4. The sum, sign-extended to 32 bits, is written to rd. The whole unit is combinational in EX, one cycle.
+   Parts (each held by another):
+     BASE      board . two posts per register . a rail under each register
+     SOURCES   rs1: four lane blocks on its rail . rs2: four lane blocks on its rail, lower and nearer
+     BUSES     per lane: rs1 bus (down the back, along the floor) . rs2 bus . product bus . two partial-sum buses . rd bus
+     COMPUTE   four multipliers on the board . adder 0+1 . adder 2+3 . final adder . rd register
+     INSIDE    8 bit cells per lane block (bit 7 = sign) . 8 x 8 bit-product array per multiplier .
+               a carry chain per adder . 32 bit cells in rd, the high ones the sign extension
+   Lane 3 sits at the highest y, so at the front view the register reads lane 3 .. lane 0 left to right, like its hex. */
+const dmW = 138, dmD = 100, dmH = 64, dmBH = 4;
+const dmLaneY = i => 16 + 22*i;
+const dmRS1 = { x0: 8, x1: 20, z0: 50, z1: 62, rail: [47, 50], post: [11, 17] };
+const dmRS2 = { x0: 26, x1: 38, z0: 32, z1: 44, rail: [29, 32], post: [29, 35] };
+const dmMUL = { x0: 54, x1: 70, z0: dmBH, z1: 24 };
+const dmADD = [{ y0: 10, y1: 44, lanes: [0, 1] }, { y0: 54, y1: 88, lanes: [2, 3] }];
+const dmADDX = [84, 96], dmFIN = { x0: 104, x1: 116, y0: 32, y1: 68 }, dmRD = { x0: 122, x1: 134, y0: 8, y1: 92 };
+const dmAZ = 14, dmRDZ = 18;
+const dmBUSZ = 10, dmBUSR = 1.1;
+const dmC = { rs1: PALS.cobalt, rs2: PALS.tomato, rd: PALS.mint };
+const dmOFF = '#e7e1d2', dmTXT = INK;
+
+const dmBoxOf = pts => [[0,1,2].map(i => Math.min(...pts.map(p => p[i])) - dmBUSR), [0,1,2].map(i => Math.max(...pts.map(p => p[i])) + dmBUSR)];
+const dmTxZ = (x, y, z, str, size, col = INK, weight = 800) => { const o = P(x, y, z);
+  return `<text transform="${txM(o, Dv(0,-1,0), Dv(1,0,0))}" font-size="${size}" fill="${col}" text-anchor="middle" font-family="ui-monospace,Menlo,monospace" font-weight="${weight}">${str}</text>`; };
+const dmCorners = (x0,y0,z0,x1,y1,z1) => { const o = []; for (const x of [x0,x1]) for (const y of [y0,y1]) for (const z of [z0,z1]) o.push([x,y,z]); return o; };
+const dmSolid = (x0,y0,z0,x1,y1,z1,m,w = 2) => box(x0,y0,z0,x1,y1,z1,m,tone,.9) + hullInk(dmCorners(x0,y0,z0,x1,y1,z1), w);
+
+// the input data and its derived values, one place
+const dmCalc = st => dot4(pack(st.a), pack(st.b));
+const dmPaths = i => { const y = dmLaneY(i);
+  return { rs1: [[14, y + 4, dmRS1.rail[0]], [14, y + 4, dmBUSZ], [dmMUL.x0, y + 4, dmBUSZ]],
+           rs2: [[32, y - 4, dmRS2.rail[0]], [32, y - 4, dmBUSZ + 6], [dmMUL.x0, y - 4, dmBUSZ + 6]],
+           prod: [[dmMUL.x1, y, dmBUSZ], [dmADDX[0], y, dmBUSZ]] }; };
+const dmSumPaths = [
+  [[dmADDX[1], 27, dmBUSZ], [100, 27, dmBUSZ], [100, 40, dmBUSZ], [dmFIN.x0, 40, dmBUSZ]],
+  [[dmADDX[1], 71, dmBUSZ], [100, 71, dmBUSZ], [100, 60, dmBUSZ], [dmFIN.x0, 60, dmBUSZ]] ];
+const dmRdPath = [[dmFIN.x1, 50, dmBUSZ], [dmRD.x0, 50, dmBUSZ]];
+
+// one straight piece per item, so buses sort with the solids around them
+const dmBus = (pts, m) => pts.slice(1).map((p, i) => ({ box: dmBoxOf([pts[i], p]), svg: rod(pts[i], p, dmBUSR, m, toneI, .8) }));
+const dmAlong = (pts, t) => { const seg = pts.slice(1).map((p, i) => Math.hypot(...sub(p, pts[i]))), tot = seg.reduce((a, b) => a + b, 0);
+  let d = Math.max(0, Math.min(1, t)) * tot;
+  for (let i = 0; i < seg.length; i++){ if (d <= seg[i] || i === seg.length - 1){ const k = seg[i] ? Math.min(1, d / seg[i]) : 0; return pts[i].map((v, j) => v + (pts[i+1][j] - v)*k); } d -= seg[i]; }
+  return pts[pts.length - 1]; };
+const dmToken = (p, m) => { const r = 2.2; return { box: [[p[0]-r, p[1]-r, p[2]-r], [p[0]+r, p[1]+r, p[2]+r]], svg: box(p[0]-r, p[1]-r, p[2]-r, p[0]+r, p[1]+r, p[2]+r, m, toneI, 1) }; };
+
+// run phases (progress 0..1): bytes travel, products travel, partial sums travel, the sum reaches rd
+const dmPH = [0, .4, .62, .82, 1];
+const dmRdText = (x, done, r) => tx(x, 50, 10.6, done ? String(r.sum) : '...', 6, dmTXT) + tx(x, 50, 5.6, done ? hex32(r.rd) : '', 3.8, dmTXT, 700);
+const dmPhase = (st, n) => !st.running ? 1 : Math.max(0, Math.min(1, (st.run - dmPH[n]) / (dmPH[n+1] - dmPH[n])));
+const dmShown = (st, n) => !st.running || st.run >= dmPH[n+1];
+
+function dmScene(st, m){
+  const r = dmCalc(st), parts = [], put = (b, svg) => parts.push({ box: b, svg });
+  const k = ease(st.xr || 0), FRONT = facing([1,0,0]), TOP = facing([0,0,1]);
+  let s = board(2, 0, dmW, dmD, dmBH, 5);
+  const top = boardTop(2, 0, dmW, dmD, dmBH, 5);
+  // shadows: one per standing thing, on the board
+  const sh = [dmCorners(dmRS1.post[0], 4, dmBH, dmRS1.x1, 96, dmRS1.z1), dmCorners(dmRS2.post[0], 4, dmBH, dmRS2.x1, 96, dmRS2.z1),
+    ...[0,1,2,3].map(i => dmCorners(dmMUL.x0, dmLaneY(i) - 9, dmBH, dmMUL.x1, dmLaneY(i) + 9, dmMUL.z1)),
+    ...dmADD.map(a => dmCorners(dmADDX[0], a.y0, dmBH, dmADDX[1], a.y1, dmAZ)), dmCorners(dmFIN.x0, dmFIN.y0, dmBH, dmFIN.x1, dmFIN.y1, dmAZ),
+    dmCorners(dmRD.x0, dmRD.y0, dmBH, dmRD.x1, dmRD.y1, dmRDZ)];
+  s += clipTo(top, sh.map(p => castShadow(p, dmBH)).join(''));
+
+  // registers: posts, rail, lane blocks with their signed values on the front
+  for (const [R, key, vals, lbl] of [[dmRS1, 'rs1', r.a, 'RS1'], [dmRS2, 'rs2', r.b, 'RS2']]){
+    const c = dmC[key];
+    for (const [y0, y1] of [[4, 9], [91, 96]]) put([[R.post[0], y0, dmBH], [R.post[1], y1, R.rail[0]]], dmSolid(R.post[0], y0, dmBH, R.post[1], y1, R.rail[0], DARK, 1.4));
+    put([[R.x0 + 1, 4, R.rail[0]], [R.x1 - 1, 96, R.rail[1]]], dmSolid(R.x0 + 1, 4, R.rail[0], R.x1 - 1, 96, R.rail[1], DARK, 1.6));
+    for (let i = 0; i < 4; i++){ const y = dmLaneY(i);
+      let b = dmSolid(R.x0, y - 9, R.z0, R.x1, y + 9, R.z1, c, 2);
+      if (FRONT) b += tx(R.x1 + .2, y, R.z0 + 3, String(vals[i]), 5.6, dmTXT);
+      if (TOP) b += dmTxZ((R.x0 + R.x1)/2 + 1.6, y, R.z1 + .1, `${lbl} L${i}`, 3, mix(c.l, '#000000', .55));
+      put([[R.x0, y - 9, R.z0], [R.x1, y + 9, R.z1]], b); }
+  }
+  // multipliers, adders, final adder, rd
+  for (let i = 0; i < 4; i++){ const y = dmLaneY(i);
+    let b = dmSolid(dmMUL.x0, y - 9, dmMUL.z0, dmMUL.x1, y + 9, dmMUL.z1, m, 2.2);
+    if (FRONT) b += tx(dmMUL.x1 + .2, y, 15.5, dmShown(st, 0) ? String(r.products[i]) : '...', 4.6, dmTXT);
+    if (TOP) b += dmTxZ(62 + 3, y, dmMUL.z1 + .1, 'x', 10, mix(m.l, '#000000', .55));
+    put([[dmMUL.x0, y - 9, dmMUL.z0], [dmMUL.x1, y + 9, dmMUL.z1]], b); }
+  dmADD.forEach((a, n) => { const y = (a.y0 + a.y1)/2, ty = n ? 79 : 20;   // label clear of the final adder in front
+    let b = dmSolid(dmADDX[0], a.y0, dmBH, dmADDX[1], a.y1, dmAZ, m, 2.2);
+    if (FRONT) b += tx(dmADDX[1] + .2, ty, 7, dmShown(st, 1) ? String(n ? r.high : r.low) : '...', 5, dmTXT);
+    if (TOP) b += dmTxZ(90 + 3, y, dmAZ + .1, '+', 10, mix(m.l, '#000000', .55));
+    put([[dmADDX[0], a.y0, dmBH], [dmADDX[1], a.y1, dmAZ]], b); });
+  { let b = dmSolid(dmFIN.x0, dmFIN.y0, dmBH, dmFIN.x1, dmFIN.y1, dmAZ, m, 2.2);
+    if (FRONT) b += tx(dmFIN.x1 + .2, 50, 7, dmShown(st, 2) ? String(r.sum) : '...', 5, dmTXT);
+    if (TOP) b += dmTxZ(110 + 3, 50, dmAZ + .1, '+', 10, mix(m.l, '#000000', .55));
+    put([[dmFIN.x0, dmFIN.y0, dmBH], [dmFIN.x1, dmFIN.y1, dmAZ]], b); }
+  { let b = dmSolid(dmRD.x0, dmRD.y0, dmBH, dmRD.x1, dmRD.y1, dmRDZ, dmC.rd, 2.4);
+    if (FRONT) b += dmRdText(dmRD.x1 + .2, dmShown(st, 3), r);
+    if (TOP) b += dmTxZ(128 + 2, 50, dmRDZ + .1, 'RD', 6, mix(dmC.rd.l, '#000000', .55));
+    put([[dmRD.x0, dmRD.y0, dmBH], [dmRD.x1, dmRD.y1, dmRDZ]], b); }
+  // buses, coloured by the value they carry
+  for (let i = 0; i < 4; i++){ const p = dmPaths(i);
+    parts.push(...dmBus(p.rs1, dmC.rs1), ...dmBus(p.rs2, dmC.rs2), ...dmBus(p.prod, m)); }
+  for (const p of dmSumPaths) parts.push(...dmBus(p, m));
+  parts.push(...dmBus(dmRdPath, dmC.rd));
+  // tokens while running
+  if (st.running){
+    const t0 = dmPhase(st, 0), t1 = dmPhase(st, 1), t2 = dmPhase(st, 2), t3 = dmPhase(st, 3);
+    for (let i = 0; i < 4; i++){ const p = dmPaths(i);
+      if (t0 > 0 && t0 < 1){ parts.push(dmToken(dmAlong(p.rs1, t0), dmC.rs1), dmToken(dmAlong(p.rs2, t0), dmC.rs2)); }
+      if (t1 > 0 && t1 < 1) parts.push(dmToken(dmAlong(p.prod, t1), m)); }
+    if (t2 > 0 && t2 < 1) for (const p of dmSumPaths) parts.push(dmToken(dmAlong(p, t2), m));
+    if (t3 > 0 && t3 < 1) parts.push(dmToken(dmAlong(dmRdPath, t3), dmC.rd));
+  }
+  const closed = byDepth(parts);
+  if (k <= 0) return s + closed + dmLabels(st, false);
+  return s + `<g opacity="${f(1 - .78*k)}">${closed}</g><g opacity="${f(k)}">${dmInside(st, m, r)}</g>` + (k > .6 ? dmLabels(st, true) : '');
+}
+
+/* see-through: the bits inside each part, drawn as small cells over the ghosted case */
+const dmCell = (x, y, z, sx, sy, sz, col, w = .5) => ({ box: [[x - sx, y - sy, z - sz], [x + sx, y + sy, z + sz]], svg: box(x - sx, y - sy, z - sz, x + sx, y + sy, z + sz, matOf(col), toneI, w) });
+function dmInside(st, m, r){
+  const cells = [], FRONT = facing([1,0,0]);
+  const lit = c => c.l, signCol = '#3a3430';
+  for (const [R, key, vals] of [[dmRS1, 'rs1', r.a], [dmRS2, 'rs2', r.b]]){
+    const xc = (R.x0 + R.x1)/2;
+    for (let i = 0; i < 4; i++){ const y = dmLaneY(i), bits = bitsOf(vals[i], 8);
+      bits.forEach((b, j) => cells.push(dmCell(xc, y + 7 - 2*j, R.z1 - 3.2, 1.6, .8, 1.3, b ? (j === 0 ? signCol : lit(dmC[key])) : dmOFF)));
+      if (FRONT) cells.push({ box: [[R.x1, y - 9, R.z0], [R.x1 + .5, y + 9, R.z0 + 6]], svg: tx(R.x1 + .3, y, R.z0 + 3, String(vals[i]), 5.6, dmTXT) }); }
+  }
+  // bit-product array: row j is rs1's byte ANDed with bit j of rs2's byte, shifted j places
+  for (let i = 0; i < 4; i++){ const y = dmLaneY(i), A = bitsOf(r.a[i], 8).reverse(), B = bitsOf(r.b[i], 8).reverse(), xc = 62;
+    for (let j = 0; j < 8; j++) for (let c = 0; c < 8; c++){ const col = c + j, on = A[c] & B[j];
+      cells.push(dmCell(xc, y + 7.7 - col*1.1, dmMUL.z0 + 3.6 + j*2.1, 1.6, .45, .8, on ? m.l : dmOFF, .35)); }
+    if (FRONT) cells.push({ box: [[dmMUL.x1, y - 9, 12], [dmMUL.x1 + .5, y + 9, 18]], svg: tx(dmMUL.x1 + .3, y, 15.5, String(r.products[i]), 4.6, dmTXT) });
+  }
+  // carry chains: one cell per sum bit, lit where the sum's bit is 1
+  const chain = (y0, y1, x, val, width, z) => { const bits = bitsOf(val, width), p = (y1 - y0 - 2) / width;
+    bits.forEach((b, j) => cells.push(dmCell(x, y1 - 1 - p*(j + .5), z, 1.8, p*.38, 1.2, b ? m.l : dmOFF, .4))); };
+  dmADD.forEach((a, n) => { chain(a.y0, a.y1, 90, n ? r.high : r.low, 17, 11.4);
+    if (FRONT) cells.push({ box: [[dmADDX[1], a.y0, 5], [dmADDX[1] + .5, a.y1, 10]], svg: tx(dmADDX[1] + .3, n ? 79 : 20, 7, String(n ? r.high : r.low), 5, dmTXT) }); });
+  chain(dmFIN.y0, dmFIN.y1, 110, r.sum, 18, 11.4);
+  if (FRONT) cells.push({ box: [[dmFIN.x1, dmFIN.y0, 5], [dmFIN.x1 + .5, dmFIN.y1, 10]], svg: tx(dmFIN.x1 + .3, 50, 7, String(r.sum), 5, dmTXT) });
+  // rd: 32 cells; bits 31..18 copy the sign of the 18-bit sum
+  bitsOf(r.sum, 32).forEach((b, j) => { const p = (dmRD.y1 - dmRD.y0 - 4) / 32, y = dmRD.y1 - 2 - p*(j + .5);
+    cells.push(dmCell(128, y, 15.6, 1.8, p*.38, 1.2, b ? (j < 14 ? dmC.rd.m : dmC.rd.l) : dmOFF, .4)); });
+  if (FRONT) cells.push({ box: [[dmRD.x1, dmRD.y0, 4], [dmRD.x1 + .5, dmRD.y1, 13]], svg: dmRdText(dmRD.x1 + .3, true, r) });
+  return byDepth(cells);
+}
+
+function dmLabels(st, inside){
+  const run = st.running, on = n => run && dmPhase(st, n) > 0 && dmPhase(st, n) < 1;
+  const items = inside ? [
+    { at: [14, dmLaneY(3) + 7, dmRS1.z1 - 3.2], text: 'SIGN BIT', on: false },
+    { at: [14, dmLaneY(2), dmRS1.z1 - 3.2], text: 'RS1 LANE BITS', on: on(0) },
+    { at: [32, dmLaneY(1), dmRS2.z1 - 3.2], text: 'RS2 LANE BITS', on: on(0) },
+    { at: [62, dmLaneY(2), 16], text: 'BIT PRODUCTS', on: on(1) },
+    { at: [90, 27, 12.6], text: 'CARRY CHAIN', on: on(2) },
+    { at: [128, 80, 16.8], text: 'SIGN EXTENSION', on: on(3) },
+    { at: [128, 25, 16.8], text: 'RD BITS', on: on(3) },
+  ] : [
+    { at: [14, dmLaneY(3) + 9, 58], text: 'RS1', on: on(0) },
+    { at: [32, dmLaneY(3) + 9, 40], text: 'RS2', on: on(0) },
+    { at: [33, dmLaneY(0) + 4, dmBUSZ + 6], text: 'BYTE BUS', on: on(0) },
+    { at: [62, dmLaneY(0), dmMUL.z1], text: 'MULTIPLIER', on: on(1) },
+    { at: [90, 71, dmAZ], text: 'ADDER TREE', on: on(2) },
+    { at: [128, 20, dmRDZ], text: 'RD', on: on(3) },
+  ];
+  return xrCallouts(items, [0, dmW, 0, dmD, 0, dmH]);
+}
+
+/* behaviour: one state object; the page around the figure edits the lanes */
+const dmEXAMPLES = [
+  { label: 'Test case: 132', a: [-128, -1, 2, 1], b: [-1, 4, 3, 2] },
+  { label: 'Largest: 65536', a: [-128, -128, -128, -128], b: [-128, -128, -128, -128] },
+  { label: 'Smallest: -65024', a: [-128, -128, -128, -128], b: [127, 127, 127, 127] },
+  { label: 'All zero', a: [0, 0, 0, 0], b: [0, 0, 0, 0] },
+];
+const dmReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const dmTell = st => parent !== window && parent.postMessage({ fig: 'dot4', type: 'lanes', a: st.a.slice(), b: st.b.slice() }, '*');
+function dmRun(st, ui){
+  if (dmReduced){ st.running = false; return ui.flash('Motion is reduced: the result is shown at once'); }
+  st.running = true; st.run = 0;
+  ui.animate(dt => { st.run = Math.min(1, st.run + dt / 2.6); if (st.run >= 1) st.running = false; return st.running; });
+}
+let dmUI = null;
+// the engine's phone frame is tall for upright machines; this one is wider than it is tall
+window.FIG_A = () => innerWidth <= 560 ? .86 : .7;
+dmUI = mountFigure({
+  fig: '1', title: 'The DOT4 unit', turn: 'full', palette: 'mustard',
+  size: [dmW, dmD, dmH], center: [dmW/2, dmD/2],
+  state: { a: [-128, -1, 2, 1], b: [-1, 4, 3, 2], run: 1, running: false },
+  scene: dmScene,
+  stats: st => { const r = dmCalc(st), done = dmShown(st, 3); return [{ label: 'rd (int32)', value: done ? r.sum : '...' }, { label: 'hex', value: done ? hex32(r.rd) : '...', small: true }]; },
+  buttons: [
+    { label: 'Run DOT4', onClick: (st, ui) => dmRun(st, ui) },
+    { label: 'Example', choices: st => dmEXAMPLES.map(e => ({ label: e.label, current: String(e.a) === String(st.a) && String(e.b) === String(st.b),
+        onClick: (st, ui) => { st.a = e.a.slice(); st.b = e.b.slice(); dmTell(st); dmRun(st, ui); } })) },
+  ],
+  params: (st, q) => {
+    const lanes = s => { const v = (s || '').split(',').map(Number); return v.length === 4 && v.every(n => Number.isInteger(n) && n >= -128 && n <= 127) ? v : null; };
+    if (lanes(q.get('a'))) st.a = lanes(q.get('a'));
+    if (lanes(q.get('b'))) st.b = lanes(q.get('b'));
+    if (q.has('run')){ st.running = true; st.run = +q.get('run'); }
+  },
+});
+xrMount(() => dmUI, () => '');
+addEventListener('message', e => { const d = e.data || {};
+  if (d.type === 'lanes' && Array.isArray(d.a) && Array.isArray(d.b)){ dmUI.st.a = d.a.slice(); dmUI.st.b = d.b.slice(); dmUI.render(); } });
+</script></body></html>

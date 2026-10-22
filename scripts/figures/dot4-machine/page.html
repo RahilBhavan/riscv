@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DOT4, drawn as a machine</title>
+<style>
+:root{--paper:#f2efe7;--ink:#231e16;--muted:#6f6758;--rule:#d9d1c1;--rs1:#5a82c6;--rs2:#cf5038;--rd:#2f8a62;--accent:#d49c1f;--warn:#b3261e}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:40px 20px 64px}
+.mono,code,.num{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.eyebrow{font:600 12px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+h1{font-size:clamp(30px,6vw,46px);line-height:1.05;margin:0 0 14px;letter-spacing:-.02em}
+h2{font-size:24px;line-height:1.2;margin:0 0 8px;letter-spacing:-.01em}
+h3{font:700 12px/1.2 ui-monospace,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;margin:28px 0 10px;color:var(--muted)}
+p{margin:0 0 12px;max-width:62ch}
+.lede{font-size:18px}
+section{margin-top:56px;padding-top:24px;border-top:2px solid var(--ink)}
+iframe{display:block;width:100%;border:0;height:640px;margin:8px 0 4px;background:transparent}
+.hint{font-size:13px;color:var(--muted)}
+.lanes{display:grid;grid-template-columns:auto repeat(4,minmax(0,1fr));gap:6px 12px;align-items:center;margin-top:8px}
+.lanes .hd{font:700 12px ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center}
+.lanes .rl{font:700 13px ui-monospace,Menlo,monospace}
+.lane{display:flex;flex-direction:column;gap:4px;align-items:stretch}
+.lane input[type=range]{width:100%;margin:0}
+.lane input[type=number]{width:100%;font:600 15px ui-monospace,Menlo,monospace;padding:4px 6px;border:1.5px solid var(--ink);border-radius:6px;background:#fffaf0;color:var(--ink);text-align:right}
+.rs1 input[type=range]{accent-color:var(--rs1)} .rs2 input[type=range]{accent-color:var(--rs2)}
+.prod{font:700 15px ui-monospace,Menlo,monospace;text-align:right;padding:4px 7px;border-radius:6px;background:#efe6cf}
+.tree{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px}
+.tree>div{border:1.5px solid var(--ink);border-radius:8px;padding:8px 10px;background:#fffaf0}
+.tree .k{font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.tree .v{font:800 22px/1.2 ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.tree .rd{background:#dff0e6}
+.words{font:13px/1.6 ui-monospace,Menlo,monospace;color:var(--muted);margin-top:10px}
+.enc{display:grid;grid-template-columns:repeat(32,minmax(0,1fr));border:1.5px solid var(--ink);border-radius:8px;overflow:hidden;margin:8px 0 6px;background:#fffaf0}
+.enc .fld{border-left:1.5px solid var(--ink);padding:6px 4px;text-align:center;min-width:0}
+.enc .fld:first-child{border-left:0}
+.enc .nm{font:700 11px ui-monospace,Menlo,monospace;letter-spacing:.04em;overflow-wrap:anywhere}
+.enc .bits{font:600 12px ui-monospace,Menlo,monospace;letter-spacing:.08em;overflow-wrap:anywhere}
+.enc .rg{font:11px ui-monospace,Menlo,monospace;color:var(--muted)}
+.enc .op{background:#f7e3ae}
+table{border-collapse:collapse;width:100%;font-size:15px;margin-top:6px}
+th,td{text-align:right;padding:6px 8px;border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th{font:700 12px ui-monospace,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td.num{font-family:ui-monospace,Menlo,monospace}
+.bar{height:8px;background:#ddd5c4;border-radius:2px;position:relative;margin-top:4px;min-width:80px}
+.bar i{position:absolute;inset:0 auto 0 0;background:var(--ink);border-radius:2px}
+.cap{font-size:13px;color:var(--muted);margin-top:8px}
+.banner{display:inline-block;font:800 14px/1.3 ui-monospace,Menlo,monospace;letter-spacing:.04em;color:#fff;background:var(--warn);padding:8px 12px;border-radius:6px;margin:4px 0 12px}
+.leds td:first-child{font-family:ui-monospace,Menlo,monospace;font-weight:700;white-space:nowrap}
+.leds td,.leds th{text-align:left}
+footer{margin-top:56px;font-size:13px;color:var(--muted)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media (max-width:560px){
+  main{padding:24px 14px 48px}
+  .lanes{grid-template-columns:auto repeat(4,minmax(0,1fr));gap:6px 6px}
+  .lane input[type=number]{font-size:14px;padding:4px 3px}
+  .prod{font-size:12.5px;padding:4px 3px}
+  .tree{grid-template-columns:1fr}
+  .enc{grid-template-columns:repeat(32,minmax(0,1fr))}
+  .enc .nm{font-size:9px}.enc .bits{font-size:9px;letter-spacing:0}.enc .rg{font-size:8.5px}
+  table{font-size:13px} th,td{padding:5px 4px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body>
+<main>
+<p class="eyebrow">RV32I core, custom-0 extension</p>
+<h1>DOT4, drawn as a machine</h1>
+<p class="lede">One instruction multiplies four pairs of signed bytes and adds the four products. Change the bytes and follow them through each part.</p>
+
+<section aria-labelledby="h-unit">
+<h2 id="h-unit">Figure 1. The DOT4 unit</h2>
+<p>rs1 and rs2 each hold four signed bytes. Lane <span class="mono">i</span> is bits <span class="mono">[8i+7:8i]</span>. Each lane has its own multiplier. Two adders sum lanes 0 and 1 and lanes 2 and 3, and a third adds the two partial sums. rd gets the result as a signed 32-bit number. In the RTL the whole unit is combinational in the EX stage, so DOT4 takes one cycle like ADD.</p>
+<iframe id="f-dot4" title="Interactive DOT4 unit. Drag to turn it. See-through shows the bits inside each part."></iframe>
+<p class="hint">Drag the figure to turn it. See-through shows the bits inside. The bit-product array shows which bit pairs are both 1. It is not the synthesized netlist.</p>
+
+<h3>Lane bytes</h3>
+<div class="lanes" id="lanes" role="group" aria-label="Lane bytes, signed, from -128 to 127">
+  <span></span><span class="hd">Lane 3</span><span class="hd">Lane 2</span><span class="hd">Lane 1</span><span class="hd">Lane 0</span>
+</div>
+<div class="tree" aria-live="polite">
+  <div><div class="k">Lanes 0 + 1</div><div class="v" id="low"></div></div>
+  <div><div class="k">Lanes 2 + 3</div><div class="v" id="high"></div></div>
+  <div class="rd"><div class="k">rd (int32)</div><div class="v" id="sum"></div><div class="mono" id="sumhex"></div></div>
+</div>
+<p class="words" id="words"></p>
+
+<h3>Encoding</h3>
+<p><code>dot4 a0, a1, a2</code> is an R-type instruction in the custom-0 opcode space. GNU as writes it as <code>.insn r 0x0b, 0, 0, a0, a1, a2</code>. Any other funct3 or funct7 under custom-0 traps.</p>
+<div class="enc" id="enc" role="img" aria-label="Instruction fields"></div>
+<p class="cap" id="encword"></p>
+
+<h3>What DOT4 costs</h3>
+<table>
+  <thead><tr><th></th><th>DOT4 off</th><th>DOT4 on</th><th>Change</th></tr></thead>
+  <tbody>
+    <tr><td>Logic cells (of {{cost.on.available}})</td>
+      <td class="num">{{cost.off.logicCells}}<div class="bar"><i id="b-off"></i></div></td>
+      <td class="num">{{cost.on.logicCells}}<div class="bar"><i id="b-on"></i></div></td>
+      <td class="num">+{{cost.deltaCells}} (+{{cost.cellPct}}%)</td></tr>
+    <tr><td>Fmax, median MHz</td><td class="num" id="fmax-off"></td><td class="num" id="fmax-on"></td><td class="num" id="fmax-d"></td></tr>
+  </tbody>
+</table>
+<p class="cap">Post-route estimates from nextpnr for {{cost.device}}, median of {{cost.seeds}} route seeds, same core built with DOT4=0 and DOT4=1. Not measured on hardware. Source: reports/ablation.json.</p>
+</section>
+
+<section aria-labelledby="h-board">
+<h2 id="h-board">Figure 2. The iCE40-HX8K Breakout Board</h2>
+<p class="banner" role="note">Simulated. Not yet run on hardware.</p>
+<p>The board image runs the core from block RAM. It loops a self-checking program and shows the verdict on eight LEDs. Run self-test plugs in the USB cable, loads the FPGA and plays what the LEDs would show, following <span class="mono">rtl/board_top.sv</span>.</p>
+<iframe id="f-board" title="Interactive iCE40-HX8K Breakout Board. Run self-test plays the LED pattern."></iframe>
+<p class="hint">LED0 blinks at its real rate. LED1 and the pass counter assume one instruction per cycle, so they run a little fast. Part placement is simplified. The die map in see-through shows how much logic is used, not where.</p>
+
+<h3>What the LEDs mean</h3>
+<table class="leds">
+  <thead><tr><th>LED</th><th>PASS</th><th>FAIL</th></tr></thead>
+  <tbody>
+    <tr><td>LED0</td><td colspan="2">Heartbeat. Toggles every 2^{{board.rtl.heartbeatBit}} clock cycles, even during reset.</td></tr>
+    <tr><td>LED1</td><td colspan="2">Bit {{board.rtl.retireBit}} of the retired-instruction count. Stops changing if the core halts.</td></tr>
+    <tr><td>LED2</td><td>On after the first matching signature</td><td>Off</td></tr>
+    <tr><td>LED3</td><td>Off</td><td>On, latched until power-off</td></tr>
+    <tr><td>LED4 to LED7</td><td>Bits {{board.rtl.passBit}} to 16 of the pass counter, counting up</td><td>Cause: LED4 wrong signature, LED5 trap, LED6 watchdog, LED7 retire count</td></tr>
+  </tbody>
+</table>
+<p class="cap">Only the wrong-signature failure is exercised in simulation (make board-sim). The other fault choices show what their cause bit would light.</p>
+
+<h3>Board resources</h3>
+<table>
+  <thead><tr><th>Resource</th><th>Used</th><th>Available</th><th>Share</th></tr></thead>
+  <tbody id="res"></tbody>
+</table>
+<p class="cap">Post-route estimate for the full board image: core, 8 KiB program ROM, 4 KiB data RAM, checker and UART. Fmax <span id="bfmax"></span> MHz against a {{board.clockMHz}} MHz clock. Expected signature <span class="mono">0x{{board.signature}}</span>, {{board.retiredPerPass}} instructions per pass. Source: reports/board.json.</p>
+</section>
+
+<footer>
+<p>Built by scripts/figures/dot4-machine/build.mjs from rtl/rv32_core.sv, rtl/board_top.sv, reports/ablation.json and reports/board.json. Figures drawn with Colorfigures (MIT).</p>
+</footer>
+</main>
+<script>/*__MODEL__*/</script>
+<script>/*__DATA__*/</script>
+<script>
+(() => {
+const D = FIGDATA, hash = new URLSearchParams(location.hash.slice(1));
+const lanesParam = s => { const v = (s || '').split(',').map(Number); return v.length === 4 && v.every(n => Number.isInteger(n) && n >= -128 && n <= 127) ? v : null; };
+const st = { a: lanesParam(hash.get('a')) || [-128, -1, 2, 1], b: lanesParam(hash.get('b')) || [-1, 4, 3, 2] };
+const fmt = n => n.toLocaleString('en-US');
+
+// figures: each Colorfigures page reads its options from FIG_Q, so hash options pass through
+const pick = (pairs) => { const q = new URLSearchParams(); for (const [from, to] of pairs) if (hash.has(from)) q.set(to, hash.get(from)); return q; };
+const q1 = pick([['xr','xr'],['labels','labels'],['yaw','yaw'],['pitch','pitch'],['run','run'],['press','press']]);
+q1.set('a', st.a.join(',')); q1.set('b', st.b.join(','));
+const q2 = pick([['bxr','xr'],['blabels','labels'],['byaw','yaw'],['bpitch','pitch'],['t','t'],['fault','fault'],['bpress','press']]);
+const frames = { dot4: document.getElementById('f-dot4'), board: document.getElementById('f-board') };
+const mount = (el, html, q) => { el.srcdoc = html.replace('<head>', `<head><script>window.FIG_Q = ${JSON.stringify('?' + q.toString())};<\/script>`); };
+mount(frames.dot4, FIGS.dot4, q1); mount(frames.board, FIGS.board, q2);
+addEventListener('message', e => { const d = e.data || {}, el = frames[d.fig];
+  if (!el || e.source !== el.contentWindow) return;
+  if (d.type === 'height') el.style.height = Math.ceil(d.h) + 'px';
+  if (d.type === 'lanes'){ st.a = d.a.slice(); st.b = d.b.slice(); sync(false); } });
+
+// lane editor: lane 3 first, the way the register reads
+const grid = document.getElementById('lanes'), inputs = { a: [], b: [] };
+for (const [key, name] of [['a', 'rs1'], ['b', 'rs2']]){
+  const lab = document.createElement('span'); lab.className = 'rl'; lab.textContent = name; lab.style.color = `var(--${name})`; grid.appendChild(lab);
+  for (const i of [3, 2, 1, 0]){
+    const cell = document.createElement('div'); cell.className = `lane ${name}`;
+    const r = Object.assign(document.createElement('input'), { type: 'range', min: -128, max: 127, step: 1 });
+    const n = Object.assign(document.createElement('input'), { type: 'number', min: -128, max: 127, step: 1 });
+    r.setAttribute('aria-label', `${name} lane ${i}`); n.setAttribute('aria-label', `${name} lane ${i} value`);
+    const set = v => { v = Math.max(-128, Math.min(127, Math.round(+v || 0))); st[key][i] = v; sync(true); };
+    r.oninput = () => set(r.value); n.oninput = () => { if (n.value !== '' && n.value !== '-') set(n.value); }; n.onchange = () => set(n.value);
+    cell.append(r, n); grid.appendChild(cell); inputs[key][i] = { r, n };
+  }
+}
+const plab = document.createElement('span'); plab.className = 'rl'; plab.textContent = 'product'; grid.appendChild(plab);
+const prods = [];
+for (const i of [3, 2, 1, 0]){ const p = document.createElement('div'); p.className = 'prod'; grid.appendChild(p); prods[i] = p; }
+
+function sync(tellFigure){
+  const r = dot4(pack(st.a), pack(st.b));
+  for (const key of ['a', 'b']) for (let i = 0; i < 4; i++){ const { r: rg, n } = inputs[key][i];
+    if (+rg.value !== st[key][i]) rg.value = st[key][i];
+    if (document.activeElement !== n || +n.value !== st[key][i]) n.value = st[key][i]; }
+  r.products.forEach((p, i) => prods[i].textContent = fmt(p));
+  document.getElementById('low').textContent = fmt(r.low);
+  document.getElementById('high').textContent = fmt(r.high);
+  document.getElementById('sum').textContent = fmt(r.sum);
+  document.getElementById('sumhex').textContent = hex32(r.rd);
+  document.getElementById('words').textContent = `rs1 = ${hex32(pack(st.a))}   rs2 = ${hex32(pack(st.b))}   rd = ${hex32(r.rd)}`;
+  if (tellFigure && frames.dot4.contentWindow) frames.dot4.contentWindow.postMessage({ type: 'lanes', a: st.a, b: st.b }, '*');
+}
+sync(false);
+
+// encoding strip for dot4 a0, a1, a2 (x10, x11, x12)
+const word = encodeDot4(10, 11, 12), bits = (v, n) => (v >>> 0).toString(2).padStart(n, '0');
+const fields = [
+  ['funct7', 31, 25, word >>> 25, '0'], ['rs2', 24, 20, (word >>> 20) & 31, 'a2'], ['rs1', 19, 15, (word >>> 15) & 31, 'a1'],
+  ['funct3', 14, 12, (word >>> 12) & 7, '0'], ['rd', 11, 7, (word >>> 7) & 31, 'a0'], ['opcode', 6, 0, word & 127, 'custom-0'] ];
+document.getElementById('enc').innerHTML = fields.map(([nm, hi, lo, v, note]) =>
+  `<div class="fld${nm === 'opcode' ? ' op' : ''}" style="grid-column:span ${hi - lo + 1}"><div class="nm">${nm}</div><div class="bits">${bits(v, hi - lo + 1)}</div><div class="rg">${note}</div></div>`).join('');
+document.getElementById('encword').textContent = `Word ${hex32(word)}. opcode 0x${DOT4_ENCODING.opcode.toString(16).padStart(2, '0')}, funct3 ${DOT4_ENCODING.funct3}, funct7 ${DOT4_ENCODING.funct7}.`;
+
+// cost: bars share one zero-based scale (the device's logic cells)
+const c = D.cost;
+document.getElementById('b-off').style.width = (100 * c.off.logicCells / c.off.available) + '%';
+document.getElementById('b-on').style.width = (100 * c.on.logicCells / c.on.available) + '%';
+const mhz = v => `${v.fmax.toFixed(2)}<div class="cap" style="margin:0">${v.fmaxMin.toFixed(2)} to ${v.fmaxMax.toFixed(2)}</div>`;
+document.getElementById('fmax-off').innerHTML = mhz(c.off);
+document.getElementById('fmax-on').innerHTML = mhz(c.on);
+document.getElementById('fmax-d').textContent = `${c.deltaFmax.toFixed(2)} (-${c.fmaxPct}%)`;
+
+// board resources
+const B = D.board, rows = [['Logic cells', B.lc], ['Block RAM (4 Kbit)', B.ram], ['I/O pins', B.io], ['Global buffers', B.gb], ['PLL', B.pll]];
+document.getElementById('res').innerHTML = rows.map(([nm, u]) => `<tr><td>${nm}</td><td class="num">${fmt(u.used)}</td><td class="num">${fmt(u.available)}</td><td class="num">${Math.round(100 * u.used / u.available)}%<div class="bar"><i style="width:${100 * u.used / u.available}%"></i></div></td></tr>`).join('');
+document.getElementById('bfmax').textContent = B.fmax.toFixed(2);
+})();
+</script>
+</body></html>
