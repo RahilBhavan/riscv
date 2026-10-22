@@ -27,41 +27,43 @@ export function decode(word) {
   const immB = sext((((w >>> 31) & 1) << 12) | (((w >>> 7) & 1) << 11) | (((w >>> 25) & 63) << 5) | (((w >>> 8) & 15) << 1), 13);
   const immJ = sext((((w >>> 31) & 1) << 20) | (((w >>> 12) & 255) << 12) | (((w >>> 20) & 1) << 11) | (((w >>> 21) & 1023) << 1), 21);
   const x = (n) => "x" + n;
-  // uses1 and uses2 mirror uses_rs1 and uses_rs2 in rtl/rv32_core.sv.
-  const base = { word: w, op, rd, rs1, rs2, f3, uses1: false, uses2: false, writes: false, load: false, trap: false, kind: "alu" };
+  // uses_rs1 and uses_rs2 in rtl/rv32_core.sv decide by opcode alone, so illegal funct3 values still count.
+  const uses1 = [0x67, 0x63, 0x03, 0x23, 0x13, 0x33, 0x0b].includes(op);
+  const uses2 = [0x63, 0x23, 0x33, 0x0b].includes(op);
+  const base = { word: w, op, rd, rs1, rs2, f3, uses1, uses2, writes: false, load: false, trap: false, kind: "alu" };
   const illegal = { ...base, asm: ".word " + hex(w), trap: true, kind: "trap" };
   switch (op) {
     case 0x37: return { ...base, asm: `lui ${x(rd)},${hex(w >>> 12)}`, writes: true };
     case 0x17: return { ...base, asm: `auipc ${x(rd)},${hex(w >>> 12)}`, writes: true };
     case 0x6f: return { ...base, asm: `jal ${x(rd)},${immJ}`, writes: true, kind: "jump", imm: immJ };
-    case 0x67: return f3 ? illegal : { ...base, asm: `jalr ${x(rd)},${immI}(${x(rs1)})`, writes: true, uses1: true, kind: "jump", imm: immI };
+    case 0x67: return f3 ? illegal : { ...base, asm: `jalr ${x(rd)},${immI}(${x(rs1)})`, writes: true, kind: "jump", imm: immI };
     case 0x63: {
       const name = ["beq", "bne", , , "blt", "bge", "bltu", "bgeu"][f3];
-      return name ? { ...base, asm: `${name} ${x(rs1)},${x(rs2)},${immB}`, uses1: true, uses2: true, kind: "branch", imm: immB } : illegal;
+      return name ? { ...base, asm: `${name} ${x(rs1)},${x(rs2)},${immB}`, kind: "branch", imm: immB } : illegal;
     }
     case 0x03: {
       const name = ["lb", "lh", "lw", , "lbu", "lhu"][f3];
-      return name ? { ...base, asm: `${name} ${x(rd)},${immI}(${x(rs1)})`, writes: true, load: true, uses1: true, kind: "load" } : illegal;
+      return name ? { ...base, asm: `${name} ${x(rd)},${immI}(${x(rs1)})`, writes: true, load: true, kind: "load" } : illegal;
     }
     case 0x23: {
       const name = ["sb", "sh", "sw"][f3];
-      return name ? { ...base, asm: `${name} ${x(rs2)},${immS}(${x(rs1)})`, uses1: true, uses2: true, kind: "store" } : illegal;
+      return name ? { ...base, asm: `${name} ${x(rs2)},${immS}(${x(rs1)})`, kind: "store" } : illegal;
     }
     case 0x13: {
-      if (w === 0x13) return { ...base, asm: "nop", writes: true, uses1: true };
+      if (w === 0x13) return { ...base, asm: "nop", writes: true };
       const shamt = rs2;
       const names = ["addi", "slli", "slti", "sltiu", "xori", f7 === 0x20 ? "srai" : "srli", "ori", "andi"];
       if ((f3 === 1 && f7 !== 0) || (f3 === 5 && f7 !== 0 && f7 !== 0x20)) return illegal;
       const arg = f3 === 1 || f3 === 5 ? shamt : immI;
-      return { ...base, asm: `${names[f3]} ${x(rd)},${x(rs1)},${arg}`, writes: true, uses1: true };
+      return { ...base, asm: `${names[f3]} ${x(rd)},${x(rs1)},${arg}`, writes: true };
     }
     case 0x33: {
       const names = { "0,0": "add", "0,32": "sub", "1,0": "sll", "2,0": "slt", "3,0": "sltu", "4,0": "xor", "5,0": "srl", "5,32": "sra", "6,0": "or", "7,0": "and" };
       const name = names[`${f3},${f7}`];
-      return name ? { ...base, asm: `${name} ${x(rd)},${x(rs1)},${x(rs2)}`, writes: true, uses1: true, uses2: true } : illegal;
+      return name ? { ...base, asm: `${name} ${x(rd)},${x(rs1)},${x(rs2)}`, writes: true } : illegal;
     }
     case 0x0b:
-      return f3 === 0 && f7 === 0 ? { ...base, asm: `dot4 ${x(rd)},${x(rs1)},${x(rs2)}`, writes: true, uses1: true, uses2: true } : illegal;
+      return f3 === 0 && f7 === 0 ? { ...base, asm: `dot4 ${x(rd)},${x(rs1)},${x(rs2)}`, writes: true } : illegal;
     case 0x0f: return f3 === 0 && w >>> 28 === 0 ? { ...base, asm: "fence" } : illegal;
     case 0x73:
       if (w === 0x73) return { ...base, asm: "ecall", trap: true, kind: "trap" };

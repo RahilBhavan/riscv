@@ -168,8 +168,8 @@ const html = `<!doctype html>
 <section class="story" aria-labelledby="why">
   <h2 id="why">Why build one, and how</h2>
   <div class="body">
-    <p>I wanted to see how a pipeline really handles one instruction needing the result of the one right before it. And I wanted a question with a number at the end: what does it cost to add hardware for one specific job?</p>
-    <p>One thing up front. <strong>I built this with an AI coding assistant.</strong> The repo started as a placeholder README in October 2026. The RTL, tests and build flow were generated with its help. So this isn't a "look what I designed from scratch" post. It's what I learned by reading the core, measuring it and trying to break it. The <a href="${repo}#readme">README</a> says the same thing.</p>
+    <p>The project asks a question with a number at the end: what does it cost to add hardware for one specific job? Answering it means understanding how a pipeline handles one instruction that needs the result of the one right before it.</p>
+    <p>One thing up front. <strong>I built this with an AI coding assistant.</strong> The repo started as a placeholder README in October 2026. The RTL, tests and build flow were generated with its help. So this isn't a "look what I designed from scratch" post. It's about reading the core, measuring it and trying to break it. The <a href="${repo}#readme">README</a> says the same thing.</p>
   </div>
 </section>
 
@@ -265,7 +265,7 @@ rd = a0·b0 + a1·b1
       <li><strong>DOT4 sweep.</strong> All ${m.dot4Sweep.cases} single-lane input pairs run through the full core and match a scalar oracle. Sums across several lanes are covered by directed and random programs, not exhaustively.</li>
       <li><strong>Mutants.</strong> ${m.mutants.killed} of ${m.mutants.total} deliberate single-bug edits to the RTL are caught by the check meant to catch them. For example, making SRA shift in zeros instead of copying the sign bit makes the ${esc(sraMatch[1])} test write <code>${sraMatch[2]}</code> where Spike writes <code>${sraMatch[3]}</code>.</li>
     </ul>
-    <p>The mutants are the check I'd lean on most. A passing test suite says little until you've seen it fail on a real bug.</p>
+    <p>The mutants test the tests. A passing suite says little until it has been seen to fail on a real bug.</p>
     <p class="see-also">All of it as charts on the <a href="../evidence/">evidence page</a>.</p>
   </div>
 </section>
@@ -274,7 +274,7 @@ rd = a0·b0 + a1·b1
   <h2 id="open">What isn't done yet</h2>
   <div class="body">
     <ul class="plain-list">
-      <li><strong>No hardware run.</strong> A board image for the iCE40-HX8K Breakout builds, and its self-test passes in simulation. It routes at ${mhz(board('fmax_mhz'))} MHz post-route against the board's ${count(board('constraint_mhz'))} MHz oscillator. I haven't flashed it yet, so every clock number here is an estimate.</li>
+      <li><strong>No hardware run.</strong> A board image for the iCE40-HX8K Breakout builds, and its self-test passes in simulation. It routes at ${mhz(board('fmax_mhz'))} MHz post-route against the board's ${count(board('constraint_mhz'))} MHz oscillator. It has not run on a board yet, so every clock number here is an estimate.</li>
       <li><strong>No formal verification.</strong> riscv-formal and the newer ACT4 tests aren't integrated. Spike is the only external reference.</li>
       <li><strong>No real traps.</strong> There are no CSRs or trap handlers. An illegal instruction just halts the core.</li>
       <li><strong>No hardware multiply baseline.</strong> The M extension would be a stronger comparison than any software trick, and I haven't measured it.</li>

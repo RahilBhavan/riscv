@@ -12,10 +12,7 @@ for (const [name, trace] of Object.entries(traces)) {
     assert.equal(run.retired, trace.retirements, 'same retirements');
     trace.frames.forEach((rtl, i) => {
       const { cycle, stages, stall, flush, a, b } = run.frames[i];
-      const { b: rtlB, ...rtlRest } = rtl;
-      assert.deepEqual({ cycle, stages, stall, flush, a }, rtlRest, `cycle ${rtl.cycle}`);
-      // tests/tb.sv's TRACE line has 14 format specifiers for 15 values, so b prints in decimal and the report reads it as hex.
-      assert.ok(rtlB === b || rtlB === parseInt(String(b), 16), `cycle ${rtl.cycle} b: model ${b}, report ${rtlB}`);
+      assert.deepEqual({ cycle, stages, stall, flush, a, b }, rtl, `cycle ${rtl.cycle}`);
     });
   });
 }

@@ -101,7 +101,7 @@ footer{margin-top:56px;font-size:13px;color:var(--muted)}
     <tr><td>Fmax, median MHz</td><td class="num" id="fmax-off"></td><td class="num" id="fmax-on"></td><td class="num" id="fmax-d"></td></tr>
   </tbody>
 </table>
-<p class="cap">Post-route estimates from nextpnr for {{cost.device}}, median of {{cost.seeds}} route seeds, same core built with DOT4=0 and DOT4=1. Not measured on hardware. Source: reports/ablation.json.</p>
+<p class="cap">Post-route estimates from nextpnr for {{cost.device}}, median of {{cost.seeds}} route seeds, same core built with DOT4=0 and DOT4=1 by changing only that parameter. The shipped <code>make timing</code> netlist has the same logic but synthesizes slightly differently: {{cost.shipped.logicCells}} cells and {{cost.shipped.fmax}} MHz median, the figure the README quotes. Not measured on hardware. Source: reports/ablation.json.</p>
 </section>
 
 <section aria-labelledby="h-board">

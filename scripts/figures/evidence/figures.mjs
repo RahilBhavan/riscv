@@ -177,7 +177,7 @@ export function fmaxFigure(ctx, W) {
     body += line(x(v.median), cy - 12, x(v.median), cy + 12, accent ? C.accent : C.ink, 2.5);
     body += text(x(v.median), cy - 16, `median ${f(v.median, 2)}`, {size: 13, anchor: 'middle', fill: C.ink});
     for (const s of v.seeds) {
-      const tip = `${v.name} (${v.detail}), seed ${s.seed}|${f(s.mhz, 2)} MHz post-route estimate|Median of 5 seeds ${f(v.median, 2)} MHz`;
+      const tip = `${v.name} (${v.detail}), seed ${s.seed}|${f(s.mhz, 2)} MHz post-route estimate|Median of ${v.seeds.length} seeds ${f(v.median, 2)} MHz`;
       body += mark(ctx, tip, `<circle cx="${f(x(s.mhz), 1)}" cy="${cy}" r="11" fill="transparent"/><circle cx="${f(x(s.mhz), 1)}" cy="${cy}" r="5" fill="${C.gray1}" stroke="${C.bg}" stroke-width="1.5"/>`);
     }
   });

@@ -54,6 +54,7 @@ const DATA = {
     seeds: ab('seeds').length,
     on: variant('dot4_1'),
     off: variant('dot4_0'),
+    shipped: {logicCells: ab('variants.dot4_1_default_flow.logic_cells.median'), fmax: ab('variants.dot4_1_default_flow.fmax_mhz.median').toFixed(2)},
     deltaCells: ab('delta_dot4_on_minus_off.median_logic_cells'),
     deltaFmax: ab('delta_dot4_on_minus_off.median_fmax_mhz'),
     cellPct: metrics.speedup.logicCellCost,
