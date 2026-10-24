@@ -72,7 +72,7 @@ docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools \
 	make coverage timing timing-extended isa-compare dot4-sweep mutants bench ablation board-sim board
 ```
 
-riscv-formal runs in a second image layered on the first, with a pinned OSS CAD Suite and riscv-formal commit. The full run takes tens of minutes:
+riscv-formal runs in a second image layered on the first, with a pinned OSS CAD Suite and riscv-formal commit. The full run takes about six minutes on a 32-thread host:
 
 ```sh
 docker build -f formal/Dockerfile --build-arg TOOLS=rv32-tools -t rv32-formal .

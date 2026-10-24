@@ -25,7 +25,7 @@ The default `make` command also runs the full build. For individual tasks, use t
 2. Build the RTL tool image and the riscv-formal image layered on it (`formal/Dockerfile`). Both are tagged by a hash of their Dockerfiles, so two checkouts never overwrite each other's tools.
 3. Run Icarus differential tests with DOT4 on and off and on the MEXT=1 ZICSR=1 core, each program also with random memory wait states, both standalone teaching benches, 14 teaching core programs, reset tests, the exhaustive isolated-lane DOT4 sweep, the Spike comparison for both configurations, the mutants, lint, Verilator differential tests and core line coverage over both configurations.
 4. Synthesize and place/route the registered HX8K measurement shell and the extended-core shell over five seeds, run the DOT4 benchmark and the five-seed DOT4 on/off ablation, simulate and route the HX8K Breakout board image, archive raw results and export six oracle-checked cycle traces.
-5. Run the riscv-formal checks on both configurations in the formal image. This is the longest phase: tens of minutes on a 32-thread host.
+5. Run the riscv-formal checks on both configurations in the formal image. It takes about six minutes on a 32-thread host.
 6. Check README.md against the reports, then generate the 35-page overview, 14-slide review, eight textbooks, textbook archive, JavaScript model checks and eight-part Anatomy lab. Their measured numbers come from `reports/` through `scripts/textbook/metrics.mjs`.
 7. Verify source hashes, correctness reports, the timing constraint, all ten PDF page counts and readable pages, matching archive members, HTML companions and local navigation links.
 8. Write the release report, start page and complete ZIP.
