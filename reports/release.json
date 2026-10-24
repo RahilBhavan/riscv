@@ -1,22 +1,28 @@
 {
   "scope": "Complete local build: RTL regression, teaching/reset tests, lint, coverage, synthesis/route, ten PDF/HTML documents, visual models and eight-view lab. No board execution.",
-  "rtl_sha256": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
+  "rtl_sha256": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
   "verification": {
-    "programs": 252,
-    "retirement_records": 11924,
-    "line_coverage_percent": 97.37,
+    "programs": 253,
+    "retirement_records": 11928,
+    "line_coverage_percent": 100.0,
     "hazard_cross_bins": 327,
     "arch_tests_matching_spike": 39,
     "spike_random_retirements": 16908,
     "dot4_lane_cases": 262144,
-    "mutants_killed": 23
+    "mutants_killed": 38,
+    "extended_programs": 309,
+    "extended_arch_tests_matching_spike": 62,
+    "formal_checks_passed": {
+      "base": 45,
+      "extended": 53
+    }
   },
   "implementation": {
     "target": "Lattice iCE40 HX8K, CT256",
-    "internal_fmax_mhz": 33.85240173339844,
-    "lut4": 3935,
+    "internal_fmax_mhz": 37.03429412841797,
+    "lut4": 4012,
     "flip_flops": 1692,
-    "packed_logic_cells": 5497,
+    "packed_logic_cells": 5539,
     "board_tested": false,
     "route_seeds": [
       1,
@@ -25,86 +31,86 @@
       4,
       5
     ],
-    "fmax_median_mhz": 35.75770568847656,
-    "fmax_min_mhz": 33.85240173339844,
-    "fmax_max_mhz": 37.07685852050781,
+    "fmax_median_mhz": 36.045127868652344,
+    "fmax_min_mhz": 34.63203430175781,
+    "fmax_max_mhz": 37.60105514526367,
     "dot4_speedup_n": 256,
-    "dot4_speedup_vs_rv32i_qsquare": 5.274,
-    "dot4_speedup_vs_rv32i_shift": 22.609
+    "dot4_speedup_vs_rv32i_qsquare": 5.179,
+    "dot4_speedup_vs_rv32i_shift": 22.201
   },
   "board": {
-    "fmax_mhz": 36.92,
+    "fmax_mhz": 38.21,
     "constraint_mhz": 12.0,
     "board_tested": false
   },
   "implementation_artifacts": [
     {
       "path": "build/core.json",
-      "sha256": "f93a697f0a57269f735b840295ffc134c40df045e7e23c08e4cd7fc4ddc9a958"
+      "sha256": "0f50f68ad42166935f080d1b23f930eee1d7960b6af2cdd8c52ffa78235c3246"
     },
     {
       "path": "build/core.asc",
-      "sha256": "8fd17d6610bb085039110a691aad62d383bd48aeda71bcebdd8266911c795b1a"
+      "sha256": "78bd51958047965447a7e5ed9f0ceb7b2a73d1ccd94fb20efbb3c2372ea47b97"
     },
     {
       "path": "build/timing.json",
-      "sha256": "4e683c3a9d0ec3ca85494ec9228da9560260052160d24247b80e0bbb2b637845"
+      "sha256": "26b341216c65ae099c0be7bef2773286b5ae5aa4341379d1a8ac8750992afc32"
     },
     {
       "path": "build/merged.dat",
-      "sha256": "6fa27702d691fb2faee2437b5c946ac4070e7ea0c5c19accfa661138db8a4bc2"
+      "sha256": "927985a10116d50a4c2861f559e9e0a61738854056fe36fcd7aad5410e1c7934"
     }
   ],
   "documents": [
     {
       "path": "output/textbook/riscv-textbook.pdf",
       "pages": 35,
-      "sha256": "c336d4822804d67ffeec0b4413699ffba27537f1e232deb37f2a27d8bb608d55"
+      "sha256": "3557e5cf5dcbab535d6cd06e1a51d5faf041c13d023750017b9f9eda5d78d1fd"
     },
     {
       "path": "output/textbook/riscv-review-slides.pdf",
       "pages": 14,
-      "sha256": "68e0cf136b20e9208289e51c1b0384b9d247d4c8b3cf78bc92692012e86f2ca6"
+      "sha256": "26d47cb285c0e87236be33979a3e016bb8ce0934074fe80e24f4a7aa33337646"
     },
     {
       "path": "output/textbook/series/01-foundations.pdf",
       "pages": 14,
-      "sha256": "4348ac8830af11a476a4dcf4c65dfd981a868c6096c66a3689f60528164a4456"
+      "sha256": "510f34134b303f6672823ec3874d37409331fe1d73d3b7c993ddbcf6fbc89419"
     },
     {
       "path": "output/textbook/series/02-rv32i-datapath.pdf",
       "pages": 15,
-      "sha256": "da735a0bcb81f7995dbaeb3c448500586e84c907f62221998564cd519bc5fb79"
+      "sha256": "9801e86e0927708a5397093f66ab7dc0aea5a179fd7d3f65a420c227bd422811"
     },
     {
       "path": "output/textbook/series/03-pipeline.pdf",
       "pages": 14,
-      "sha256": "ef11aa0df6f25631f9ac8ce668b7571df8915fce6a94288569d872b030f73d28"
+      "sha256": "04323a92ac357ae2207cd1f0bc72c4a16919cd7a029819d2e3019d7d6769b242"
     },
     {
       "path": "output/textbook/series/04-hazards.pdf",
       "pages": 15,
-      "sha256": "e05b3005271f7bf0a1fa687fbc70616dd51e53cdaa88716cb7bc49708849836e"
+      "sha256": "9d3312eeac8dd87702bac75c01b8d05756af1a69992f2132b492da9ebc020a96"
     },
     {
       "path": "output/textbook/series/05-dot4.pdf",
       "pages": 13,
-      "sha256": "de42f4e04029850b05ed16f201e90843652e94c4ac8686b91cd3e7185636258d"
+      "sha256": "fc134ff7c07ca6ee30a19a6f71956722e680092ef3ab5833cf7093946c67d31f"
     },
     {
       "path": "output/textbook/series/06-verification.pdf",
       "pages": 15,
-      "sha256": "1701855323c6ca1191692bac178bf23ffcabf441b36c5b0ce629ec94983faf5b"
+      "sha256": "852e18257806aef2f5d6864a7149a1ce2eb455cb966b59ec0c64e231f70ff055"
     },
     {
       "path": "output/textbook/series/07-synthesis-fpga.pdf",
       "pages": 14,
-      "sha256": "ba44d08a3389cb4d2f513ad25668c247910850600a3158bf94adf9cb33750f6e"
+      "sha256": "dea1fd51ea0b81660dc3c9b4bd886ab7e03d83a0008ce80b17d3e209c87c3753"
     },
     {
       "path": "output/textbook/series/08-research-release.pdf",
       "pages": 14,
-      "sha256": "4532000625484355f5e4d8c1a1881573f6a7007f4b16ff594b67d74905e116d4"
+      "sha256": "bf52fc4d1f3b73b0dccb2ae33379deeeb45db261fefc55133c2af06b384bad2d"
     }
   ],
   "visual_views": 8,
