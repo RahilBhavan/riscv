@@ -3,7 +3,7 @@
 // DOT4=0 removes the custom unit; custom-0 then traps like any illegal encoding.
 // MEXT=1 adds the M extension on an iterative multiplier/divider.
 // ZICSR=1 adds Zicsr, machine-mode trap entry, MRET and interrupts. With ZICSR=0 a trap halts the core.
-module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit ZICSR = 0) (
+module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit ZICSR = 0, parameter [31:0] RESET_PC = 0) (
     input wire clk, input wire reset,
     output wire [31:0] imem_addr, input wire [31:0] imem_rdata,
     output wire [31:0] dmem_addr, output wire [31:0] dmem_wdata,
@@ -249,7 +249,7 @@ module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit
     integer i;
     always @(posedge clk) begin
         if (reset) begin
-            pc<=0; f_valid<=0; x_valid<=0; m_valid<=0; w_valid<=0;
+            pc<=RESET_PC; f_valid<=0; x_valid<=0; m_valid<=0; w_valid<=0;
             halted<=0; retire_valid<=0; retire_pc<=0; retire_insn<=0;
             retire_rd<=0; retire_data<=0; retire_trap<=0; retire_intr<=0;
             m_write<=0; m_load<=0; m_store_en<=0; m_trap<=0; m_intr<=0; w_write<=0; w_trap<=0; w_intr<=0;

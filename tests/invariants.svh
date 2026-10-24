@@ -61,7 +61,7 @@ task invariants_step;
         if (dut.retire_valid) begin
             if (dut.retire_insn !== program_word(dut.retire_pc)) inv_fail("retired word differs from program memory");
             if (dut.retire_trap && (dut.retire_rd != 0 || dut.retire_data != 0)) inv_fail("trap record has a register write");
-            if (!inv_have_prev && dut.retire_pc != 0) inv_fail("first retirement is not the reset PC");
+            if (!inv_have_prev && dut.retire_pc != dut.RESET_PC) inv_fail("first retirement is not the reset PC");
             // A trap record or MRET leaves program order; the handler or mepc is checked by the reference model.
             if (inv_have_prev && !inv_prev_trap && inv_prev_insn !== 32'h30200073 &&
                 !inv_successor(inv_prev_pc, inv_prev_insn, dut.retire_pc))

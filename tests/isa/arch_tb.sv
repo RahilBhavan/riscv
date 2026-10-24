@@ -2,7 +2,7 @@
 // Addresses wrap at 4 MiB, so data placed at 0x8001_0000 by a program lands at 0x1_0000.
 // +image=<hex words> +halt=<hex pc> [+sig_begin=<hex> +sig_end=<hex> +signature=<file>] [+trace] [+waits=P +wait_seed=S]
 // With ZICSR=0 any trap before the halt ECALL is a failure; with ZICSR=1 traps enter the test's handler.
-module arch_tb #(parameter MEXT = 0, parameter ZICSR = 0);
+module arch_tb #(parameter MEXT = 0, parameter ZICSR = 0, parameter [31:0] RESET_PC = 0);
     reg clk=0, reset=1;
     always #5 clk=~clk;
     wire [31:0] ia, da, dw, ri, rp, rv;
@@ -11,7 +11,7 @@ module arch_tb #(parameter MEXT = 0, parameter ZICSR = 0);
     wire dr, valid, trap, stall, flush, ivalid, intr;
     reg imem_ready=1, dmem_ready=1;
     reg [31:0] mem[0:1048575];
-    rv32_core #(.MEXT(MEXT), .ZICSR(ZICSR)) dut(clk,reset,ia,mem[ia[21:2]],da,dw,we,dr,mem[da[21:2]],valid,rp,ri,rd,rv,trap,stall,flush,
+    rv32_core #(.MEXT(MEXT), .ZICSR(ZICSR), .RESET_PC(RESET_PC)) dut(clk,reset,ia,mem[ia[21:2]],da,dw,we,dr,mem[da[21:2]],valid,rp,ri,rd,rv,trap,stall,flush,
         ivalid,imem_ready,dmem_ready,1'b0,1'b0,1'b0,intr);
     function [31:0] program_word(input [31:0] address);
         program_word = mem[address[21:2]];
