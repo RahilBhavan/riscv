@@ -69,7 +69,9 @@ module board_top #(
         .dmem_read(dmem_read), .dmem_rdata(dmem_rdata),
         .retire_valid(retire_valid), .retire_pc(retire_pc), .retire_insn(retire_insn),
         .retire_rd(retire_rd), .retire_data(retire_data), .retire_trap(retire_trap),
-        .stall_event(stall_event), .flush_event(flush_event)
+        .stall_event(stall_event), .flush_event(flush_event),
+        .imem_valid(), .imem_ready(1'b1), .dmem_ready(1'b1),
+        .irq_software(1'b0), .irq_timer(1'b0), .irq_external(1'b0), .retire_intr()
     );
 
     reg [31:0] imem [0:IMEM_WORDS-1];

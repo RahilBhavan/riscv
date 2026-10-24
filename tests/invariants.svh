@@ -10,7 +10,10 @@ reg [31:0] inv_mem_pc [0:7];
 reg inv_commit, inv_stall, inv_flush, inv_halted;
 reg [4:0] inv_rd;
 reg [31:0] inv_value, inv_pc, inv_f_pc, inv_f_insn, inv_prev_pc, inv_prev_insn;
-reg inv_f_valid;
+reg inv_f_valid, inv_prev_trap, inv_req_waiting;
+reg [31:0] inv_req_addr, inv_req_wdata;
+reg [3:0] inv_req_wstrb;
+reg inv_req_read;
 
 task inv_fail(input [8*64-1:0] what);
     begin
@@ -51,12 +54,17 @@ task invariants_step;
                 inv_fail("stall did not hold IF/ID and insert a bubble");
             if (inv_flush && (dut.f_valid || dut.x_valid)) inv_fail("flush left a younger instruction valid");
             if (inv_halted && dut.pc !== inv_pc) inv_fail("PC moved while halted");
+            if (inv_req_waiting && (dut.dmem_addr !== inv_req_addr || dut.dmem_wstrb !== inv_req_wstrb ||
+                                    dut.dmem_read !== inv_req_read || (inv_req_wstrb != 0 && dut.dmem_wdata !== inv_req_wdata)))
+                inv_fail("data request changed before ready");
         end
         if (dut.retire_valid) begin
             if (dut.retire_insn !== program_word(dut.retire_pc)) inv_fail("retired word differs from program memory");
             if (dut.retire_trap && (dut.retire_rd != 0 || dut.retire_data != 0)) inv_fail("trap record has a register write");
             if (!inv_have_prev && dut.retire_pc != 0) inv_fail("first retirement is not the reset PC");
-            if (inv_have_prev && !inv_successor(inv_prev_pc, inv_prev_insn, dut.retire_pc))
+            // A trap record or MRET leaves program order; the handler or mepc is checked by the reference model.
+            if (inv_have_prev && !inv_prev_trap && inv_prev_insn !== 32'h30200073 &&
+                !inv_successor(inv_prev_pc, inv_prev_insn, dut.retire_pc))
                 inv_fail("retirement PC breaks program order");
             if (!dut.retire_trap && (dut.retire_insn[6:0] == 7'h03 || dut.retire_insn[6:0] == 7'h23)) begin
                 if (inv_pending == 0 || inv_mem_pc[0] !== dut.retire_pc) inv_fail("load/store retired without its memory access");
@@ -64,9 +72,9 @@ task invariants_step;
                 inv_pending = inv_pending - 1;
             end else if (inv_pending != 0 && inv_mem_pc[0] === dut.retire_pc)
                 inv_fail("memory access by a non-memory or trapping instruction");
-            inv_have_prev = 1; inv_prev_pc = dut.retire_pc; inv_prev_insn = dut.retire_insn;
+            inv_have_prev = 1; inv_prev_pc = dut.retire_pc; inv_prev_insn = dut.retire_insn; inv_prev_trap = dut.retire_trap;
         end
-        if (dut.dmem_wstrb != 0 || dut.dmem_read) begin
+        if ((dut.dmem_wstrb != 0 || dut.dmem_read) && dut.dmem_ready) begin
             if (dut.dmem_wstrb != 0 && dut.dmem_read) inv_fail("load and store in the same cycle");
             if (inv_pending == 8) inv_fail("memory access queue overflow");
             inv_mem_pc[inv_pending] = dut.m_pc;
@@ -77,6 +85,8 @@ task invariants_step;
         inv_rd = dut.w_rd; inv_value = dut.w_result;
         inv_stall = dut.stall_event; inv_flush = dut.flush_event; inv_halted = dut.halted;
         inv_pc = dut.pc; inv_f_pc = dut.f_pc; inv_f_insn = dut.f_insn; inv_f_valid = dut.f_valid;
+        inv_req_waiting = (dut.dmem_wstrb != 0 || dut.dmem_read) && !dut.dmem_ready;
+        inv_req_addr = dut.dmem_addr; inv_req_wstrb = dut.dmem_wstrb; inv_req_read = dut.dmem_read; inv_req_wdata = dut.dmem_wdata;
         inv_primed = 1;
     end
 endtask

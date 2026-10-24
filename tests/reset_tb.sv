@@ -7,7 +7,7 @@ module reset_tb;
     wire dr, valid, trap, stall, flush;
     reg [31:0] insn;
     integer writes=0, cycles=0;
-    rv32_core dut(clk,reset,ia,insn,da,dw,we,dr,32'd9,valid,rp,ri,rd,rv,trap,stall,flush);
+    rv32_core dut(clk,reset,ia,insn,da,dw,we,dr,32'd9,valid,rp,ri,rd,rv,trap,stall,flush,,1'b1,1'b1,1'b0,1'b0,1'b0,);
     always @* case(ia)
         0: insn=32'h00900093;  // addi x1,x0,9
         4: insn=32'h08102023;  // sw x1,128(x0)

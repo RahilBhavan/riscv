@@ -40,7 +40,7 @@ def build():
     names = []
     for name, body in cases():
         trace, _, _ = reference(body + [EBREAK])
-        written = sorted({dest for _, _, dest, _, _ in trace if dest})
+        written = sorted({dest for _, _, dest, _, _, _ in trace if dest})
         assert not {SIG, TMP, BASE, LOADED} & set(written), name
         words += body
         for reg in written:

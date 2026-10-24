@@ -48,9 +48,9 @@ def read_regs(ins):
 
 
 def cross_bins(program, trace):
-    """Bins hit by one program, from its reference trace of (pc, ins, dest, value, trap)."""
+    """Bins hit by one program, from its reference trace of (pc, ins, dest, value, trap, intr)."""
     hit = set()
-    for i, (pc, ins, _, _, trap) in enumerate(trace):
+    for i, (pc, ins, _, _, trap, _) in enumerate(trace):
         reads = sources(ins)
         for slot, reg in reads:
             if reg == 0:

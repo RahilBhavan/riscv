@@ -13,7 +13,7 @@ module dot4_tb;
     reg [31:0] imem[0:4095];
     reg [7:0] mem[0:16383];
     wire [31:0] data_in={mem[(da+3)&16383],mem[(da+2)&16383],mem[(da+1)&16383],mem[da&16383]};
-    rv32_core dut(clk,reset,ia,imem[ia[13:2]],da,dw,we,dr,data_in,valid,rp,ri,rd,rv,trap,stall,flush);
+    rv32_core dut(clk,reset,ia,imem[ia[13:2]],da,dw,we,dr,data_in,valid,rp,ri,rd,rv,trap,stall,flush,,1'b1,1'b1,1'b0,1'b0,1'b0,);
     function [31:0] program_word(input [31:0] address);
         program_word = imem[address[13:2]];
     endfunction
