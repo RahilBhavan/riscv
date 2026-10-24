@@ -16,11 +16,11 @@
       "sweep_cases": 262144,
       "sweep_cycles": 1840145,
       "checksum": "475d6000",
-      "sweep_seconds": 85.1,
+      "sweep_seconds": 97.6,
       "custom0_encodings": 1024,
       "custom0_trapped": 1023,
       "custom0_executed": 1,
-      "encoding_seconds": 1.4
+      "encoding_seconds": 1.6
     }
   },
   "source_sha256": {
