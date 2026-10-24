@@ -12,9 +12,9 @@ PASS alu_1_0: 4 retired
 PASS imm_1_0: 3 retired
 PASS imm_1_1: 3 retired
 PASS imm_1_31: 3 retired
-PASS imm_1_31: 3 retired
-PASS imm_1_0: 3 retired
-PASS imm_1_31: 3 retired
+PASS imm_1_-1: 3 retired
+PASS imm_1_-2048: 3 retired
+PASS imm_1_2047: 3 retired
 PASS alu_2_0: 4 retired
 PASS imm_2_0: 3 retired
 PASS imm_2_1: 3 retired
@@ -41,9 +41,9 @@ PASS alu_5_32: 4 retired
 PASS imm_5_0: 3 retired
 PASS imm_5_1: 3 retired
 PASS imm_5_31: 3 retired
-PASS imm_5_31: 3 retired
-PASS imm_5_0: 3 retired
-PASS imm_5_31: 3 retired
+PASS imm_5_-1: 3 retired
+PASS imm_5_-2048: 3 retired
+PASS imm_5_2047: 3 retired
 PASS alu_6_0: 4 retired
 PASS imm_6_0: 3 retired
 PASS imm_6_1: 3 retired

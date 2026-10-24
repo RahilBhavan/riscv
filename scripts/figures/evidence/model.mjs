@@ -112,7 +112,7 @@ const tuple = name => {
 };
 const hazardsSha = createHash('sha256').update(src).digest('hex');
 need(hazardsSha === verification('source_sha256')['tests/hazards.py'],
-  'tests/hazards.py changed since reports/verification.json was written; rerun make test');
+  'tests/hazards.py changed since reports/verification.json was written; rerun make coverage (it writes reports/verification.json)');
 const producers = tuple('PRODUCERS'), slots = tuple('SLOTS'), distances = tuple('DISTANCES');
 const transfers = tuple('TRANSFERS'), events = tuple('REDIRECT_EVENTS');
 const missing = new Set(verification('hazard_cross_missing'));

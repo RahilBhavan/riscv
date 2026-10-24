@@ -169,9 +169,10 @@ def suite():
         for f7 in ([0, 32] if f3 in (0, 5) else [0]):
             yield f'alu_{f3}_{f7}', [0x800000b7, imm(0, 2, 0, -1), r(f3, 3, 1, 2, f7)] + end
         for n in (0, 1, 31, -1, -2048, 2047):
+            label = n
             if f3 in (1, 5):
-                n &= 31
-            yield f'imm_{f3}_{n}', [imm(0, 1, 0, -42), imm(f3, 2, 1, n)] + end
+                n &= 31  # shift amounts wrap, so some shift programs repeat; the label keeps names unique
+            yield f'imm_{f3}_{label}', [imm(0, 1, 0, -42), imm(f3, 2, 1, n)] + end
     yield 'srai', [imm(0, 1, 0, -128), imm(5, 2, 1, 0x403)] + end
     yield 'upper', [0x123450b7, 0xfffff117, r(0, 3, 1, 2), 0x0ff0000f] + end
     for f3 in L_NAMES:
@@ -285,17 +286,25 @@ def main():
         invariant_cycles_checked=invariant_cycles,
         invariants='tests/invariants.svh: x0 constant, register writes only from valid non-trap WB, every store/load strobe matched to the retirement of the same instruction (no squashed-path memory access), retirement PC follows program order and instruction memory, stall holds IF/ID and inserts one bubble, flush squashes IF/ID and EX, stall and flush exclusive, no fetch after halt.',
         related_reports=['reports/dot4-sweep.json', 'reports/isa-compare.json'])
-    report['simulator'] = 'Verilator' if args.verilator else 'Icarus Verilog'
-    report['source_sha256'] = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT / 'rtl/rv32_core.sv', ROOT / 'tests/tb.sv', ROOT / 'tests/invariants.svh', ROOT / 'tests/run.py', ROOT / 'tests/hazards.py']}
-    report['dot4_enabled'] = not args.no_dot4
-    report_path = BUILD / 'verification-nodot4.json' if args.no_dot4 else ROOT / 'reports' / 'verification.json'
-    report_path.write_text(json.dumps(report, indent=2) + '\n')
-    (BUILD / ('regression-nodot4.log' if args.no_dot4 else 'regression.log')).write_text('\n'.join(logs) + '\n')
+    # Check before writing, so a failing run cannot leave a plausible report and log behind.
     assert not required - hit, report
     # DOT4 producer/consumer bins cannot occur when custom-0 traps.
     assert args.no_dot4 or not report['hazard_cross_missing'], report['hazard_cross_missing']
     assert invariant_cycles > 0, 'testbench invariants did not run'
     assert stalls > 0 and flushes > 0
+    report['simulator'] = 'Verilator' if args.verilator else 'Icarus Verilog'
+    report['source_sha256'] = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in [ROOT / 'rtl/rv32_core.sv', ROOT / 'tests/tb.sv', ROOT / 'tests/invariants.svh', ROOT / 'tests/run.py', ROOT / 'tests/hazards.py']}
+    report['dot4_enabled'] = not args.no_dot4
+    # Only the Verilator DOT4=1 run (make coverage, the last run in make all) writes the committed
+    # evidence in reports/. Icarus runs write build/ only, so make test cannot change reports/.
+    commit_evidence = args.verilator and not args.no_dot4
+    report_path = ROOT / 'reports' / 'verification.json' if commit_evidence else BUILD / ('verification-nodot4.json' if args.no_dot4 else 'verification.json')
+    report_path.write_text(json.dumps(report, indent=2) + '\n')
+    (BUILD / ('regression-nodot4.log' if args.no_dot4 else 'regression.log')).write_text('\n'.join(logs) + '\n')
+    if commit_evidence:
+        # Archive next to the other raw evidence so it cannot lag verification.json.
+        (ROOT / 'reports/raw').mkdir(exist_ok=True)
+        (ROOT / 'reports/raw/regression.log').write_text('\n'.join(logs) + '\n')
     print(json.dumps(report, indent=2))
 
 
