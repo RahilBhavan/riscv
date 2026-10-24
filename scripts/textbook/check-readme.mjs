@@ -51,9 +51,35 @@ export const researchClaims = [
   `~${Math.round(Number(f.median))} MHz post-route on iCE40 HX8K`,
 ];
 
-export function checkResearch(path = new URL('../../docs/RESEARCH.md', import.meta.url)) {
-  const research = readFileSync(path, 'utf8');
-  const missing = researchClaims.filter(claim => !research.includes(claim));
+const here = rel => new URL(`../../${rel}`, import.meta.url);
+
+// Each reports/verification*.json and its reports/raw/regression*.log are written together by the
+// Verilator DOT4=1 runs (make coverage). Icarus runs from make test write build/ only.
+const REGENERATE = 'Regenerate both with: docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools make coverage';
+
+// Each raw regression log must come from the run behind its verification report.
+export function checkRegressionLog(path = here('reports/raw/regression.log'), reportPath = here('reports/verification.json')) {
+  const rel = u => String(u.pathname ?? u).replace(/^.*\/(reports\/)/, '$1');
+  const lines = readFileSync(path, 'utf8').split(/\r?\n/).filter(Boolean);
+  const report = JSON.parse(readFileSync(reportPath, 'utf8'));
+  const stale = detail => Error(`${rel(path)} disagrees with ${rel(reportPath)}: ${detail}. ${REGENERATE}`);
+  const records = lines.map(l => /^PASS (\S+): (\d+) retired(?:, and again with wait states)?$/.exec(l));
+  const bad = lines.filter((l, i) => !records[i]);
+  if (bad.length) throw stale(`${bad.length} line(s) are not "PASS <name>: <n> retired[, and again with wait states]", first: ${JSON.stringify(bad[0])}`);
+  const names = records.map(m => m[1]);
+  const duplicated = [...new Set(names.filter((n, i) => names.indexOf(n) !== i))];
+  if (duplicated.length) throw stale(`program names repeat: ${duplicated.slice(0, 5).join(', ')}`);
+  const expected = Number(report.test_cases);
+  if (names.length !== expected) throw stale(`${names.length} PASS lines, but the report counts ${expected} programs`);
+  const hazards = names.filter(n => n.startsWith('hazard_')).length;
+  if (hazards !== Number(report.hazard_programs)) throw stale(`${hazards} hazard_ programs, but the report counts ${report.hazard_programs}`);
+  const retired = records.reduce((sum, m) => sum + Number(m[2]), 0);
+  if (retired !== Number(report.retired_instructions)) throw stale(`retired counts sum to ${retired}, but the report counts ${report.retired_instructions}`);
+}
+
+export function checkResearch(path = here('docs/RESEARCH.md')) {
+  const text = readFileSync(path, 'utf8');
+  const missing = researchClaims.filter(claim => !text.includes(claim));
   if (missing.length) throw Error(`docs/RESEARCH.md is stale against reports/*.json. Update it to say:\n${missing.map(claim => `  ${claim}`).join('\n')}`);
 }
 
@@ -67,5 +93,7 @@ export function checkReadme(path = new URL('../../README.md', import.meta.url)) 
 if (import.meta.url === `file://${process.argv[1]}`) {
   checkReadme();
   checkResearch();
-  console.log(`README.md and docs/RESEARCH.md match reports/*.json (${readmeClaims.length + researchClaims.length} claims)`);
+  checkRegressionLog();
+  checkRegressionLog(here('reports/raw/regression-extended.log'), here('reports/verification-extended.json'));
+  console.log(`README.md (${readmeClaims.length} claims), docs/RESEARCH.md (${researchClaims.length}) and reports/raw/regression*.log match reports/*.json`);
 }

@@ -12,10 +12,14 @@ jobs:
           node-version: 22
       - name: Install PDF verification tools
         run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - name: Check the committed package matches the committed tree
+        run: python3 scripts/release/build.py --check-committed
       - name: Build and verify the complete project
         env:
           CHROMIUM_BIN: google-chrome
         run: make all
+      - name: Committed test evidence matches a fresh run
+        run: git diff --exit-code -- reports/verification.json reports/verification-extended.json reports/raw/regression.log reports/raw/regression-extended.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
