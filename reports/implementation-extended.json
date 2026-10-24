@@ -1,0 +1,56 @@
+{
+  "what": "Post-route estimate of the MEXT=1 ZICSR=1 core through the registered measurement shell rtl/timing_top_extended.sv on iCE40 HX8K (ct256), 12 MHz constraint. FPGA resources, not ASIC area. No board was run. The shell keeps ready and the interrupt lines as registered inputs; like timing_top it excludes memories, peripherals and external I/O timing.",
+  "lut4": 5742,
+  "flip_flops": 2004,
+  "carry": 737,
+  "logic_cells": 7472,
+  "logic_cells_available": 7680,
+  "logic_cell_percent": 97.3,
+  "fmax_mhz": {
+    "min": 33.47,
+    "median": 34.35,
+    "max": 34.57
+  },
+  "seeds": [
+    {
+      "seed": 1,
+      "fmax_mhz": 33.47,
+      "logic_cells": 7472,
+      "logic_cells_available": 7680
+    },
+    {
+      "seed": 2,
+      "fmax_mhz": 34.53,
+      "logic_cells": 7472,
+      "logic_cells_available": 7680
+    },
+    {
+      "seed": 3,
+      "fmax_mhz": 34.35,
+      "logic_cells": 7472,
+      "logic_cells_available": 7680
+    },
+    {
+      "seed": 4,
+      "fmax_mhz": 34.57,
+      "logic_cells": 7472,
+      "logic_cells_available": 7680
+    },
+    {
+      "seed": 5,
+      "fmax_mhz": 33.59,
+      "logic_cells": 7472,
+      "logic_cells_available": 7680
+    }
+  ],
+  "meets_12mhz_every_seed": true,
+  "tools": {
+    "yosys": "Yosys 0.33 (git sha1 2584903a060)",
+    "nextpnr": "\"nextpnr-ice40\" -- Next Generation Place and Route (Version 0.6-3build5)"
+  },
+  "source_sha256": {
+    "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
+    "rtl/timing_top_extended.sv": "af572136cda6db80d130db7fbc6066ca30dcc42a90060e134918c10dc659f3e9",
+    "scripts/implementation_extended.py": "57e140e325f20de9ac8a708bee1ecc7d8127b89a2e8aa906bd9874031d4529bf"
+  }
+}

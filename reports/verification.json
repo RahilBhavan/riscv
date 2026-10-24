@@ -75,7 +75,7 @@
     "reports/isa-compare.json",
     "reports/formal.json"
   ],
-  "simulator": "Icarus Verilog",
+  "simulator": "Verilator",
   "source_sha256": {
     "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
     "tests/tb.sv": "815cdf532d78c87ef1b8ac6e12f6d51d6339cf5df8b206de634dbd8cbc109b95",

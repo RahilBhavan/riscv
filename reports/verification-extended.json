@@ -121,7 +121,7 @@
   ],
   "base_programs_excluded_reason": "Each ends in a trap other than EBREAK. Under ZICSR=1 that trap enters mtvec, and these programs install no handler; extended exception_* programs cover the same faults with one.",
   "interrupt_check": "The bench drives the three interrupt lines from bits 0..2 of a store to 0x3ffc, one cycle after the store. Each interrupt the RTL takes must be enabled and pending in the reference model at that point (or before the latest instruction), with the highest-priority pending cause, and no enabled pending interrupt may stay untaken for more than 4 retirements.",
-  "simulator": "Icarus Verilog",
+  "simulator": "Verilator",
   "source_sha256": {
     "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
     "tests/tb.sv": "815cdf532d78c87ef1b8ac6e12f6d51d6339cf5df8b206de634dbd8cbc109b95",

@@ -16,17 +16,17 @@
       "sweep_cases": 262144,
       "sweep_cycles": 1840145,
       "checksum": "475d6000",
-      "sweep_seconds": 97.6,
+      "sweep_seconds": 100.0,
       "custom0_encodings": 1024,
       "custom0_trapped": 1023,
       "custom0_executed": 1,
-      "encoding_seconds": 1.6
+      "encoding_seconds": 1.5
     }
   },
   "source_sha256": {
-    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
-    "tests/dot4_tb.sv": "e1215726e7fc1bb1ce43caa169f7cfd0e243deee633ef2bfed056942ac450e6a",
-    "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
+    "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
+    "tests/dot4_tb.sv": "2a6fe46b2050cba9df275dad5253de7ac002320def9de9b8630ae37d2f730419",
+    "tests/invariants.svh": "f25ec1ed785d54efa4427096e84c734b523e9d5d9fd6694a60416136d5ec25b8",
     "tests/dot4_sweep.py": "b9d0d1e5712594964ce8c907d7e7c77faad07a3f664bcd17a4e709b62bef46f7"
   }
 }

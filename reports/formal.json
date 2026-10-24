@@ -6,7 +6,7 @@
     "base": {
       "checks": 45,
       "passed": 45,
-      "seconds": 132,
+      "seconds": 118,
       "results": [
         {
           "check": "causal_ch0",
@@ -193,7 +193,7 @@
     "extended": {
       "checks": 53,
       "passed": 53,
-      "seconds": 213,
+      "seconds": 212,
       "results": [
         {
           "check": "causal_ch0",
@@ -411,7 +411,7 @@
     }
   },
   "source_sha256": {
-    "rtl/rv32_core.sv": "1ea2f7e1be1870262576e5db6da4c7994f2b149c50e9c7a7bfcdc88677f56f88",
+    "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
     "formal/wrapper.sv": "531f166147b40a4f3f27a5ad1ac98c4509cd2f14e7397ae32baa6df73ba3662c",
     "formal/base.cfg": "037ce4d93cd05cfba4ba20c1de461c19be2b8860c774129edd290e6241a46c28",
     "formal/extended.cfg": "6b242805c55dc9e42698ffc008d9e7ba4b318f4bb935a802a457a4b57d19c082",
