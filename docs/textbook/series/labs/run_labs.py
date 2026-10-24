@@ -82,7 +82,7 @@ def main():
         assert observed == expected,(name,'retirement mismatch',output)
         assert writes == expected_writes,(name,'write mismatch',output)
         final_regs = {0:0}
-        for _,_,rd,value,trap in observed:
+        for _,_,rd,value,trap,_ in observed:
             if rd and not trap:
                 final_regs[rd] = value
         assert all(final_regs.get(rd,0)==value for rd,value in registers.items()),(name,final_regs)

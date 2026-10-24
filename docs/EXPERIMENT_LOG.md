@@ -105,3 +105,23 @@ Limiters. DOT4 spends 9 cycles per word: 7 instructions plus 2 squashed slots fo
 Limits. These are simulation cycle counts and post-route estimates for a measurement shell, not board measurements. The core assumes combinational memories; FPGA block RAM is synchronous, so a board system would add load latency that hits the LB-heavy baselines harder. The table baseline spends 2 KiB of data memory that the DOT4 version does not. Declaring the `DOT4` parameter alone moved the official seed-1 result from 37.08 MHz / 3,962 LUT4 / 5,555 cells to 33.85 MHz / 3,935 LUT4 / 5,497 cells with no logic change; a `` `ifndef `` macro would have kept the old netlist. Single-seed Fmax should not be quoted alone.
 
 Commands, in the Docker tool image: `make test timing bench ablation`. Bench takes about 3 s; the ablation runs 3 syntheses and 15 parallel nextpnr jobs in about 80 s wall on a 32-thread host at load average 30. `make test` now also runs `tests/run.py --no-dot4`, which checks all 144 programs against the DOT4=0 core with custom-0 trapping.
+
+## 2026-10-24: M extension, Zicsr and machine traps, ready handshake, riscv-formal
+
+Question: can the core take the optional features (M extension, CSRs with trap entry and interrupts, memory wait states) and a stronger external check without disturbing the published RV32I+DOT4 evidence?
+
+Design. Each feature is a parameter (`MEXT`, `ZICSR`, plus `RESET_PC`), off by default, and both memory ports gained a ready input that the board image and `timing_top` tie high. M operations run on an iterative unit, one result bit per cycle: the HX8K has no DSP blocks and the default core already used 72% of its logic cells. Every trap is taken in EX, where no older instruction can still trap and no CSR write is pending, so CSR state needs no hazard logic.
+
+Results, all from the regenerated reports:
+
+- Regression: 253 default-core programs and 309 extended-core programs pass, each also with ready withheld at random (96/256 per port per cycle). The reference model gained M, CSR, trap-entry and interrupt semantics; it checks each interrupt the RTL takes against the current MIE/mie and the highest pending cause, and fails if an enabled interrupt waits more than four retirements.
+- Spike: the extended core matches on 62/62 riscv-arch-test 3.10.0 tests (I, M and privilege) with and without wait states, and on 16,595 random-program retirements with M and CSR operations. 13 of the 62 are outside their RISCOF selection condition for this core (they target C or hardware misaligned access) and compare only differentially. The first run of `misalign-jal-01` differed by exactly 0x80000000 because the handler records absolute addresses; linking the extended core at Spike's 0x80000000 through `RESET_PC` fixed it.
+- riscv-formal (commit c992aa61, OSS CAD Suite 2026-10-24, boolector): 45/45 checks on the default core in 118 s and 53/53 on the extended core in 212 s, bounded at 20 cycles from reset (liveness 30). Depth 24 made the `reg` check run past 25 minutes; depth 20 takes 134 s, so 20 is the setting. Under `RISCV_FORMAL_ALTOPS` the M unit finishes in 4 cycles, because no 32-cycle operation can retire within depth 20 (the checks reported PREUNSAT). A planted permanent store stall fails `liveness` and a removed forwarding path fails `reg`, so neither check is vacuous.
+- Mutants: 38/38, including 4 wait-state and 11 extended-feature mutants. Line coverage over both configurations: 73/73.
+- Implementation: the default core moved to 36.05 MHz median (34.63–37.60) and 4,012 LUT4 with no change to its logic, the same synthesis-entry sensitivity noted above. The extended core uses 7,472/7,680 logic cells (97.3%) at a 34.35 MHz median (33.47–34.57).
+
+Found along the way. My first RVFI `order` counter repeated a value after a wait-state bubble; the formal `reg` check caught it on its first run. Two testbench races between ready updates and the falling-edge invariants were caught by the new "data request changed before ready" invariant. An independent review found that the reference model accepted an interrupt taken after MIE was cleared, that the benches returned correct instruction words while not ready, and a pre-existing bug: FENCE with a reserved `fm` value (FENCE.TSO) trapped instead of acting as a FENCE. All three are fixed, the first two with new mutants.
+
+Limits. Formal checks are bounded and exclude CSR instructions; M arithmetic is checked by Spike, not formally. In simulation the interrupt lines change only when a store completes. There are no counters, user mode or PMP, and no board image uses the extended core.
+
+Commands: `make all`, or in the tool images `make test isa-compare mutants coverage timing-extended` and `make formal`.

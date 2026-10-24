@@ -199,7 +199,7 @@ def main():
             off_trace, _, _ = reference(program, image, dot4=False, limit=MAX_CYCLES)
             assert off_records == off_trace, f'{name}: DOT4=0 trace differs from reference model'
             if kernel == 'dot4':
-                pc, insn, _, _, trap = off_trace[-1]
+                pc, insn, _, _, trap, _ = off_trace[-1]
                 assert trap and insn & 127 == 0x0b and pc == program.index(insn) * 4, f'{name}: DOT4=0 core did not trap at the first DOT4'
                 nodot4 = dict(traps_at_first_dot4=True, retired_including_trap=off['retired'])
             else:

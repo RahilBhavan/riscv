@@ -13,7 +13,7 @@
     "dot4_1": {
       "dot4": 1,
       "chparam": true,
-      "lut4": 4098,
+      "lut4": 4144,
       "flip_flops": 1692,
       "carry": 371,
       "synthesis_primitives": {
@@ -21,51 +21,51 @@
         "SB_DFF": 64,
         "SB_DFFESR": 1218,
         "SB_DFFSR": 410,
-        "SB_LUT4": 4098
+        "SB_LUT4": 4144
       },
       "logic_cells": {
-        "min": 5627,
-        "median": 5627,
-        "max": 5627
+        "min": 5671,
+        "median": 5671,
+        "max": 5671
       },
       "logic_cells_available": 7680,
       "fmax_mhz": {
-        "min": 34.12037658691406,
-        "median": 36.871795654296875,
-        "max": 38.74617385864258
+        "min": 34.50536346435547,
+        "median": 35.93890380859375,
+        "max": 39.11751174926758
       },
       "seeds": [
         {
           "seed": 1,
-          "fmax_mhz": 38.74617385864258,
-          "logic_cells": 5627
+          "fmax_mhz": 35.58845520019531,
+          "logic_cells": 5671
         },
         {
           "seed": 2,
-          "fmax_mhz": 37.857276916503906,
-          "logic_cells": 5627
+          "fmax_mhz": 34.50536346435547,
+          "logic_cells": 5671
         },
         {
           "seed": 3,
-          "fmax_mhz": 36.20433807373047,
-          "logic_cells": 5627
+          "fmax_mhz": 36.424564361572266,
+          "logic_cells": 5671
         },
         {
           "seed": 4,
-          "fmax_mhz": 36.871795654296875,
-          "logic_cells": 5627
+          "fmax_mhz": 35.93890380859375,
+          "logic_cells": 5671
         },
         {
           "seed": 5,
-          "fmax_mhz": 34.12037658691406,
-          "logic_cells": 5627
+          "fmax_mhz": 39.11751174926758,
+          "logic_cells": 5671
         }
       ]
     },
     "dot4_0": {
       "dot4": 0,
       "chparam": true,
-      "lut4": 3168,
+      "lut4": 3176,
       "flip_flops": 1692,
       "carry": 387,
       "synthesis_primitives": {
@@ -73,51 +73,51 @@
         "SB_DFF": 64,
         "SB_DFFESR": 1218,
         "SB_DFFSR": 410,
-        "SB_LUT4": 3168
+        "SB_LUT4": 3176
       },
       "logic_cells": {
-        "min": 4759,
-        "median": 4759,
-        "max": 4759
+        "min": 4767,
+        "median": 4767,
+        "max": 4767
       },
       "logic_cells_available": 7680,
       "fmax_mhz": {
-        "min": 39.59298324584961,
-        "median": 40.67024612426758,
-        "max": 42.33879470825195
+        "min": 40.09783935546875,
+        "median": 40.369789123535156,
+        "max": 43.25446701049805
       },
       "seeds": [
         {
           "seed": 1,
-          "fmax_mhz": 40.67024612426758,
-          "logic_cells": 4759
+          "fmax_mhz": 40.25278854370117,
+          "logic_cells": 4767
         },
         {
           "seed": 2,
-          "fmax_mhz": 39.86286926269531,
-          "logic_cells": 4759
+          "fmax_mhz": 40.09783935546875,
+          "logic_cells": 4767
         },
         {
           "seed": 3,
-          "fmax_mhz": 42.33879470825195,
-          "logic_cells": 4759
+          "fmax_mhz": 43.25446701049805,
+          "logic_cells": 4767
         },
         {
           "seed": 4,
-          "fmax_mhz": 39.59298324584961,
-          "logic_cells": 4759
+          "fmax_mhz": 40.65371322631836,
+          "logic_cells": 4767
         },
         {
           "seed": 5,
-          "fmax_mhz": 42.119449615478516,
-          "logic_cells": 4759
+          "fmax_mhz": 40.369789123535156,
+          "logic_cells": 4767
         }
       ]
     },
     "dot4_1_default_flow": {
       "dot4": 1,
       "chparam": false,
-      "lut4": 3935,
+      "lut4": 4012,
       "flip_flops": 1692,
       "carry": 427,
       "synthesis_primitives": {
@@ -125,59 +125,59 @@
         "SB_DFF": 64,
         "SB_DFFESR": 1218,
         "SB_DFFSR": 410,
-        "SB_LUT4": 3935
+        "SB_LUT4": 4012
       },
       "logic_cells": {
-        "min": 5497,
-        "median": 5497,
-        "max": 5497
+        "min": 5539,
+        "median": 5539,
+        "max": 5539
       },
       "logic_cells_available": 7680,
       "fmax_mhz": {
-        "min": 33.85240173339844,
-        "median": 35.75770568847656,
-        "max": 37.07685852050781
+        "min": 34.63203430175781,
+        "median": 36.045127868652344,
+        "max": 37.60105514526367
       },
       "seeds": [
         {
           "seed": 1,
-          "fmax_mhz": 33.85240173339844,
-          "logic_cells": 5497
+          "fmax_mhz": 37.03429412841797,
+          "logic_cells": 5539
         },
         {
           "seed": 2,
-          "fmax_mhz": 36.22138595581055,
-          "logic_cells": 5497
+          "fmax_mhz": 36.045127868652344,
+          "logic_cells": 5539
         },
         {
           "seed": 3,
-          "fmax_mhz": 35.75770568847656,
-          "logic_cells": 5497
+          "fmax_mhz": 34.63203430175781,
+          "logic_cells": 5539
         },
         {
           "seed": 4,
-          "fmax_mhz": 35.282081604003906,
-          "logic_cells": 5497
+          "fmax_mhz": 35.848716735839844,
+          "logic_cells": 5539
         },
         {
           "seed": 5,
-          "fmax_mhz": 37.07685852050781,
-          "logic_cells": 5497
+          "fmax_mhz": 37.60105514526367,
+          "logic_cells": 5539
         }
       ]
     }
   },
   "delta_dot4_on_minus_off": {
-    "lut4": 930,
+    "lut4": 968,
     "flip_flops": 0,
     "carry": -16,
-    "median_logic_cells": 868,
-    "median_fmax_mhz": -3.798
+    "median_logic_cells": 904,
+    "median_fmax_mhz": -4.431
   },
   "same_logic_netlist_spread": {
-    "lut4": 163,
+    "lut4": 132,
     "carry": -56,
-    "median_fmax_mhz": 1.114
+    "median_fmax_mhz": -0.106
   },
   "throughput_definition": "One output is one N-element int8 dot product. outputs/s = median Fmax / simulation cycles. Baselines run on dot4_0, DOT4 on dot4_1 (the chparam pair).",
   "throughput": [
@@ -186,44 +186,44 @@
       "dot4": {
         "cycles": 45,
         "core": "DOT4=1",
-        "dot_products_per_s": 819373,
-        "macs_per_s": 13109972
+        "dot_products_per_s": 798642,
+        "macs_per_s": 12778277
       },
       "rv32i_qsquare": {
         "cycles": 223,
         "core": "DOT4=0",
-        "dot_products_per_s": 182378,
-        "macs_per_s": 2918045
+        "dot_products_per_s": 181030,
+        "macs_per_s": 2896487
       },
       "speedup_vs_rv32i_qsquare": {
         "cycles": 4.956,
-        "clock_adjusted_median": 4.493,
-        "clock_adjusted_min": 3.994,
-        "clock_adjusted_max": 4.85
+        "clock_adjusted_median": 4.412,
+        "clock_adjusted_min": 3.953,
+        "clock_adjusted_max": 4.834
       },
       "rv32i_lb": {
         "cycles": 865,
         "core": "DOT4=0",
-        "dot_products_per_s": 47018,
-        "macs_per_s": 752282
+        "dot_products_per_s": 46670,
+        "macs_per_s": 746724
       },
       "speedup_vs_rv32i_lb": {
         "cycles": 19.222,
-        "clock_adjusted_median": 17.427,
-        "clock_adjusted_min": 15.491,
-        "clock_adjusted_max": 18.811
+        "clock_adjusted_median": 17.112,
+        "clock_adjusted_min": 15.334,
+        "clock_adjusted_max": 18.752
       },
       "rv32i_shift": {
         "cycles": 897,
         "core": "DOT4=0",
-        "dot_products_per_s": 45340,
-        "macs_per_s": 725445
+        "dot_products_per_s": 45005,
+        "macs_per_s": 720085
       },
       "speedup_vs_rv32i_shift": {
         "cycles": 19.933,
-        "clock_adjusted_median": 18.072,
-        "clock_adjusted_min": 16.064,
-        "clock_adjusted_max": 19.507
+        "clock_adjusted_median": 17.746,
+        "clock_adjusted_min": 15.901,
+        "clock_adjusted_max": 19.446
       }
     },
     {
@@ -231,44 +231,44 @@
       "dot4": {
         "cycles": 153,
         "core": "DOT4=1",
-        "dot_products_per_s": 240992,
-        "macs_per_s": 15423496
+        "dot_products_per_s": 234895,
+        "macs_per_s": 15033267
       },
       "rv32i_qsquare": {
         "cycles": 859,
         "core": "DOT4=0",
-        "dot_products_per_s": 47346,
-        "macs_per_s": 3030146
+        "dot_products_per_s": 46996,
+        "macs_per_s": 3007761
       },
       "speedup_vs_rv32i_qsquare": {
         "cycles": 5.614,
-        "clock_adjusted_median": 5.09,
-        "clock_adjusted_min": 4.525,
-        "clock_adjusted_max": 5.494
+        "clock_adjusted_median": 4.998,
+        "clock_adjusted_min": 4.479,
+        "clock_adjusted_max": 5.477
       },
       "rv32i_lb": {
         "cycles": 3661,
         "core": "DOT4=0",
-        "dot_products_per_s": 11109,
-        "macs_per_s": 710979
+        "dot_products_per_s": 11027,
+        "macs_per_s": 705727
       },
       "speedup_vs_rv32i_lb": {
         "cycles": 23.928,
-        "clock_adjusted_median": 21.693,
-        "clock_adjusted_min": 19.283,
-        "clock_adjusted_max": 23.416
+        "clock_adjusted_median": 21.302,
+        "clock_adjusted_min": 19.088,
+        "clock_adjusted_max": 23.343
       },
       "rv32i_shift": {
         "cycles": 3789,
         "core": "DOT4=0",
-        "dot_products_per_s": 10734,
-        "macs_per_s": 686961
+        "dot_products_per_s": 10654,
+        "macs_per_s": 681886
       },
       "speedup_vs_rv32i_shift": {
         "cycles": 24.765,
-        "clock_adjusted_median": 22.452,
-        "clock_adjusted_min": 19.958,
-        "clock_adjusted_max": 24.235
+        "clock_adjusted_median": 22.047,
+        "clock_adjusted_min": 19.756,
+        "clock_adjusted_max": 24.159
       }
     },
     {
@@ -276,57 +276,58 @@
       "dot4": {
         "cycles": 585,
         "core": "DOT4=1",
-        "dot_products_per_s": 63029,
-        "macs_per_s": 16135350
+        "dot_products_per_s": 61434,
+        "macs_per_s": 15727110
       },
       "rv32i_qsquare": {
         "cycles": 3403,
         "core": "DOT4=0",
-        "dot_products_per_s": 11951,
-        "macs_per_s": 3059531
+        "dot_products_per_s": 11863,
+        "macs_per_s": 3036928
       },
       "speedup_vs_rv32i_qsquare": {
         "cycles": 5.817,
-        "clock_adjusted_median": 5.274,
-        "clock_adjusted_min": 4.688,
-        "clock_adjusted_max": 5.693
+        "clock_adjusted_median": 5.179,
+        "clock_adjusted_min": 4.64,
+        "clock_adjusted_max": 5.675
       },
       "rv32i_lb": {
         "cycles": 14077,
         "core": "DOT4=0",
-        "dot_products_per_s": 2889,
-        "macs_per_s": 739617
+        "dot_products_per_s": 2868,
+        "macs_per_s": 734153
       },
       "speedup_vs_rv32i_lb": {
         "cycles": 24.063,
-        "clock_adjusted_median": 21.816,
-        "clock_adjusted_min": 19.392,
-        "clock_adjusted_max": 23.549
+        "clock_adjusted_median": 21.422,
+        "clock_adjusted_min": 19.196,
+        "clock_adjusted_max": 23.475
       },
       "rv32i_shift": {
         "cycles": 14589,
         "core": "DOT4=0",
-        "dot_products_per_s": 2788,
-        "macs_per_s": 713660
+        "dot_products_per_s": 2767,
+        "macs_per_s": 708388
       },
       "speedup_vs_rv32i_shift": {
         "cycles": 24.938,
-        "clock_adjusted_median": 22.609,
-        "clock_adjusted_min": 20.098,
-        "clock_adjusted_max": 24.405
+        "clock_adjusted_median": 22.201,
+        "clock_adjusted_min": 19.894,
+        "clock_adjusted_max": 24.329
       }
     }
   ],
   "rtl_sha256": {
-    "rtl/board_top.sv": "21f8d30a0a356d839e2ce914f4d3aa2e4cffe3d6f5d0fec19880dbe0fe05b3a4",
-    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
-    "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
+    "rtl/board_top.sv": "bd7522fe79ee64ece53c34a83c2eb0b7f72becac04543c26fcd287a42d51eafe",
+    "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
+    "rtl/timing_top.sv": "3a80b8fb11ed28a358e290a16a6aed7c515382a838bad2525e8cd77db3b65681",
+    "rtl/timing_top_extended.sv": "af572136cda6db80d130db7fbc6066ca30dcc42a90060e134918c10dc659f3e9"
   },
   "benchmark_sources": {
-    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
-    "tests/tb.sv": "3af0fcc9590740871eb29eb8c593f469668dbdfd7d9e93b6cbd5f65b9a99f3ca",
-    "tests/run.py": "8d893c4a6b8951d0c920003efb7b1e025b75d87fa0865c5fc17efd742d755f85",
-    "scripts/bench.py": "cc2bfc0a479f0b39dceb3df0b667e64069403b86e4a16590943fb03a9ed0dd3d"
+    "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
+    "tests/tb.sv": "815cdf532d78c87ef1b8ac6e12f6d51d6339cf5df8b206de634dbd8cbc109b95",
+    "tests/run.py": "b9654dc257c9e0e3a7a971dedcaccb779abfa73d97ec554efda2a550dfd999f7",
+    "scripts/bench.py": "9b51403008fd406a19f4b2a372e7ea93488a42d39a3409e67ebb6d502a62ef02"
   },
   "tools": {
     "yosys": "Yosys 0.33 (git sha1 2584903a060)",

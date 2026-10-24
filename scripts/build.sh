@@ -26,9 +26,14 @@ run_phase() {
         return 1
     fi
 }
-run_phase tools docker build -t rv32-tools .
-run_phase rtl docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools \
-    make test learning-labs reset-test dot4-sweep isa-compare mutants lint coverage timing bench ablation board-sim board visual-evidence
+# Tags follow the Dockerfiles' contents, so builds of different checkouts never overwrite each other's tools.
+tools_image=rv32-tools:$(sha256sum Dockerfile | cut -c1-12)
+formal_image=rv32-formal:$(cat Dockerfile formal/Dockerfile | sha256sum | cut -c1-12)
+run_phase tools docker build -t "$tools_image" .
+run_phase formal-tools docker build -f formal/Dockerfile --build-arg TOOLS="$tools_image" -t "$formal_image" .
+run_phase rtl docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" "$tools_image" \
+    make test learning-labs reset-test dot4-sweep isa-compare mutants lint coverage timing timing-extended bench ablation board-sim board visual-evidence
+run_phase formal docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" -w /work "$formal_image" make formal
 run_phase learning make -j1 textbook textbook-series visual-models visual-lab figures
 run_phase release python3 scripts/release/build.py
 touch build/project/SUCCESS

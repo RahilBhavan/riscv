@@ -26,7 +26,10 @@ RUN curl -fsSL -o /tmp/arch-test.tar.gz https://github.com/riscv-non-isa/riscv-a
     && tar xzf /tmp/arch-test.tar.gz -C /opt/riscv-arch-test --strip-components=1 \
        riscv-arch-test-${ARCH_TEST_TAG}/riscv-test-suite/env \
        riscv-arch-test-${ARCH_TEST_TAG}/riscv-test-suite/rv32i_m/I \
+       riscv-arch-test-${ARCH_TEST_TAG}/riscv-test-suite/rv32i_m/M \
+       riscv-arch-test-${ARCH_TEST_TAG}/riscv-test-suite/rv32i_m/privilege \
        riscv-arch-test-${ARCH_TEST_TAG}/COPYING.BSD riscv-arch-test-${ARCH_TEST_TAG}/COPYING.APACHE \
     && echo "${ARCH_TEST_TAG} ${ARCH_TEST_SHA256}" > /opt/riscv-arch-test/VERSION \
     && rm /tmp/arch-test.tar.gz
 WORKDIR /work
+

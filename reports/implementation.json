@@ -7,14 +7,14 @@
   "io_constraints": "Unconstrained package I/O; registered shell, no external timing closure",
   "fmax": {
     "clk$SB_IO_IN_$glb_clk": {
-      "achieved": 33.85240173339844,
+      "achieved": 37.03429412841797,
       "constraint": 12
     }
   },
   "utilization": {
     "ICESTORM_LC": {
       "available": 7680,
-      "used": 5497
+      "used": 5539
     },
     "ICESTORM_PLL": {
       "available": 2,
@@ -42,13 +42,14 @@
     "SB_DFF": 64,
     "SB_DFFESR": 1218,
     "SB_DFFSR": 410,
-    "SB_LUT4": 3935
+    "SB_LUT4": 4012
   },
   "flip_flops": 1692,
   "rtl_sha256": {
-    "rtl/board_top.sv": "21f8d30a0a356d839e2ce914f4d3aa2e4cffe3d6f5d0fec19880dbe0fe05b3a4",
-    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
-    "rtl/timing_top.sv": "64fdb69fa9e4fd62dae300acbe410dde0bc1e18d52cbaba87325337a3fec21bd"
+    "rtl/board_top.sv": "bd7522fe79ee64ece53c34a83c2eb0b7f72becac04543c26fcd287a42d51eafe",
+    "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
+    "rtl/timing_top.sv": "3a80b8fb11ed28a358e290a16a6aed7c515382a838bad2525e8cd77db3b65681",
+    "rtl/timing_top_extended.sv": "af572136cda6db80d130db7fbc6066ca30dcc42a90060e134918c10dc659f3e9"
   },
   "tools": {
     "yosys": "Yosys 0.33 (git sha1 2584903a060)",
