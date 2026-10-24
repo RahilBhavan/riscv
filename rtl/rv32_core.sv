@@ -76,7 +76,11 @@ module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit
     reg [63:0] md_acc;
     reg [31:0] md_div, md_a;
 `ifdef RISCV_FORMAL_ALTOPS
+    // riscv-formal's stand-in operations replace the arithmetic; a short count keeps M checks within the proof depth.
     reg [31:0] md_alt;
+    localparam [5:0] MD_CYCLES = 4;
+`else
+    localparam [5:0] MD_CYCLES = 32;
 `endif
     wire md_active = md_busy || md_done;
     wire irq = ZICSR && mstatus_mie && pending != 0 && x_valid && !md_active;
@@ -283,7 +287,7 @@ module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit
                 if (ex_hold) begin
                     m_valid<=0; x_a<=a; x_b<=b;
                     if (!md_busy) begin
-                        md_busy<=1; md_count<=32; md_f3<=funct3; md_a<=a; md_zero<=b==0;
+                        md_busy<=1; md_count<=MD_CYCLES; md_f3<=funct3; md_a<=a; md_zero<=b==0;
                         md_neg<=funct3[2] && funct3[1] ? md_a_neg : md_a_neg ^ md_b_neg;
                         md_acc<={32'b0, md_a_neg ? -a : a}; md_div<=md_b_neg ? -b : b;
 `ifdef RISCV_FORMAL_ALTOPS

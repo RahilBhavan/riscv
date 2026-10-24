@@ -446,7 +446,8 @@ def check(name, program, command, dot4=True, mext=False, zicsr=False, plusargs=(
     """Run one program on a simulator command; raise AssertionError on any divergence from reference()."""
     path = BUILD / f'{name}.hex'
     path.write_text(''.join(f'{word:08x}\n' for word in program))
-    proc = subprocess.run(command + [f'+program={path}', '+coverage=' + str(BUILD / (name + '.dat')), *plusargs], capture_output=True, text=True)
+    coverage = BUILD / f"{name}{'-waits' if plusargs else ''}{'-extended' if zicsr else ''}.dat"
+    proc = subprocess.run(command + [f'+program={path}', f'+coverage={coverage}', *plusargs], capture_output=True, text=True)
     if proc.returncode:
         raise AssertionError(f'{name}: simulator failed: {proc.stdout[-600:]}{proc.stderr[-600:]}')
     observed, writes, intr_at, cause = [], [], {}, None
@@ -490,7 +491,7 @@ def main():
     if not args.verilator:
         subprocess.run(['iverilog', '-g2012', '-s', 'tb', *(f'-Ptb.{k}={v}' for k, v in params.items()), '-o', str(sim),
                         'rtl/rv32_core.sv', 'tests/tb.sv'], cwd=ROOT, check=True)
-    command = [str(BUILD / 'obj_dir' / 'Vtb')] if args.verilator else ['vvp', str(sim)]
+    command = [str(BUILD / ('obj_dir_extended' if args.extended else 'obj_dir') / 'Vtb')] if args.verilator else ['vvp', str(sim)]
     import hazards
     hit, cases, retired, stalls, flushes = set(), 0, 0, 0, 0
     cross_hit, hazard_programs, invariant_cycles, waited_cycles, excluded = set(), 0, 0, 0, []

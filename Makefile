@@ -121,7 +121,9 @@ coverage:
 	mkdir -p build
 	rm -f build/*.dat
 	verilator --cc --exe --build --timing --coverage-line -Wno-fatal --top-module tb --Mdir build/obj_dir rtl/rv32_core.sv tests/tb.sv $(CURDIR)/tests/coverage_main.cpp
+	verilator --cc --exe --build --timing --coverage-line -Wno-fatal --top-module tb -GMEXT=1 -GZICSR=1 --Mdir build/obj_dir_extended rtl/rv32_core.sv tests/tb.sv $(CURDIR)/tests/coverage_main.cpp
 	python3 tests/run.py --verilator
+	python3 tests/run.py --verilator --extended
 	verilator_coverage --write build/merged.dat build/*.dat
 	python3 scripts/coverage.py
 
