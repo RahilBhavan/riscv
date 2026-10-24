@@ -10,8 +10,10 @@ module arch_tb #(parameter MEXT = 0, parameter ZICSR = 0, parameter [31:0] RESET
     wire [3:0] we;
     wire dr, valid, trap, stall, flush, ivalid, intr;
     reg imem_ready=1, dmem_ready=1;
+    reg [31:0] lfsr=32'h1;
     reg [31:0] mem[0:1048575];
-    rv32_core #(.MEXT(MEXT), .ZICSR(ZICSR), .RESET_PC(RESET_PC)) dut(clk,reset,ia,mem[ia[21:2]],da,dw,we,dr,mem[da[21:2]],valid,rp,ri,rd,rv,trap,stall,flush,
+    // While a port is not ready it returns noise, so a core that ignores ready reads garbage.
+    rv32_core #(.MEXT(MEXT), .ZICSR(ZICSR), .RESET_PC(RESET_PC)) dut(clk,reset,ia,imem_ready ? mem[ia[21:2]] : lfsr,da,dw,we,dr,dmem_ready ? mem[da[21:2]] : ~lfsr,valid,rp,ri,rd,rv,trap,stall,flush,
         ivalid,imem_ready,dmem_ready,1'b0,1'b0,1'b0,intr);
     function [31:0] program_word(input [31:0] address);
         program_word = mem[address[21:2]];
@@ -19,7 +21,6 @@ module arch_tb #(parameter MEXT = 0, parameter ZICSR = 0, parameter [31:0] RESET
     `include "tests/invariants.svh"
 
     integer i, cycles=0, max_cycles=2000000, out, waits=0;
-    reg [31:0] lfsr=32'h1;
     reg [31:0] halt, sig_begin, sig_end;
     reg [1023:0] image, signature;
     reg trace;

@@ -46,7 +46,7 @@ Each page is self-contained and reads its numbers from `reports/` and its cycle-
 ## How it works
 
 - `rtl/rv32_core.sv` is the core. EX takes operands from EX/MEM, then MEM/WB, then ID/EX. A load followed directly by a consumer stalls one cycle. Taken branches and jumps resolve in EX and squash the two younger stages. ECALL, EBREAK, illegal encodings and misaligned accesses halt through a local trap record. With ZICSR=1 they enter `mtvec` instead, and interrupts enter between instructions.
-- With MEXT=1, an iterative unit computes each M operation in 32 cycles while EX holds. Either memory port can hold the pipeline by withholding `ready`; [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) gives the interface contract.
+- With MEXT=1, an iterative unit computes each M operation while EX holds for 34 cycles. Either memory port can hold the pipeline by withholding `ready`; [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) gives the interface contract.
 - DOT4 uses custom-0 (`opcode=0x0b`, `funct3=0`, `funct7=0`): `rd = Σ signed8(rs1.byte[i]) × signed8(rs2.byte[i])` for `i = 0..3`, with no accumulation or saturation. The GNU assembler form is `.insn r 0x0b, 0, 0, a0, a1, a2`.
 - `tests/run.py` generates the programs, runs them on `tests/tb.sv` and compares every retirement and byte write with its own sequential model. `tests/isa_compare.py`, `tests/dot4_sweep.py` and `tests/mutants.py` add Spike, the lane sweep and the mutants. `scripts/formal.py` runs riscv-formal with `formal/wrapper.sv`.
 - `rtl/timing_top.sv` and `rtl/timing_top_extended.sv` are the registered shells for synthesis and route. `rtl/board_top.sv` is the board image.
@@ -120,7 +120,7 @@ The regression programs are generated in Python and use no external data.
 - This is independent educational work. It is not affiliated with RISC-V International, Lattice or any lab named in the docs.
 - The project started from a placeholder README with no earlier core draft. The implementation was generated with assistant support.
 - All FPGA timing figures are post-route estimates. No board has run the core (`board_tested: false` in `reports/board.json`).
-- The core assumes separate instruction and data memories that answer in the cycle `ready` is high, with at most one outstanding request per port. ZICSR=1 adds machine mode only: no user mode, delegation, counters (`mcycle`, `minstret`) or PMP. FENCE is a no-op, and FENCE.I is absent.
+- The core assumes separate instruction and data memories that answer in the cycle `ready` is high, with at most one outstanding request per port. ZICSR=1 adds machine mode only: no user mode, delegation, counters (`mcycle`, `minstret`) or PMP. In simulation the interrupt lines change only when a store completes. FENCE is a no-op, and FENCE.I is absent.
 - The formal checks are bounded, exclude CSR instructions and check M arithmetic only through Spike. The project has no ACT4 integration and no certification.
 - The board image and the published figures use the default core. The extended core has not been built into a board image.
 - The DOT4 speedup covers one kernel. The table baseline also uses 2 KiB of data memory that DOT4 does not.

@@ -87,7 +87,7 @@ def reference(program, memory=None, dot4=True, limit=20000, mext=False, zicsr=Fa
     csr = dict(mie_bit=0, mpie=0, mie=0, mtvec=0, mscratch=0, mepc=0, mcause=0, mtval=0)
     pc = 0
     trace, writes, bins = [], [], set()
-    waiting = pending = 0
+    waiting, line_store, lines_before = 0, False, 0
 
     def mip():
         lines = memory[IRQ_ADDR] & 7 if zicsr else 0
@@ -100,19 +100,22 @@ def reference(program, memory=None, dot4=True, limit=20000, mext=False, zicsr=Fa
 
     for _ in range(limit):
         ins = program[pc // 4] if pc // 4 < len(program) else 0x13
-        before = pending if trace else 0
-        pending = mip() & csr['mie'] if csr['mie_bit'] else 0
+        enabled = csr['mie'] if csr['mie_bit'] else 0
+        pending = mip() & enabled
+        # The lines change one cycle after their store, so right after it the RTL may still act on the old lines,
+        # but always under the current MIE and mie.
+        seen = [pending] + ([lines_before & enabled] if line_store else [])
         if len(trace) in intr_at:
             code = intr_at[len(trace)]
-            assert code >> 31 and (pending | before) >> (code & 31) & 1, \
-                f'interrupt {code:#x} taken at retirement {len(trace)} (pc {pc:#x}) while not enabled and pending'
-            assert not pending or code & 31 == next(bit for _, bit in IRQ_LINES if pending >> bit & 1), 'interrupt priority'
+            assert code >> 31 and any(code & 31 == next((bit for _, bit in IRQ_LINES if s >> bit & 1), None) for s in seen), \
+                f'interrupt {code:#x} taken at retirement {len(trace)} (pc {pc:#x}) while not the highest enabled pending cause'
             trace.append((pc, ins, 0, 0, 1, 1))
             bins.add(f'interrupt:{code & 31}')
             pc = enter(code, 0, pc)
-            waiting = 0
+            waiting, line_store = 0, False
             continue
         waiting = waiting + 1 if pending else 0
+        lines_before, stores_before = mip(), len(writes)
         assert waiting <= IRQ_LATENCY, f'enabled interrupt pending for {waiting} retirements without being taken (pc {pc:#x})'
         op, rd, f3 = ins & 127, (ins >> 7) & 31, (ins >> 12) & 7
         ra, rb, f7 = (ins >> 15) & 31, (ins >> 20) & 31, ins >> 25
@@ -207,7 +210,7 @@ def reference(program, memory=None, dot4=True, limit=20000, mext=False, zicsr=Fa
             trap = f3 != 0 or f7 != 0
             dest, value, name = rd, sum(signed(a >> (8 * k), 8) * signed(b >> (8 * k), 8) for k in range(4)), 'dot4'
         elif op == 0x0f:
-            trap = f3 != 0 or ins >> 28 != 0
+            trap = f3 != 0  # reserved fm values, FENCE.TSO included, act as a plain FENCE
             name = 'fence'
         elif op == 0x73 and ins in (ECALL, EBREAK):
             trap = True
@@ -221,7 +224,7 @@ def reference(program, memory=None, dot4=True, limit=20000, mext=False, zicsr=Fa
         elif op == 0x73 and zicsr and f3 in CSR_NAMES:
             address = ins >> 20
             readable = {0x300: (csr['mie_bit'] << 3) | (csr['mpie'] << 7) | 0x1800,
-                        0x301: 0x40000100 | (0x1000 if mext else 0), 0x304: csr['mie'], 0x305: csr['mtvec'], 0x310: 0,
+                        0x301: 0x40000100 | (0x1000 if mext else 0) | (0x800000 if dot4 else 0), 0x304: csr['mie'], 0x305: csr['mtvec'], 0x310: 0,
                         0x340: csr['mscratch'], 0x341: csr['mepc'], 0x342: csr['mcause'], 0x343: csr['mtval'], 0x344: mip(),
                         0xf11: 0, 0xf12: 0, 0xf13: 0, 0xf14: 0, 0xf15: 0}
             src = ra if f3 & 4 else a
@@ -258,6 +261,7 @@ def reference(program, memory=None, dot4=True, limit=20000, mext=False, zicsr=Fa
         else:
             value = 0
         trace.append((pc, ins, dest, value, int(trap), 0))
+        line_store = any(addr == IRQ_ADDR for addr, _ in writes[stores_before:])
         if trap and (not zicsr or ins == EBREAK):
             return trace, writes, bins
         pc = enter(cause, tval & MASK, pc) if trap else nxt
@@ -278,6 +282,7 @@ def suite():
             yield f'imm_{f3}_{n}', [imm(0, 1, 0, -42), imm(f3, 2, 1, n)] + end
     yield 'srai', [imm(0, 1, 0, -128), imm(5, 2, 1, 0x403)] + end
     yield 'upper', [0x123450b7, 0xfffff117, r(0, 3, 1, 2), 0x0ff0000f] + end
+    yield 'fence_tso', [imm(0, 1, 0, 5), 0x8330000f, imm(0, 2, 1, 1)] + end
     for f3 in L_NAMES:
         for offset in range(0, 4, 1 << (f3 & 3)):
             yield f'load_{f3}_{offset}', [0x80ff80b7, imm(0, 1, 1, 127), store(2, 0, 1, 128), imm(f3, 2, 0, 128 + offset, 3), r(0, 3, 2, 1), store(2, 0, 3, 136)] + end
@@ -408,6 +413,9 @@ def extended_suite():
     # The handler rewrites x31, so an M operation cut off by an interrupt must restart on the new value.
     yield 'interrupt_md_operand', with_handler(enable + li(31, 12345) + raise_lines(4) + [r(0, 5, 31, 31, 1), r(4, 6, 31, 5, 1)] +
                                                [imm(0, 2, 2, 1)] * 4)
+    # Disabling interrupts right after raising a line: the RTL must not take it once MIE is clear.
+    yield 'interrupt_disabled_after_raise', with_handler(enable + raise_lines(4) + [csr(7, 0, 8, MSTATUS)] + [imm(0, 2, 2, 1)] * 4 +
+                                                         [csr(6, 0, 8, MSTATUS)] + [imm(0, 2, 2, 1)] * 4)
     yield 'interrupt_after_mret', with_handler(enable[:-1] + raise_lines(1) + [ECALL] + [imm(0, 2, 2, 1)] * 4)
     for seed in range(30):
         rng = random.Random(5000 + seed)

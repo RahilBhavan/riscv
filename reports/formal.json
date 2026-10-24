@@ -1,0 +1,420 @@
+{
+  "scope": "riscv-formal bounded model checks of the RVFI trace. Each check starts from reset and covers every input sequence up to its depth in cycles (formal/<config>.cfg); it is not an unbounded proof. Instruction words, load data, both ready signals and the interrupt lines are unconstrained. The extended core runs with RISCV_FORMAL_ALTOPS, so M operations are checked as riscv-formal's alternative add/sub-and-xor operations: this verifies their decode, operand forwarding and hold logic, not the multiply/divide arithmetic, which tests/isa_compare.py compares with Spike. CSR instructions report no RVFI CSR ports, so the csrw and csr_ill checks do not run; the extended regression and the privilege suite cover CSR behavior.",
+  "riscv_formal": "c992aa61fdfe0846c5ed90324c596202a1c69b76",
+  "oss_cad_suite": "20261024",
+  "configurations": {
+    "base": {
+      "checks": 45,
+      "passed": 45,
+      "seconds": 132,
+      "results": [
+        {
+          "check": "causal_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "cover",
+          "status": "PASS"
+        },
+        {
+          "check": "ill_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_add_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_addi_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_and_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_andi_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_auipc_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_beq_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bge_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bgeu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_blt_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bltu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bne_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_jal_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_jalr_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lb_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lbu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lh_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lhu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lui_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lw_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_or_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_ori_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sb_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sh_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sll_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_slli_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_slt_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_slti_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sltiu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sltu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sra_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_srai_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_srl_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_srli_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sub_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sw_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_xor_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_xori_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "liveness_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "pc_bwd_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "pc_fwd_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "reg_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "unique_ch0",
+          "status": "PASS"
+        }
+      ]
+    },
+    "extended": {
+      "checks": 53,
+      "passed": 53,
+      "seconds": 213,
+      "results": [
+        {
+          "check": "causal_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "cover",
+          "status": "PASS"
+        },
+        {
+          "check": "ill_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_add_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_addi_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_and_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_andi_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_auipc_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_beq_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bge_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bgeu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_blt_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bltu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_bne_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_div_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_divu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_jal_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_jalr_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lb_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lbu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lh_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lhu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lui_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_lw_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_mul_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_mulh_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_mulhsu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_mulhu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_or_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_ori_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_rem_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_remu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sb_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sh_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sll_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_slli_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_slt_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_slti_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sltiu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sltu_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sra_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_srai_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_srl_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_srli_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sub_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_sw_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_xor_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "insn_xori_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "liveness_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "pc_bwd_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "pc_fwd_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "reg_ch0",
+          "status": "PASS"
+        },
+        {
+          "check": "unique_ch0",
+          "status": "PASS"
+        }
+      ]
+    }
+  },
+  "source_sha256": {
+    "rtl/rv32_core.sv": "1ea2f7e1be1870262576e5db6da4c7994f2b149c50e9c7a7bfcdc88677f56f88",
+    "formal/wrapper.sv": "531f166147b40a4f3f27a5ad1ac98c4509cd2f14e7397ae32baa6df73ba3662c",
+    "formal/base.cfg": "037ce4d93cd05cfba4ba20c1de461c19be2b8860c774129edd290e6241a46c28",
+    "formal/extended.cfg": "6b242805c55dc9e42698ffc008d9e7ba4b318f4bb935a802a457a4b57d19c082",
+    "scripts/formal.py": "6876a7e8d1b4d342895343682828d48012b3941656578599a90d792cacf37349"
+  }
+}

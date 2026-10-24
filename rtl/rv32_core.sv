@@ -64,7 +64,7 @@ module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit
     wire [31:0] mstatus = {19'b0, 2'b11, 3'b0, mstatus_mpie, 3'b0, mstatus_mie, 3'b0};
     wire [31:0] mip = {20'b0, irq_external, 3'b0, irq_timer, 3'b0, irq_software, 3'b0};
     wire [31:0] mie = {20'b0, mie_meie, 3'b0, mie_mtie, 3'b0, mie_msie, 3'b0};
-    wire [31:0] misa = 32'h40000100 | (MEXT ? 32'h00001000 : 32'h0);
+    wire [31:0] misa = 32'h40000100 | (MEXT ? 32'h00001000 : 32'h0) | (DOT4 ? 32'h00800000 : 32'h0);
     wire [31:0] pending = mip & mie;
     wire [3:0] irq_cause = pending[11] ? 4'd11 : pending[3] ? 4'd3 : 4'd7;
 
@@ -190,7 +190,7 @@ module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit
             end
             // custom-0: dot4 rd,rs1,rs2, signed packed int8 -> signed int32.
             7'h0b: begin wr=1; result=dot; legal=DOT4 && funct3==0 && funct7==0; end
-            7'h0f: legal=funct3==0 && x_insn[31:28]==0; // base FENCE, reserved fields ignored
+            7'h0f: legal=funct3==0; // base FENCE; reserved fm values, FENCE.TSO included, act as a plain FENCE
             7'h73: begin
                 if (funct3==0) begin
                     // ECALL and EBREAK trap. Under ZICSR, MRET returns and WFI is a no-op.

@@ -33,7 +33,7 @@ WB-to-ID bypass handles a register read coinciding with its write edge. x0 does 
 
 ## Instruction behavior
 
-Implemented integer operations: LUI, AUIPC, JAL, JALR; BEQ, BNE, BLT, BGE, BLTU, BGEU; LB, LH, LW, LBU, LHU; SB, SH, SW; ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI; ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND. Base FENCE is a no-op under this in-order, single-hart, strongly ordered memory contract. MEXT=1 adds the M operations; each takes 32 cycles in EX, one result bit per cycle. FENCE.I, compressed instructions, user and supervisor modes and virtual memory are absent.
+Implemented integer operations: LUI, AUIPC, JAL, JALR; BEQ, BNE, BLT, BGE, BLTU, BGEU; LB, LH, LW, LBU, LHU; SB, SH, SW; ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI; ADD, SUB, SLL, SLT, SLTU, XOR, SRL, SRA, OR, AND. Base FENCE is a no-op under this in-order, single-hart, strongly ordered memory contract; reserved `fm` values, FENCE.TSO included, act as a plain FENCE. MEXT=1 adds the M operations; each holds EX for 34 cycles: one to start, 32 that each produce one result bit, and one to hand the result on. FENCE.I, compressed instructions, user and supervisor modes and virtual memory are absent.
 
 With ZICSR=0, ECALL and EBREAK emit a trap record and halt. Unsupported encodings and misaligned data accesses/taken instruction targets also emit a trap and halt without the faulting operation's register/memory side effect. Reassert reset to resume. The fetch address must always have a valid instruction response from the environment. There is no access-fault handshake.
 
@@ -44,7 +44,7 @@ The core runs in machine mode only. CSRRW, CSRRS, CSRRC and their immediate form
 | CSR | Behavior |
 |---|---|
 | `mstatus` (0x300) | MIE and MPIE are writable; MPP reads as 3; other bits read 0. |
-| `misa` (0x301) | Read-only: RV32, I, and M when MEXT=1. |
+| `misa` (0x301) | Read-only: RV32, I, M when MEXT=1, and X (non-standard extension) when DOT4=1. |
 | `mie` (0x304), `mip` (0x344) | MSIE/MTIE/MEIE are writable; `mip` shows the three interrupt inputs and ignores writes. |
 | `mtvec` (0x305) | Direct (mode 0) or vectored (mode 1); bit 1 reads 0. |
 | `mscratch`, `mcause`, `mtval` (0x340, 0x342, 0x343) | Fully writable. |
@@ -53,9 +53,9 @@ The core runs in machine mode only. CSRRW, CSRRS, CSRRC and their immediate form
 
 Every trap is taken in EX. An exception writes `mepc` (the faulting instruction), `mcause`, `mtval` (the instruction word for an illegal instruction, the PC for EBREAK, the address for a misaligned access or target, 0 for ECALL), copies MIE to MPIE, clears MIE and jumps to `mtvec`. The trap record still retires with `retire_trap` set, then the handler's instructions. MRET restores MIE from MPIE, sets MPIE and jumps to `mepc`. WFI is a no-op.
 
-An interrupt is taken when `mstatus.MIE` is set and an enabled input is pending, before the instruction in EX, which then retires as a record with `retire_trap` and `retire_intr` set and no effect. External (cause 11) wins over software (3), which wins over timer (7). Vectored mode adds 4×cause to the base for interrupts. An M operation that has started is not interrupted; the interrupt waits for it to finish. CSR writes take effect at the EX edge, so the next instruction sees them; no instruction older than EX can trap or change a CSR.
+An interrupt is taken when `mstatus.MIE` is set and an enabled input is pending, before the instruction in EX, which then retires as a record with `retire_trap` and `retire_intr` set and no effect. External (cause 11) wins over software (3), which wins over timer (7). Vectored mode adds 4×cause to the base for interrupts. An M operation that has started is not interrupted; the interrupt waits for it to finish. There are no counters: `mcycle`, `minstret`, `mcountinhibit` and the user-level `cycle`/`instret` are illegal, so start-up code that reads them traps. CSR writes take effect at the EX edge, so the next instruction sees them; no instruction older than EX can trap or change a CSR.
 
-These limitations are why the public description says **educational RV32I execution core**, not certified full-system processor. The Python oracle was written independently of the RTL but is maintained in this same project, so both could share a mistaken reading of the ISA. External references narrow that risk. `make isa-compare` runs the riscv-arch-test 3.10.0 suites and seeded random programs on both the core and Spike, then compares signatures and commit logs (`reports/isa-compare.json`). `make formal` runs riscv-formal's bounded checks on the RVFI trace (`reports/formal.json`). Spike is the only reference simulator, the suites are the older RISCOF-format release, not ACT4, and the formal checks are bounded and exclude CSR instructions.
+These limitations are why the public description says **educational RV32I execution core**, not certified full-system processor. The Python oracle was written independently of the RTL but is maintained in this same project, so both could share a mistaken reading of the ISA. External references narrow that risk. `make isa-compare` runs the riscv-arch-test 3.10.0 suites and seeded random programs on both the core and Spike, then compares signatures and commit logs (`reports/isa-compare.json`). `make formal` runs riscv-formal's bounded checks on the RVFI trace (`reports/formal.json`). Spike is the only reference simulator, the suites are the older RISCOF-format release, not ACT4, and the formal checks are bounded and exclude CSR instructions. In simulation the interrupt lines change only when a store to the bench's interrupt register completes, so interrupts arriving during a stall or flush are covered only by the formal checks, which do not check the CSR values they write.
 
 ## Memory contract
 

@@ -10,14 +10,16 @@ module tb #(parameter DOT4 = 1, parameter MEXT = 0, parameter ZICSR = 0);
     wire [3:0] we;
     wire dr, valid, trap, stall, flush, ivalid, intr;
     reg imem_ready=1, dmem_ready=1;
+    reg [31:0] lfsr=32'h1;
     reg [2:0] irq_lines=0;
     reg [31:0] imem[0:4095];
     reg [7:0] mem[0:16383];
-    wire [31:0] data_in={mem[(da+3)&16383],mem[(da+2)&16383],mem[(da+1)&16383],mem[da&16383]};
-    rv32_core #(.DOT4(DOT4), .MEXT(MEXT), .ZICSR(ZICSR)) dut(clk,reset,ia,imem[ia[13:2]],da,dw,we,dr,data_in,
+    // While a port is not ready it returns noise, so a core that ignores ready reads garbage.
+    wire [31:0] data_in=dmem_ready ? {mem[(da+3)&16383],mem[(da+2)&16383],mem[(da+1)&16383],mem[da&16383]} : ~lfsr;
+    wire [31:0] insn_in=imem_ready ? imem[ia[13:2]] : lfsr;
+    rv32_core #(.DOT4(DOT4), .MEXT(MEXT), .ZICSR(ZICSR)) dut(clk,reset,ia,insn_in,da,dw,we,dr,data_in,
         valid,rp,ri,rd,rv,trap,stall,flush,ivalid,imem_ready,dmem_ready,irq_lines[0],irq_lines[1],irq_lines[2],intr);
     integer i, cycles=0, max_cycles=200000, waits=0;
-    reg [31:0] lfsr=32'h1;
     reg [1023:0] program_file, data_file;
     function [31:0] program_word(input [31:0] address);
         program_word = imem[address[13:2]];
