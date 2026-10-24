@@ -59,7 +59,7 @@ docker build -t rv32-tools .
 docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools make test lint reset-test
 ```
 
-`make test` runs the regression in Icarus with DOT4=1 and again with DOT4=0. On 2026-10-21, 252 programs pass in each run, lint is clean and `make reset-test` passes. `make coverage` reruns the programs in Verilator. The tests rewrite files in `reports/` and `build/`.
+`make test` runs the regression in Icarus with DOT4=1 and again with DOT4=0. On 2026-10-21, 252 programs pass in each run, lint is clean and `make reset-test` passes. `make coverage` reruns the programs in Verilator. `make test` writes only to `build/`; the Verilator run in `make coverage` also writes the committed `reports/verification.json` and `reports/raw/regression.log`, so that is the command that regenerates them.
 
 The other evidence targets use the same image:
 
@@ -110,7 +110,7 @@ The regression programs are generated in Python and use no external data.
 - The core assumes separate instruction and data memories with combinational reads. It has no CSRs, interrupts, privileged traps or memory wait states. FENCE is a no-op, and FENCE.I is absent.
 - The project has no formal verification (riscv-formal with RVFI), no ACT4 integration and no certification.
 - The DOT4 speedup covers one kernel. The table baseline also uses 2 KiB of data memory that DOT4 does not.
-- `reports/raw/regression.log` is from an older 144-program run. The current figures are in `reports/verification.json`.
+- `reports/raw/regression.log` is written by the same `tests/run.py` run as `reports/verification.json`. `scripts/textbook/check-readme.mjs` checks that it holds one PASS line per program counted there.
 
 ## License
 
