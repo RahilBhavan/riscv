@@ -37,6 +37,18 @@ export const readmeClaims = [
   `~${Math.round(Number(f.median))} MHz post-route on iCE40 HX8K`,
 ];
 
+// docs/RESEARCH.md repeats the headline outreach line; it must carry the same rounded figures.
+export const researchClaims = [
+  `is ${x.vsQsquare}× faster on a dot-product kernel`,
+  `~${Math.round(Number(f.median))} MHz post-route on iCE40 HX8K`,
+];
+
+export function checkResearch(path = new URL('../../docs/RESEARCH.md', import.meta.url)) {
+  const research = readFileSync(path, 'utf8');
+  const missing = researchClaims.filter(claim => !research.includes(claim));
+  if (missing.length) throw Error(`docs/RESEARCH.md is stale against reports/*.json. Update it to say:\n${missing.map(claim => `  ${claim}`).join('\n')}`);
+}
+
 export function checkReadme(path = new URL('../../README.md', import.meta.url)) {
   const readme = readFileSync(path, 'utf8');
   const missing = readmeClaims.filter(claim => !readme.includes(claim));
@@ -46,5 +58,6 @@ export function checkReadme(path = new URL('../../README.md', import.meta.url)) 
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   checkReadme();
-  console.log(`README.md matches reports/*.json (${readmeClaims.length} claims)`);
+  checkResearch();
+  console.log(`README.md and docs/RESEARCH.md match reports/*.json (${readmeClaims.length + researchClaims.length} claims)`);
 }
