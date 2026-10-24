@@ -399,12 +399,15 @@ def extended_suite():
     for lines in range(1, 8):
         yield f'interrupt_{lines}', with_handler(enable + raise_lines(lines) + [imm(0, 2, 2, 1)] * 6 + [csr(2, 3, 0, MCAUSE)])
     yield 'interrupt_vectored', with_handler(li(2, HANDLER | 1) + [csr(1, 0, 2, MTVEC)] + enable +
-                                             sum((raise_lines(lines) + [imm(0, 2, 2, 1)] * 4 for lines in (1, 2, 4, 6, 7)), []))
+                                             sum((raise_lines(lines) + [imm(0, 2, 2, 1)] * 4 for lines in (1, 2, 4, 6, 7)), []) + [ECALL, 0xffffffff])
     yield 'interrupt_masked', with_handler(li(1, 0x888) + [csr(1, 0, 1, MIE)] + raise_lines(5) + [0x13] * 3 +
                                            [csr(2, 3, 0, MIP), csr(7, 0, 8, MIE)] + [0x13] * 4 + [csr(6, 0, 8, MSTATUS)] +
                                            [imm(0, 2, 2, 1)] * 4 + li(1, 0x800) + [csr(2, 0, 1, MIE)] + [imm(0, 2, 2, 1)] * 4)
     yield 'interrupt_during_md', with_handler(enable + li(1, -12345) + li(2, 77) + raise_lines(4) + [r(4, 3, 1, 2, 1), r(6, 4, 1, 2, 1)] +
                                               raise_lines(2) + [r(1, 5, 1, 2, 1), r(0, 6, 5, 3)] + [imm(0, 2, 2, 1)] * 4)
+    # The handler rewrites x31, so an M operation cut off by an interrupt must restart on the new value.
+    yield 'interrupt_md_operand', with_handler(enable + li(31, 12345) + raise_lines(4) + [r(0, 5, 31, 31, 1), r(4, 6, 31, 5, 1)] +
+                                               [imm(0, 2, 2, 1)] * 4)
     yield 'interrupt_after_mret', with_handler(enable[:-1] + raise_lines(1) + [ECALL] + [imm(0, 2, 2, 1)] * 4)
     for seed in range(30):
         rng = random.Random(5000 + seed)
