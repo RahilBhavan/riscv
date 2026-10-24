@@ -9,7 +9,7 @@ Run `make all` from the repository root. This runs the real RTL tools, checks th
 - Chromium available as `chromium`, or set `CHROMIUM_BIN` to its executable.
 - Poppler tools `pdfinfo` and `pdftotext` for document checks.
 
-The existing Dockerfile pins the Linux distribution to Ubuntu 24.04 and installs Icarus, Verilator, Yosys and nextpnr-ice40. These packages come from that distribution's repositories; tool versions are recorded in the evidence. The image also builds Spike from a pinned commit and adds a RISC-V cross-compiler and the riscv-arch-test 3.10.0 sources for the external ISA comparison. The regression programs themselves are encoded in Python and need no compiler.
+The existing Dockerfile pins the Linux distribution to Ubuntu 24.04 and installs Icarus, Verilator, Yosys and nextpnr-ice40. These packages come from that distribution's repositories; tool versions are recorded in the evidence. The image also builds Spike from a pinned commit and adds a RISC-V cross-compiler and the riscv-arch-test 3.10.0 RV32I, M and privilege sources for the external ISA comparison. `formal/Dockerfile` adds a pinned OSS CAD Suite (SymbiYosys and SMT solvers) and riscv-formal commit; synthesis and timing keep using the Ubuntu Yosys. The regression programs themselves are encoded in Python and need no compiler.
 
 ```sh
 git clone https://github.com/RahilBhavan/riscv.git
@@ -22,14 +22,15 @@ The default `make` command also runs the full build. For individual tasks, use t
 ## Build order
 
 1. Check required tools and acquire an exclusive full-build lock.
-2. Build the RTL tool image.
-3. Run Icarus differential tests with DOT4 on and off, both standalone teaching benches, 14 teaching core programs, reset tests, the exhaustive isolated-lane DOT4 sweep, the Spike comparison, the mutants, lint, Verilator differential tests and core line coverage.
-4. Synthesize and place/route the registered HX8K measurement shell, run the DOT4 benchmark and the five-seed DOT4 on/off ablation, simulate and route the HX8K Breakout board image, archive raw results and export six oracle-checked cycle traces.
-5. Check README.md against the reports, then generate the 35-page overview, 14-slide review, eight textbooks, textbook archive, JavaScript model checks and eight-part Anatomy lab. Their measured numbers come from `reports/` through `scripts/textbook/metrics.mjs`.
-6. Verify source hashes, correctness reports, the timing constraint, all ten PDF page counts and readable pages, matching archive members, HTML companions and local navigation links.
-7. Write the release report, start page and complete ZIP.
+2. Build the RTL tool image and the riscv-formal image layered on it (`formal/Dockerfile`). Both are tagged by a hash of their Dockerfiles, so two checkouts never overwrite each other's tools.
+3. Run Icarus differential tests with DOT4 on and off and on the MEXT=1 ZICSR=1 core, each program also with random memory wait states, both standalone teaching benches, 14 teaching core programs, reset tests, the exhaustive isolated-lane DOT4 sweep, the Spike comparison for both configurations, the mutants, lint, Verilator differential tests and core line coverage over both configurations.
+4. Synthesize and place/route the registered HX8K measurement shell and the extended-core shell over five seeds, run the DOT4 benchmark and the five-seed DOT4 on/off ablation, simulate and route the HX8K Breakout board image, archive raw results and export six oracle-checked cycle traces.
+5. Run the riscv-formal checks on both configurations in the formal image. This is the longest phase: tens of minutes on a 32-thread host.
+6. Check README.md against the reports, then generate the 35-page overview, 14-slide review, eight textbooks, textbook archive, JavaScript model checks and eight-part Anatomy lab. Their measured numbers come from `reports/` through `scripts/textbook/metrics.mjs`.
+7. Verify source hashes, correctness reports, the timing constraint, all ten PDF page counts and readable pages, matching archive members, HTML companions and local navigation links.
+8. Write the release report, start page and complete ZIP.
 
-Each phase stops on failure. Logs are `build/project/tools.log`, `rtl.log`, `learning.log` and `release.log`. `build/project/SUCCESS` is written only after every phase passes and is removed before a rebuild begins. Do not run other build targets concurrently with the full build; the full-build lock protects against another `make all` invocation.
+Each phase stops on failure. Logs are `build/project/tools.log`, `formal-tools.log`, `rtl.log`, `formal.log`, `learning.log` and `release.log`. `build/project/SUCCESS` is written only after every phase passes and is removed before a rebuild begins. Do not run other build targets concurrently with the full build; the full-build lock protects against another `make all` invocation.
 
 ## Outputs
 

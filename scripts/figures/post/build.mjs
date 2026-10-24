@@ -276,11 +276,11 @@ rd = a0·b0 + a1·b1
   <div class="body">
     <ul class="plain-list">
       <li><strong>No hardware run.</strong> A board image for the iCE40-HX8K Breakout builds, and its self-test passes in simulation. It routes at ${mhz(board('fmax_mhz'))} MHz post-route against the board's ${count(board('constraint_mhz'))} MHz oscillator. It has not run on a board yet, so every clock number here is an estimate.</li>
-      <li><strong>No formal verification.</strong> riscv-formal and the newer ACT4 tests aren't integrated. Spike is the only external reference.</li>
-      <li><strong>No real traps.</strong> There are no CSRs or trap handlers. An illegal instruction just halts the core.</li>
-      <li><strong>No hardware multiply baseline.</strong> The M extension would be a stronger comparison than any software trick, and I haven't measured it.</li>
+      <li><strong>Formal checks are bounded.</strong> riscv-formal's checks pass to 20 cycles from reset, but they leave out CSR instructions, and the newer ACT4 tests aren't integrated. Spike is the only reference simulator.</li>
+      <li><strong>The extras aren't in these numbers.</strong> A ZICSR=1 build adds machine-mode traps and interrupts, and MEXT=1 adds a multiplier that takes 32 cycles per operation. The board image and every figure here use the default core.</li>
+      <li><strong>No hardware multiply baseline.</strong> The M extension now exists, but I haven't run the dot-product benchmark against it.</li>
     </ul>
-    <p class="question">Next test: flash the board, run the self-test at ${count(board('constraint_mhz'))} MHz and check the signature against simulation. Then build RV32IM and see how much of the ${m.speedup.vsQsquare}× survives a real multiply.</p>
+    <p class="question">Next test: flash the board, run the self-test at ${count(board('constraint_mhz'))} MHz and check the signature against simulation. Then run the benchmark on the MEXT=1 core and see how much of the ${m.speedup.vsQsquare}× survives a real multiply.</p>
   </div>
 </section>
 
