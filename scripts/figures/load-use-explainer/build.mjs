@@ -26,20 +26,26 @@ const regressionPrograms = need(verification, 'test_cases', 'reports/verificatio
 const mutants = need(report('mutation'), 'results', 'reports/mutation.json');
 if (!/cycles = retired \+ load_use_stalls \+ 2 \* flushes \+ 3/.test(identity)) fail(`benchmark cycle_identity changed: "${identity}"`);
 
-// RTL excerpts, checked against the line numbers the page cites.
+// RTL excerpts and the line numbers the page cites, found by the text on each line.
 const rtl = read('rtl/rv32_core.sv').split('\n');
-const excerpt = (from, to, marker) => {
-  const lines = rtl.slice(from - 1, to);
-  if (!lines.join('\n').includes(marker)) fail(`rtl/rv32_core.sv lines ${from}-${to} no longer contain "${marker}"`);
-  return { from, lines };
+const at = marker => {
+  const index = rtl.findIndex(line => line.includes(marker));
+  if (index < 0) fail(`rtl/rv32_core.sv no longer contains "${marker}"`);
+  return index + 1;
 };
+const L = {
+  forward: at('Newest producer wins'), wbRs1: at('if (rs1 == w_rd) a = w_result;'), memIf: at('if (m_valid && m_write && !m_load'),
+  memRs1: at('if (rs1 == m_rd) a = m_result;'), fop: at('wire [6:0] f_op'), hazard: at('wire hazard = f_valid && x_valid && ld'),
+  event: at('assign stall_event ='), redirect: at('if(redirect || fault) begin'), stall: at('end else if(hazard) begin'),
+  bypass: at('WB-to-ID bypass'), load: at("7'h03: begin"), clear: at('if (trap || irq) begin wr=0'),
+};
+const span = (from, to) => ({ from, lines: rtl.slice(from - 1, to) });
 const code = {
-  forward: excerpt(38, 49, 'if (m_valid && m_write && !m_load'),
-  hazard: excerpt(114, 118, 'wire hazard = f_valid && x_valid && ld'),
-  event: excerpt(123, 124, 'assign stall_event = hazard && !redirect && !fault'),
-  priority: excerpt(165, 170, 'end else if(hazard) begin'),
+  forward: span(L.forward, L.forward + 11),
+  hazard: span(L.fop, L.hazard + 1),
+  event: span(L.event, L.event + 1),
+  priority: span(L.redirect, L.stall + 1),
 };
-excerpt(173, 177, 'WB-to-ID bypass');
 
 // Pipeline charts. Rows are instructions by PC; cells say which stage holds that PC in each cycle.
 const label = (words, pc) => pc / 4 < words.length ? disasm(words[pc / 4]) : 'nop (past end)';
@@ -107,7 +113,7 @@ function annotate(words, frames, rowOf) {
       const bypassed = [[uses.rs1, rs1, next.aFrom], [uses.rs2, rs2, next.bFrom]].find(([u, r, from]) => u && r !== 0 && from === 'bypass');
       if (bypassed) {
         marks.push({ row: rowOf(f.stages[4].pc), col: c, kind: 'src' }, { row: rowOf(id.pc), col: c, kind: 'dst' });
-        notes.push(`${name(id.pc)} reads ${xreg(bypassed[1])} in ID while WB writes it. Both happen at the same clock edge, so the WB-to-ID bypass (lines 173-177) hands over ${f.wb.value} directly.`);
+        notes.push(`${name(id.pc)} reads ${xreg(bypassed[1])} in ID while WB writes it. Both happen at the same clock edge, so the WB-to-ID bypass (lines ${L.bypass}-${L.bypass + 4}) hands over ${f.wb.value} directly.`);
       }
     }
     if (!notes.length) notes.push(f.stages.slice(1).some(s => s.valid) ? 'No hazard. Every instruction moves one stage forward.' : f.stages[0].valid ? 'The pipeline is filling. Only fetch is busy.' : 'The pipeline is empty. The program is over.');
@@ -210,7 +216,7 @@ const wideFigure = (() => {
   const flow = STAGE_INFO.slice(1).map((_, i) => `<line x1="${x(i) + w}" y1="${y + h / 2}" x2="${x(i + 1) - 2}" y2="${y + h / 2}" class="flow" marker-end="url(#ah-w)"/>`).join('');
   const ready = (i, text) => `<line x1="${x(i) + w + gap / 2}" y1="${y - 8}" x2="${x(i) + w + gap / 2}" y2="${y + h + 8}" class="ready"/><text x="${x(i) + w + gap / 2}" y="${y - 14}" text-anchor="middle" class="small ready-t">${text}</text>`;
   const back = (fromX, toX, lift, text) => `<path d="M${fromX} ${y + h} V${y + h + lift} H${toX} V${y + h + 3}" class="fwd" marker-end="url(#fw-w)"/><text x="${(fromX + toX) / 2}" y="${y + h + lift + 16}" text-anchor="middle" class="small">${text}</text>`;
-  return `<svg class="wide" viewBox="0 0 760 248" role="img" aria-label="Five stages left to right. An ALU result is ready at the end of EX. Load data is ready at the end of MEM. Results travel back from MEM to EX, from WB to EX, and from WB to ID.">${defs('w')}${boxes}${flow}${ready(2, 'ALU result ready')}${ready(3, 'load data ready')}${back(mid(3), mid(2) + 20, 22, 'MEM → EX · line 46')}${back(mid(4) - 20, mid(2) - 20, 64, 'WB → EX · line 42')}${back(mid(4) + 20, mid(1), 106, 'WB → ID bypass · lines 174-177')}</svg>`;
+  return `<svg class="wide" viewBox="0 0 760 248" role="img" aria-label="Five stages left to right. An ALU result is ready at the end of EX. Load data is ready at the end of MEM. Results travel back from MEM to EX, from WB to EX, and from WB to ID.">${defs('w')}${boxes}${flow}${ready(2, 'ALU result ready')}${ready(3, 'load data ready')}${back(mid(3), mid(2) + 20, 22, 'MEM → EX · line ${L.memRs1}')}${back(mid(4) - 20, mid(2) - 20, 64, 'WB → EX · line ${L.wbRs1}')}${back(mid(4) + 20, mid(1), 106, 'WB → ID bypass · lines ${L.bypass + 1}-${L.bypass + 4}')}</svg>`;
 })();
 
 const tallFigure = (() => {
@@ -322,7 +328,7 @@ const body = `
   <p>An ALU instruction computes its result in EX. One cycle later that result sits in the MEM stage register <code>m_result</code>. The next instruction is now in EX and needs the value at the start of this cycle. The forwarding logic copies <code>m_result</code> straight into EX, so nobody waits.</p>
   ${stepper('fp', fp, `Real Icarus simulation of <code>rtl/rv32_core.sv</code> from <code>reports/visual-traces.json</code>. Rows are instructions and columns are clock cycles. A yellow cell sends a value, and an outlined cell receives it. In cycle ${fp.frames[fp.start].cycle}, two older instructions both hold a new x${fpX1.rd}. The add takes ${fpFrame.a} from MEM, not ${fpWb.value} from WB.`)}
   <p>When two older instructions both write the same register, the newer one must win. The RTL checks WB first and then MEM, so a MEM match overwrites a WB match:</p>
-  ${codeBlock(code.forward, [45, 46, 47])}
+  ${codeBlock(code.forward, [L.memIf, L.memIf + 1, L.memIf + 2])}
 </section>
 
 <section id="load" class="wrap">
@@ -336,7 +342,7 @@ const body = `
 <section id="rule" class="wrap">
   <h2><span class="n">4</span>The stall rule, term by term</h2>
   <p>The whole rule is five lines. The hazard check looks at two stages: the instruction in EX (fields of <code>x_insn</code>) and the instruction behind it in ID (fields of <code>f_insn</code>).</p>
-  ${codeBlock(code.hazard, [117, 118])}
+  ${codeBlock(code.hazard, [L.hazard, L.hazard + 1])}
   <dl class="terms">
     <dt>f_valid &amp;&amp; x_valid</dt><dd>Both slots hold real instructions. A bubble or a flushed slot never causes a stall.</dd>
     <dt>ld</dt><dd>The instruction in EX is a load. Only loads can stall, because every other result is ready by the end of EX.</dd>
@@ -373,13 +379,13 @@ const body = `
       <p class="note" id="try-note" aria-live="polite"></p>
     </figure>
   </div>
-  <p class="caption">At distance 3 the reader is in ID while the producer is in WB. The register file is written at the same clock edge as it is read, so a separate WB-to-ID bypass (lines 173-177) hands the value over. Past distance 3, the register file already holds the value.</p>
+  <p class="caption">At distance 3 the reader is in ID while the producer is in WB. The register file is written at the same clock edge as it is read, so a separate WB-to-ID bypass (lines ${L.bypass}-${L.bypass + 4}) hands the value over. Past distance 3, the register file already holds the value.</p>
 </section>
 
 <section id="flush" class="wrap">
   <h2><span class="n">6</span>When a flush and a stall meet, the flush wins</h2>
   <p>A <b>flush</b> throws away the two instructions behind the one in EX: the one in ID, and the one being fetched in IF. In the RTL, clearing <code>f_valid</code> and <code>x_valid</code> means neither one ever enters EX. A flush happens when a branch or jump is taken in EX, because those two were fetched from the wrong place. It also happens when an instruction traps. The clock-edge logic checks the flush first:</p>
-  ${codeBlock(code.priority, [165, 169, 170])}
+  ${codeBlock(code.priority, [L.redirect, L.stall, L.stall + 1])}
   <table class="mini">
     <thead><tr><th scope="col">Flush (redirect or fault)</th><th scope="col">Hazard</th><th scope="col">What happens at the clock edge</th></tr></thead>
     <tbody>
@@ -390,8 +396,8 @@ const body = `
     </tbody>
   </table>
   <p>The order is right because the instruction waiting in ID is on the wrong path. Holding it for one cycle would waste that cycle, since the flush removes it anyway. The stall counter follows the same rule, so a lost cycle is never counted twice:</p>
-  ${codeBlock(code.event, [123])}
-  <p>In this core the last row cannot happen. Both signals look at the one instruction in EX. A hazard needs a load that does not trap, and a load is never a taken branch (lines 70-75 and 112). A model test checks this against random instruction words. The order still matters. If a later change let the two overlap, the flush would still win. You can see a flush in the trace in section 3: EBREAK traps in EX in cycle ${lsFlush}.</p>
+  ${codeBlock(code.event, [L.event])}
+  <p>In this core the last row cannot happen. Both signals look at the one instruction in EX. A hazard needs a load that does not trap, and a load is never a taken branch (lines ${L.load}-${L.load + 6} and ${L.clear}). A model test checks this against random instruction words. The order still matters. If a later change let the two overlap, the flush would still win. You can see a flush in the trace in section 3: EBREAK traps in EX in cycle ${lsFlush}.</p>
 </section>
 
 <section id="cost" class="wrap">
