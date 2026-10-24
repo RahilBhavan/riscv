@@ -325,7 +325,7 @@
   "benchmark_sources": {
     "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
     "tests/tb.sv": "3af0fcc9590740871eb29eb8c593f469668dbdfd7d9e93b6cbd5f65b9a99f3ca",
-    "tests/run.py": "8d893c4a6b8951d0c920003efb7b1e025b75d87fa0865c5fc17efd742d755f85",
+    "tests/run.py": "278bd16b219547e44e5418701c8be43eddbb35823204ff204a9e4cd16180c25b",
     "scripts/bench.py": "cc2bfc0a479f0b39dceb3df0b667e64069403b86e4a16590943fb03a9ed0dd3d"
   },
   "tools": {
