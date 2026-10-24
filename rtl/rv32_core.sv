@@ -350,12 +350,13 @@ module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit
     reg [3:0] w_mem_rmask, w_mem_wmask;
     reg [31:0] w_mem_addr;
     reg next_intr;
+    reg [63:0] next_order;
     wire x_uses_rs1 = op==7'h67 || op==7'h63 || op==7'h03 || op==7'h23 || op==7'h13 || op==7'h33 || (DOT4 && op==7'h0b) ||
         (ZICSR && op==7'h73 && funct3!=0 && !funct3[2]);
     wire x_uses_rs2 = op==7'h63 || op==7'h23 || op==7'h33 || (DOT4 && op==7'h0b);
     always @(posedge clk) begin
         if (reset) begin
-            rvfi_valid<=0; rvfi_order<=0; next_intr<=0;
+            rvfi_valid<=0; rvfi_order<=0; next_order<=0; next_intr<=0;
         end else begin
             if (!mem_wait) begin
                 w_rs1_addr<=m_rs1_addr; w_rs2_addr<=m_rs2_addr; w_rs1_rdata<=m_rs1_rdata; w_rs2_rdata<=m_rs2_rdata;
@@ -371,7 +372,7 @@ module rv32_core #(parameter bit DOT4 = 1, parameter bit MEXT = 0, parameter bit
             rvfi_valid<=w_valid && !w_intr;
             if (w_valid) next_intr<=ZICSR && w_trap;
             if (w_valid && !w_intr) begin
-                rvfi_order<=rvfi_order+rvfi_valid; rvfi_insn<=w_insn; rvfi_trap<=w_trap;
+                rvfi_order<=next_order; next_order<=next_order+1; rvfi_insn<=w_insn; rvfi_trap<=w_trap;
                 rvfi_halt<=!ZICSR && w_trap; rvfi_intr<=next_intr; rvfi_mode<=3; rvfi_ixl<=1;
                 rvfi_rs1_addr<=w_rs1_addr; rvfi_rs2_addr<=w_rs2_addr; rvfi_rs1_rdata<=w_rs1_rdata; rvfi_rs2_rdata<=w_rs2_rdata;
                 rvfi_rd_addr<=(w_write && !w_trap) ? w_rd : 5'b0; rvfi_rd_wdata<=(w_write && !w_trap && w_rd!=0) ? w_result : 32'b0;

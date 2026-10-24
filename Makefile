@@ -7,18 +7,21 @@ all:
 release-check:
 	python3 scripts/release/build.py --check-only
 
-.PHONY: test lint synth timing clean dot4-sweep isa-compare mutants
+.PHONY: test lint synth timing timing-extended formal clean dot4-sweep isa-compare mutants
 
-# Differential regression, generated hazard cross (bins must all hit) and testbench invariants.
+# Differential regression, generated hazard cross (bins must all hit) and testbench invariants,
+# each program also run with random memory wait states; then the MEXT=1 ZICSR=1 core.
 test:
 	python3 tests/run.py
 	python3 tests/run.py --no-dot4
+	python3 tests/run.py --extended
 
 # 262,144 isolated-lane DOT4 cases and all 1,024 custom-0 encodings, Icarus and Verilator.
 dot4-sweep:
 	python3 tests/dot4_sweep.py
 
-# riscv-arch-test 3.10.0 RV32I signatures and random-program commit logs against Spike.
+# riscv-arch-test 3.10.0 signatures and random-program commit logs against Spike: RV32I for the default core,
+# RV32I, M and privilege for the MEXT=1 ZICSR=1 core.
 isa-compare:
 	python3 tests/isa_compare.py
 
@@ -28,6 +31,11 @@ mutants:
 
 lint:
 	verilator --lint-only -Wall --top-module rv32_core rtl/rv32_core.sv
+	verilator --lint-only -Wall -GMEXT=1\'b1 -GZICSR=1\'b1 --top-module rv32_core rtl/rv32_core.sv
+
+# riscv-formal bounded model checks of both cores. Runs in the formal image (formal/Dockerfile).
+formal:
+	python3 scripts/formal.py
 
 synth:
 	mkdir -p build
@@ -40,6 +48,10 @@ timing:
 	yosys -ql build/synthesis.log -p 'read_verilog -sv rtl/rv32_core.sv rtl/timing_top.sv; synth_ice40 -top timing_top -json build/core.json; stat'
 	nextpnr-ice40 --hx8k --package ct256 --json build/core.json --asc build/core.asc --pcf-allow-unconstrained --freq 12 --seed 1 --report build/timing.json > build/nextpnr.log 2>&1
 	python3 scripts/metrics.py
+
+# Area and post-route estimate of the MEXT=1 ZICSR=1 core over five route seeds.
+timing-extended:
+	python3 scripts/implementation_extended.py
 
 clean:
 	rm -rf build

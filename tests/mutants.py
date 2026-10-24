@@ -13,7 +13,7 @@ import subprocess
 from pathlib import Path
 
 import isa_compare
-from run import check, suite
+from run import WAITS, check, extended_suite, suite
 
 ROOT = Path(__file__).resolve().parents[1]
 WORK = ROOT / 'build' / 'mutants'
@@ -23,17 +23,17 @@ MUTANTS = [
     ('bubble_writes_register', 'invariant', 'if(w_valid && w_write && !w_trap && w_rd!=0) regs[w_rd]<=w_result;',
      'if(w_write && !w_trap && w_rd!=0) regs[w_rd]<=w_result;'),
     ('trapping_store_writes', 'invariant', [("assign dmem_wstrb = (!reset && m_valid && m_store_en && !m_trap) ?",
-     "assign dmem_wstrb = (!reset && m_valid && m_store_en) ?"), ('if (trap) begin wr=0; ld=0; st=0;', 'if (trap) begin wr=0; ld=0;')]),
+     "assign dmem_wstrb = (!reset && m_valid && m_store_en) ?"), ('if (trap || irq) begin wr=0; ld=0; st=0;', 'if (trap || irq) begin wr=0; ld=0;')]),
     ('squashed_store_writes', 'invariant', "assign dmem_wstrb = (!reset && m_valid && m_store_en && !m_trap) ?",
      "assign dmem_wstrb = (!reset && m_store_en && !m_trap) ?"),
-    ('flush_keeps_fetch', 'invariant', 'f_valid<=0; x_valid<=0;\n                if(redirect) pc<=target;',
-     'x_valid<=0;\n                if(redirect) pc<=target;'),
-    ('stall_without_bubble', 'invariant', 'end else if(hazard) begin\n                x_valid<=0;',
-     'end else if(hazard) begin\n                x_valid<=x_valid;'),
+    ('flush_keeps_fetch', 'invariant', 'f_valid<=0; x_valid<=0;\n                        if(redirect) pc<=target;',
+     'x_valid<=0;\n                        if(redirect) pc<=target;'),
+    ('stall_without_bubble', 'invariant', 'end else if(hazard) begin\n                        x_valid<=0;',
+     'end else if(hazard) begin\n                        x_valid<=x_valid;'),
     ('x0_writable', 'invariant', 'if(w_valid && w_write && !w_trap && w_rd!=0) regs[w_rd]<=w_result;\n            regs[0]<=0;',
      'if(w_valid && w_write && !w_trap) regs[w_rd]<=w_result;'),
     ('retire_wrong_pc', 'invariant', 'retire_pc<=w_pc;', 'retire_pc<=m_pc;'),
-    ('fetch_after_halt', 'invariant', 'f_valid<=!halted;', 'f_valid<=1;'),
+    ('fetch_after_halt', 'invariant', 'f_valid<=!halted && imem_ready;', 'f_valid<=imem_ready;'),
     ('no_mem_forward_rs2', 'hazard', 'if (rs2 == m_rd) b = m_result;', ''),
     ('no_wb_forward_rs1', 'hazard', 'if (rs1 == w_rd) a = w_result;', ''),
     ('no_wb_id_bypass_rs2', 'hazard', '(w_valid && w_write && !w_trap && w_rd==f_insn[24:20] ? w_result : regs[f_insn[24:20]])',
@@ -51,6 +51,20 @@ MUTANTS = [
     ('bge_strict', 'isa', '5: taken=$signed(a)>=$signed(b);', '5: taken=$signed(a)>$signed(b);'),
     ('auipc_ignores_pc', 'isa', '7\'h17: begin wr=1; result=x_pc+imm_u; end', '7\'h17: begin wr=1; result=imm_u; end'),
     ('sb_wrong_lane', 'isa', 'assign dmem_wdata = m_store << (8*m_result[1:0]);', 'assign dmem_wdata = m_store;'),
+    ('fetch_ignores_ready', 'waits', 'f_valid<=!halted && imem_ready;', 'f_valid<=!halted;'),
+    ('no_operand_refresh_in_mem_wait', 'waits', 'w_valid<=0; x_a<=a; x_b<=b;', 'w_valid<=0;'),
+    ('store_ignores_ready', 'waits', "wire mem_wait = m_valid && (m_load || m_store_en) && !m_trap && !dmem_ready;",
+     "wire mem_wait = m_valid && m_load && !m_trap && !dmem_ready;"),
+    ('rem_takes_quotient_sign', 'extended', 'md_neg<=funct3[2] && funct3[1] ? md_a_neg : md_a_neg ^ md_b_neg;', 'md_neg<=md_a_neg ^ md_b_neg;'),
+    ('div_by_zero_returns_zero', 'extended', "md_zero ? 32'hffffffff", "md_zero ? 32'h0"),
+    ('mulhsu_signs_rs2', 'extended', 'wire md_b_signed = funct3==1 || funct3==4 || funct3==6;', 'wire md_b_signed = funct3==1 || funct3==2 || funct3==4 || funct3==6;'),
+    ('timer_over_software', 'extended', "pending[11] ? 4'd11 : pending[3] ? 4'd3 : 4'd7", "pending[11] ? 4'd11 : pending[7] ? 4'd7 : 4'd3"),
+    ('interrupt_cuts_md', 'extended', 'x_valid && !md_active;', 'x_valid;'),
+    ('mret_ignores_mpie', 'extended', 'mstatus_mie<=mstatus_mpie; mstatus_mpie<=1;', 'mstatus_mie<=1; mstatus_mpie<=1;'),
+    ('load_fault_no_tval', 'extended', 'cause = 4; tval = result;', 'cause = 4; tval = 0;'),
+    ('exceptions_vectored', 'extended', '((irq && mtvec[0])', '((mtvec[0])'),
+    ('read_only_csr_writable', 'extended', "!(csr_write && csr_addr[11:10]==2'b11)", '1'),
+    ('mepc_keeps_low_bits', 'extended', "12'h341: mepc<={csr_new[31:2], 2'b00};", "12'h341: mepc<=csr_new;"),
 ]
 
 
@@ -83,11 +97,29 @@ def regression(core, programs, invariant_only=False):
     return None
 
 
+def extended_regression(core, programs):
+    """Return (program, message) for the first MEXT=1 ZICSR=1 program that fails, with and without wait states, else None."""
+    sim = WORK / 'tb-extended'
+    subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-Ptb.MEXT=1', '-Ptb.ZICSR=1', '-o', str(sim), str(core), 'tests/tb.sv'], cwd=ROOT, check=True)
+    return wait_regression(sim, programs, mext=True, zicsr=True, passes=('', f'+waits={WAITS}'))
+
+
+def wait_regression(sim, programs, mext=False, zicsr=False, passes=(f'+waits={WAITS}',)):
+    for name, program in programs:
+        for extra in passes:
+            try:
+                check(name, program, ['timeout', '60', 'vvp', str(sim)], mext=mext, zicsr=zicsr, plusargs=[extra, '+wait_seed=5eed'] if extra else [])
+            except AssertionError as error:
+                return name, str(error)[:160]
+    return None
+
+
 def main():
     WORK.mkdir(parents=True, exist_ok=True)
     programs = list(suite())
     baseline = [p for p in programs if not p[0].startswith('hazard_')]
     generated = [p for p in programs if p[0].startswith('hazard_')]
+    extended = list(extended_suite())
     results = []
     for name, kind, *edit in MUTANTS:
         core = mutate(name, edit[0] if len(edit) == 1 else [tuple(edit)])
@@ -98,6 +130,14 @@ def main():
         elif kind == 'hazard':
             before, after = regression(core, baseline), regression(core, generated)
             row.update(killed=bool(after), by=after and after[1], message=after and after[2], killed_by_original_144=bool(before))
+        elif kind == 'waits':
+            sim = WORK / 'tb-sim'
+            subprocess.run(['iverilog', '-g2012', '-s', 'tb', '-o', str(sim), str(core), 'tests/tb.sv'], cwd=ROOT, check=True)
+            kill = wait_regression(sim, programs)
+            row.update(killed=bool(kill), by=kill and kill[0], message=kill and kill[1])
+        elif kind == 'extended':
+            kill = extended_regression(core, extended)
+            row.update(killed=bool(kill), by=kill and kill[0], message=kill and kill[1])
         else:
             out = WORK / name
             out.mkdir(exist_ok=True)
@@ -112,7 +152,9 @@ def main():
     report = dict(
         scope='Each mutant is a single deliberate edit to a copy of rtl/rv32_core.sv. A mutant counts as killed only by its named checker: '
               'invariant = tests/invariants.svh stops the Icarus run on its own; hazard = the generated hazard programs diverge from the reference model; '
-              'isa = a riscv-arch-test signature differs from Spike. killed_by_original_144 records whether the pre-existing programs already caught a hazard mutant.',
+              'isa = a riscv-arch-test signature differs from Spike; waits = a base program diverges or breaks an invariant when memory ready is withheld at random; '
+              'extended = an MEXT=1 ZICSR=1 extended program diverges from the reference model, with or without wait states. '
+              'killed_by_original_144 records whether the pre-existing programs already caught a hazard mutant.',
         mutants=len(results), killed=sum(r['killed'] for r in results), results=results,
         source_sha256={p: hashlib.sha256((ROOT / p).read_bytes()).hexdigest() for p in ['rtl/rv32_core.sv', 'tests/mutants.py', 'tests/invariants.svh', 'tests/hazards.py']})
     (ROOT / 'reports' / 'mutation.json').write_text(json.dumps(report, indent=2) + '\n')
