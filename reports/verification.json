@@ -60,7 +60,7 @@
   "wait_states": {
     "withheld_probability": "96/256 per port per cycle",
     "programs": 253,
-    "cycles": 23688,
+    "cycles": 23686,
     "method": "Every program runs a second time with imem_ready and dmem_ready withheld at random from a per-program seeded LFSR. The retirement and store streams must match the same reference trace as the run without wait states."
   },
   "hazard_programs": 108,
@@ -68,7 +68,7 @@
   "hazard_cross_bins_total": 327,
   "hazard_cross_missing": [],
   "hazard_cross_definition": "Measured on the sequential reference trace of every program. producer>consumer.operand:dN = the newest writer of a consumer source register retired N instructions earlier (7 producer classes x 14 consumer operand slots x N=1..3); x0:producer>read:dN = an x0-writing producer N instructions before a read of x0; redirect:transfer:event = squashed wrong-path or first target instruction depends on the transfer or its recent producers.",
-  "invariant_cycles_checked": 38603,
+  "invariant_cycles_checked": 38601,
   "invariants": "tests/invariants.svh: x0 constant, register writes only from valid non-trap WB, every store/load strobe matched to the retirement of the same instruction (no squashed-path memory access), a data request held stable until ready, retirement PC follows program order and instruction memory except after a trap record or MRET, stall holds IF/ID and inserts one bubble, flush squashes IF/ID and EX, stall and flush exclusive, no fetch after halt.",
   "related_reports": [
     "reports/dot4-sweep.json",
@@ -80,7 +80,7 @@
     "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
     "tests/tb.sv": "815cdf532d78c87ef1b8ac6e12f6d51d6339cf5df8b206de634dbd8cbc109b95",
     "tests/invariants.svh": "f25ec1ed785d54efa4427096e84c734b523e9d5d9fd6694a60416136d5ec25b8",
-    "tests/run.py": "b9654dc257c9e0e3a7a971dedcaccb779abfa73d97ec554efda2a550dfd999f7",
+    "tests/run.py": "708478bcbf67d0c195c22f52ff7d5f0266862da71072127a2e9868225b063bb8",
     "tests/hazards.py": "46b88f95916b2f450927d1eb11d22e5c8a90b83584e849d5b6adef14dc535f0a"
   },
   "dot4_enabled": true

@@ -58,59 +58,59 @@
     },
     {
       "path": "build/merged.dat",
-      "sha256": "927985a10116d50a4c2861f559e9e0a61738854056fe36fcd7aad5410e1c7934"
+      "sha256": "1561c9da648cff4f03c53ce374090ece036075feb561180b5aaccb3224777f1c"
     }
   ],
   "documents": [
     {
       "path": "output/textbook/riscv-textbook.pdf",
       "pages": 35,
-      "sha256": "3557e5cf5dcbab535d6cd06e1a51d5faf041c13d023750017b9f9eda5d78d1fd"
+      "sha256": "d143468c8b6128b6aca81f30a48613d0fda83b4155977fd9acbfab5804adef00"
     },
     {
       "path": "output/textbook/riscv-review-slides.pdf",
       "pages": 14,
-      "sha256": "26d47cb285c0e87236be33979a3e016bb8ce0934074fe80e24f4a7aa33337646"
+      "sha256": "4d75b055fce5f01f251ab01caa59c05e8b365b3cc5658fc2ccc9ad6ef8fbbf09"
     },
     {
       "path": "output/textbook/series/01-foundations.pdf",
       "pages": 14,
-      "sha256": "510f34134b303f6672823ec3874d37409331fe1d73d3b7c993ddbcf6fbc89419"
+      "sha256": "7f5312b331f2e81cbc4c94f40c70af9285ce3c4f08fb299c369bad3ef0d302e0"
     },
     {
       "path": "output/textbook/series/02-rv32i-datapath.pdf",
       "pages": 15,
-      "sha256": "9801e86e0927708a5397093f66ab7dc0aea5a179fd7d3f65a420c227bd422811"
+      "sha256": "d487d91e14b2a88d4f89e6d67c0fa54bb036efdb5ca6609515474fa17f0fcd0f"
     },
     {
       "path": "output/textbook/series/03-pipeline.pdf",
       "pages": 14,
-      "sha256": "04323a92ac357ae2207cd1f0bc72c4a16919cd7a029819d2e3019d7d6769b242"
+      "sha256": "34dd9cb8e4e0956683948a1c6f54c54a13dd92742be41d2882894943ef0fae61"
     },
     {
       "path": "output/textbook/series/04-hazards.pdf",
       "pages": 15,
-      "sha256": "9d3312eeac8dd87702bac75c01b8d05756af1a69992f2132b492da9ebc020a96"
+      "sha256": "49b821d3377f656c1d8873115229471c15f460ede1cae701d0970e0667cd1a7f"
     },
     {
       "path": "output/textbook/series/05-dot4.pdf",
       "pages": 13,
-      "sha256": "fc134ff7c07ca6ee30a19a6f71956722e680092ef3ab5833cf7093946c67d31f"
+      "sha256": "219dd7b1663418626140a09f471eb7b0174c3345360487d05c20fbe62149f6ea"
     },
     {
       "path": "output/textbook/series/06-verification.pdf",
       "pages": 15,
-      "sha256": "852e18257806aef2f5d6864a7149a1ce2eb455cb966b59ec0c64e231f70ff055"
+      "sha256": "4dc89f2858b00cb57c6c21f17b654f76f8af58bca7b57a9aca4e867e319df64a"
     },
     {
       "path": "output/textbook/series/07-synthesis-fpga.pdf",
       "pages": 14,
-      "sha256": "dea1fd51ea0b81660dc3c9b4bd886ab7e03d83a0008ce80b17d3e209c87c3753"
+      "sha256": "bf77b3473887cd617eae56b3a2346f69338ececdb1e099daf7c8f276bf34ac4b"
     },
     {
       "path": "output/textbook/series/08-research-release.pdf",
       "pages": 14,
-      "sha256": "bf52fc4d1f3b73b0dccb2ae33379deeeb45db261fefc55133c2af06b384bad2d"
+      "sha256": "fd388a32b857ba252a04907b10c4497ffb55529f3eb373d5ad55762c104741be"
     }
   ],
   "visual_views": 8,
