@@ -2,7 +2,7 @@
 import {readFileSync} from 'node:fs';
 import {metrics} from './metrics.mjs';
 
-const {regression: g, coverage: c, spike: s, dot4Sweep: d, mutants: m, speedup: x, fmax: f, area: a, board: b} = metrics;
+const {regression: g, coverage: c, spike: s, dot4Sweep: d, mutants: m, speedup: x, fmax: f, area: a, board: b, extended: e, formal: v} = metrics;
 
 export const readmeClaims = [
   `${g.programs} programs pass`,
@@ -34,7 +34,15 @@ export const readmeClaims = [
   `seed-${f.officialSeed} report is ${f.official} MHz`,
   `The ${f.constraint} MHz constraint passes`,
   `routes at ${b.fmax} MHz post-route against the board's ${b.constraint} MHz oscillator`,
-  `~${Math.round(Number(f.median))} MHz post-route on iCE40 HX8K`,
+  `~${Math.round(Number(f.median))} MHz post-route on iCE40 HX8K`,  `${g.waitCycles} more cycles`,
+  `${e.programs} programs pass on the MEXT=1 ZICSR=1 core`,
+  `${e.retired} retired instruction records`,
+  `${e.binsHit}/${e.binsTotal} bins`,
+  `${e.archPassed}/${e.archTotal} tests from the RV32I, M and privilege suites`,
+  `${e.outsideSelection} of them`,
+  `${v.basePassed}/${v.baseTotal} riscv-formal checks pass on the default core and ${v.extendedPassed}/${v.extendedTotal} on the extended core`,
+  `${e.lut4} LUT4 primitives and ${e.flipFlops} flip-flops, ${e.logicCells}/${a.logicCellsAvailable} logic cells (${e.logicCellsPercent}%)`,
+  `${e.fmaxMedian} MHz median post-route estimate (${e.fmaxMin}–${e.fmaxMax} MHz)`,
 ];
 
 // docs/RESEARCH.md repeats the headline outreach line; it must carry the same rounded figures.

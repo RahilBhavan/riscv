@@ -74,7 +74,7 @@ Question: can another person reproduce the claims from a clean clone? Have a cle
 
 Before outreach, replace placeholders only with measurements. For the current simulation-and-route-only state, use this line. It names the measured speedup, the Spike comparison and the post-route estimate from the README's Results section:
 
-> “A pipelined RV32I core with a custom int8 dot-product instruction that is 5.3× faster on a dot-product kernel after its clock cost, verified against Spike on the RV32I architecture tests, ~36 MHz post-route on iCE40 HX8K.”
+> “A pipelined RV32I core with a custom int8 dot-product instruction that is 5.2× faster on a dot-product kernel after its clock cost, verified against Spike on the RV32I architecture tests, ~36 MHz post-route on iCE40 HX8K.”
 
 Its general shape is: “A pipelined RV32I core with a custom signed-byte dot product that is [measured speedup] faster on [kernel] after its clock cost, verified against [reference] on [tests], [median] MHz post-route on [device].” Use “RV32I” without “subset” only when the supported behavior and execution environment justify it. Use “running at” for demonstrated hardware operation and describe what ran.
 

@@ -22,6 +22,9 @@ const mutation = reader('mutation');
 const implementation = reader('implementation');
 const ablation = reader('ablation');
 const board = reader('board');
+const extended = reader('verification-extended');
+const extendedImpl = reader('implementation-extended');
+const formal = reader('formal');
 
 const seeds = ablation('seeds');
 const shipped = ablation('variants.dot4_1_default_flow');
@@ -42,6 +45,30 @@ export const metrics = {
     hazardBinsHit: count(verification('hazard_cross_bins_hit')),
     hazardBinsTotal: count(verification('hazard_cross_bins_total')),
     invariantCycles: count(verification('invariant_cycles_checked')),
+    waitCycles: count(verification('wait_states.cycles')),
+  },
+  extended: {
+    programs: count(extended('test_cases')),
+    retired: count(extended('retired_instructions')),
+    binsHit: count(extended('functional_bins_hit')),
+    binsTotal: count(extended('functional_bins_total')),
+    archPassed: count(isa('extended.arch_test.tests_passed')),
+    archTotal: count(isa('extended.arch_test.tests_total')),
+    outsideSelection: count(isa('extended.arch_test.tests_outside_riscof_selection').length),
+    randomRetirements: count(isa('extended.random_commit_log.retirements_compared')),
+    lut4: count(extendedImpl('lut4')),
+    flipFlops: count(extendedImpl('flip_flops')),
+    logicCells: count(extendedImpl('logic_cells')),
+    logicCellsPercent: fixed(extendedImpl('logic_cell_percent'), 1),
+    fmaxMedian: fixed(extendedImpl('fmax_mhz.median'), 2),
+    fmaxMin: fixed(extendedImpl('fmax_mhz.min'), 2),
+    fmaxMax: fixed(extendedImpl('fmax_mhz.max'), 2),
+  },
+  formal: {
+    basePassed: count(formal('configurations.base.passed')),
+    baseTotal: count(formal('configurations.base.checks')),
+    extendedPassed: count(formal('configurations.extended.passed')),
+    extendedTotal: count(formal('configurations.extended.checks')),
   },
   coverage: {
     hit: count(coverage('hit')),

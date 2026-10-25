@@ -1,5 +1,6 @@
 {
-  "scope": "External reference comparison against Spike. This is not ACT4 and not RISC-V certification: the tests are the pinned riscv-arch-test 3.10.0 RISCOF-era RV32I suite, run by a local runner with this repository's model headers, and Spike is the only reference.",
+  "scope": "External reference comparison against Spike. This is not ACT4 and not RISC-V certification: the tests are the pinned riscv-arch-test 3.10.0 RISCOF-era suites, run by a local runner with this repository's model headers, and Spike is the only reference. The top-level results are the default core; \"extended\" is the MEXT=1 ZICSR=1 core.",
+  "configuration": "defaults (MEXT=0, ZICSR=0)",
   "reference": {
     "simulator": "Spike (riscv-isa-sim)",
     "commit": "5a760667bf0d0ab893173b9eeff9c109c8d7dd9a",
@@ -12,242 +13,321 @@
     "tests_total": 39,
     "tests_passed": 39,
     "tests_excluded": [],
+    "tests_outside_riscof_selection": [],
     "signature_words_compared": 12720,
-    "method": "Each test is assembled twice from the same source: linked at 0x80000000 with a tohost halt for Spike, and at 0 with an ECALL halt for the core. The core must reach the ECALL halt with no earlier trap; its memory between begin_signature and end_signature must equal Spike's +signature dump.",
+    "method": "Each test is assembled twice from the same source, with the -D defines its RVTEST_CASE asks for: linked at 0x80000000 with a tohost halt for Spike, and at 0 with an ECALL halt for the core. The core must reach the ECALL halt with no earlier trap; its memory between begin_signature and end_signature must equal Spike's +signature dump.",
     "results": [
       {
         "test": "add-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 590,
-        "signature_sha256": "8bb87b7a8c141005138f8f151d6f0d7e168ce5c136332fdf2b56456927af0e4d"
+        "signature_sha256": "8bb87b7a8c141005138f8f151d6f0d7e168ce5c136332fdf2b56456927af0e4d",
+        "riscof_selects_this_core": true
       },
       {
         "test": "addi-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 563,
-        "signature_sha256": "2521e0a75efb2e2e4324e4cdc8abc6d9b4c000e71963259f231d35b2bea21406"
+        "signature_sha256": "2521e0a75efb2e2e4324e4cdc8abc6d9b4c000e71963259f231d35b2bea21406",
+        "riscof_selects_this_core": true
       },
       {
         "test": "and-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 586,
-        "signature_sha256": "48ce60595423b7dd60c1a985be22831829f3c1392a8ded29c524a7a4b9bce955"
+        "signature_sha256": "48ce60595423b7dd60c1a985be22831829f3c1392a8ded29c524a7a4b9bce955",
+        "riscof_selects_this_core": true
       },
       {
         "test": "andi-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 564,
-        "signature_sha256": "4ee3b223e135859a5b2f77df38e929bc620fad32eda3c3097540961b806a0ee2"
+        "signature_sha256": "4ee3b223e135859a5b2f77df38e929bc620fad32eda3c3097540961b806a0ee2",
+        "riscof_selects_this_core": true
       },
       {
         "test": "auipc-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 66,
-        "signature_sha256": "979ae3f378ac3a30252b6fefe220c46bc281339a1841567f34caefd7b6119929"
+        "signature_sha256": "979ae3f378ac3a30252b6fefe220c46bc281339a1841567f34caefd7b6119929",
+        "riscof_selects_this_core": true
       },
       {
         "test": "beq-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 585,
-        "signature_sha256": "5dca2213690d85a9e18afd5b21606d491df7c27566a7409f49448940c5e3e22c"
+        "signature_sha256": "5dca2213690d85a9e18afd5b21606d491df7c27566a7409f49448940c5e3e22c",
+        "riscof_selects_this_core": true
       },
       {
         "test": "bge-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 592,
-        "signature_sha256": "3043f6070c2b99ca608be196e5af4a9b334cf5f0ae35ced0c4c91f55197cbf43"
+        "signature_sha256": "3043f6070c2b99ca608be196e5af4a9b334cf5f0ae35ced0c4c91f55197cbf43",
+        "riscof_selects_this_core": true
       },
       {
         "test": "bgeu-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 728,
-        "signature_sha256": "65c3aa1540d56bf1e5ab0025818ae1442d53954251a8c33ffe6d1366c8fb1061"
+        "signature_sha256": "65c3aa1540d56bf1e5ab0025818ae1442d53954251a8c33ffe6d1366c8fb1061",
+        "riscof_selects_this_core": true
       },
       {
         "test": "blt-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 582,
-        "signature_sha256": "7cdcedd0dcb49b84224b75bc7a006e01acc5e01b51271bfeaea55724c00e25bf"
+        "signature_sha256": "7cdcedd0dcb49b84224b75bc7a006e01acc5e01b51271bfeaea55724c00e25bf",
+        "riscof_selects_this_core": true
       },
       {
         "test": "bltu-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 728,
-        "signature_sha256": "f8d27ca58cc9bd284562043e387510a1310f6fed9e3cc9cb6916055a9f68df80"
+        "signature_sha256": "f8d27ca58cc9bd284562043e387510a1310f6fed9e3cc9cb6916055a9f68df80",
+        "riscof_selects_this_core": true
       },
       {
         "test": "bne-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 586,
-        "signature_sha256": "abcedc8553c5621505e863ee74516ca3f1e9743037c9c04f9a4452fa2d722379"
+        "signature_sha256": "abcedc8553c5621505e863ee74516ca3f1e9743037c9c04f9a4452fa2d722379",
+        "riscof_selects_this_core": true
       },
       {
         "test": "fence-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 3,
-        "signature_sha256": "12f43b00e16267dc9e7feaec57cb1d8ee08f50b3761e7d9e248eb062fb03cab4"
+        "signature_sha256": "12f43b00e16267dc9e7feaec57cb1d8ee08f50b3761e7d9e248eb062fb03cab4",
+        "riscof_selects_this_core": true
       },
       {
         "test": "jal-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 34,
-        "signature_sha256": "cb24b37e96e0826f49f460c811bef7a74d516c3b99572aaee9fb85da33ccf87d"
+        "signature_sha256": "cb24b37e96e0826f49f460c811bef7a74d516c3b99572aaee9fb85da33ccf87d",
+        "riscof_selects_this_core": true
       },
       {
         "test": "jalr-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 35,
-        "signature_sha256": "a9155ed2f47a3cf8b5ba33d210642d34e9ecaa3c878059e84317a3e5f2072cad"
+        "signature_sha256": "a9155ed2f47a3cf8b5ba33d210642d34e9ecaa3c878059e84317a3e5f2072cad",
+        "riscof_selects_this_core": true
       },
       {
         "test": "lb-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 35,
-        "signature_sha256": "8973af504a590346c0c15088921edba65d473b622d4c7f46e549b570c891abce"
+        "signature_sha256": "8973af504a590346c0c15088921edba65d473b622d4c7f46e549b570c891abce",
+        "riscof_selects_this_core": true
       },
       {
         "test": "lbu-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 34,
-        "signature_sha256": "85fd9819e1108221d0c6bf5b8368f04bcbb0774db2d15bf52c2174fa29914619"
+        "signature_sha256": "85fd9819e1108221d0c6bf5b8368f04bcbb0774db2d15bf52c2174fa29914619",
+        "riscof_selects_this_core": true
       },
       {
         "test": "lh-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 34,
-        "signature_sha256": "fa7f80346003a44900669afac310a4b19d4b8b21533c23e0475a3a3dedc36fab"
+        "signature_sha256": "fa7f80346003a44900669afac310a4b19d4b8b21533c23e0475a3a3dedc36fab",
+        "riscof_selects_this_core": true
       },
       {
         "test": "lhu-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 34,
-        "signature_sha256": "a761292cb8779911161ddab54117fa4d17f0cee2107b35ac59cba8e948690f5a"
+        "signature_sha256": "a761292cb8779911161ddab54117fa4d17f0cee2107b35ac59cba8e948690f5a",
+        "riscof_selects_this_core": true
       },
       {
         "test": "lui-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 65,
-        "signature_sha256": "a87a317bc72739c4109cb4ccee797f517c5558006b15bf2ac79b2f6db14a193c"
+        "signature_sha256": "a87a317bc72739c4109cb4ccee797f517c5558006b15bf2ac79b2f6db14a193c",
+        "riscof_selects_this_core": true
       },
       {
         "test": "lw-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 34,
-        "signature_sha256": "2d1d71d68b73c4b3480b7bd1057c0703b4ca2984ad9929402db91872ebb2b3a5"
+        "signature_sha256": "2d1d71d68b73c4b3480b7bd1057c0703b4ca2984ad9929402db91872ebb2b3a5",
+        "riscof_selects_this_core": true
       },
       {
         "test": "misalign1-jalr-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 3,
-        "signature_sha256": "2be7bbd48df187a6584b833b0e783a710e185c8a04097e2647dfda92064847a3"
+        "signature_sha256": "2be7bbd48df187a6584b833b0e783a710e185c8a04097e2647dfda92064847a3",
+        "riscof_selects_this_core": true
       },
       {
         "test": "or-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 589,
-        "signature_sha256": "1eb3ec4eeacf146377f574a3ae2a0e11e1c01c386be65b727c99d4d4a2fb09b9"
+        "signature_sha256": "1eb3ec4eeacf146377f574a3ae2a0e11e1c01c386be65b727c99d4d4a2fb09b9",
+        "riscof_selects_this_core": true
       },
       {
         "test": "ori-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 562,
-        "signature_sha256": "4f0c75d36c857086d8a3b0e45241f558518bf71fa60e6034ec29084279e2fe16"
+        "signature_sha256": "4f0c75d36c857086d8a3b0e45241f558518bf71fa60e6034ec29084279e2fe16",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sb-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 72,
-        "signature_sha256": "c22058aeaac1dfe4b67fd96ed3b007bb0589432f5ee3bb6acb4df195cefcbb93"
+        "signature_sha256": "c22058aeaac1dfe4b67fd96ed3b007bb0589432f5ee3bb6acb4df195cefcbb93",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sh-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 73,
-        "signature_sha256": "4c49b34e4f6cf0ccb7488f7adc44bf8fc10512c09dcd6957ef59d3f1d836ccce"
+        "signature_sha256": "4c49b34e4f6cf0ccb7488f7adc44bf8fc10512c09dcd6957ef59d3f1d836ccce",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sll-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 91,
-        "signature_sha256": "f89f2362077c04399ec7af33e069ad7954fbb365954a665a75168a5d22285e83"
+        "signature_sha256": "f89f2362077c04399ec7af33e069ad7954fbb365954a665a75168a5d22285e83",
+        "riscof_selects_this_core": true
       },
       {
         "test": "slli-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 90,
-        "signature_sha256": "2ea2b9f0b7203485b0d0742dad2a4d84523b5de410af3e1196ff04a818d3b2f0"
+        "signature_sha256": "2ea2b9f0b7203485b0d0742dad2a4d84523b5de410af3e1196ff04a818d3b2f0",
+        "riscof_selects_this_core": true
       },
       {
         "test": "slt-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 586,
-        "signature_sha256": "32ce5ad8f310f7751d164669074aa6bd5e0269c690ad7a71651489d5ed33d319"
+        "signature_sha256": "32ce5ad8f310f7751d164669074aa6bd5e0269c690ad7a71651489d5ed33d319",
+        "riscof_selects_this_core": true
       },
       {
         "test": "slti-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 562,
-        "signature_sha256": "ffc2158cc0712b621519629a31a9e1611588c00f991d8f27e60fe710e5223d97"
+        "signature_sha256": "ffc2158cc0712b621519629a31a9e1611588c00f991d8f27e60fe710e5223d97",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sltiu-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 701,
-        "signature_sha256": "77c4685e2f985a45671c1544037df8e031459420dbb29ec67e766ba7ce557113"
+        "signature_sha256": "77c4685e2f985a45671c1544037df8e031459420dbb29ec67e766ba7ce557113",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sltu-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 724,
-        "signature_sha256": "a8be789e71cf660b001d1e2d2a60f70af662b58f889db644de0d2dae611ac9ff"
+        "signature_sha256": "a8be789e71cf660b001d1e2d2a60f70af662b58f889db644de0d2dae611ac9ff",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sra-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 92,
-        "signature_sha256": "fa6d161340f8de8d1cd867811e8963685d0cbbc3c042588921e8e5c2b9c426a1"
+        "signature_sha256": "fa6d161340f8de8d1cd867811e8963685d0cbbc3c042588921e8e5c2b9c426a1",
+        "riscof_selects_this_core": true
       },
       {
         "test": "srai-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 89,
-        "signature_sha256": "ce7307e1c6dccc802b5d102d551e35eb1766d90173e1e976c53f24c97cbc7e07"
+        "signature_sha256": "ce7307e1c6dccc802b5d102d551e35eb1766d90173e1e976c53f24c97cbc7e07",
+        "riscof_selects_this_core": true
       },
       {
         "test": "srl-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 94,
-        "signature_sha256": "a013aa54846034bfe9395063605017df5130909206f58b4df8e9ce5517e1590b"
+        "signature_sha256": "a013aa54846034bfe9395063605017df5130909206f58b4df8e9ce5517e1590b",
+        "riscof_selects_this_core": true
       },
       {
         "test": "srli-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 92,
-        "signature_sha256": "810ea321d175d0c9200637347dbec44f19a6f2d000b811b11beaa518d479eb3a"
+        "signature_sha256": "810ea321d175d0c9200637347dbec44f19a6f2d000b811b11beaa518d479eb3a",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sub-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 594,
-        "signature_sha256": "5081a0ab8ddb1476570e09e11a335889a937b4978402c7ceb9c50f220c38e02f"
+        "signature_sha256": "5081a0ab8ddb1476570e09e11a335889a937b4978402c7ceb9c50f220c38e02f",
+        "riscof_selects_this_core": true
       },
       {
         "test": "sw-align-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 70,
-        "signature_sha256": "510912dbde5a322b56192420e6e96cbda7e8299f67f882c41ef1bbfc275fb0e6"
+        "signature_sha256": "510912dbde5a322b56192420e6e96cbda7e8299f67f882c41ef1bbfc275fb0e6",
+        "riscof_selects_this_core": true
       },
       {
         "test": "xor-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 590,
-        "signature_sha256": "69a4daa177e030d2a7cc0fef238fc346ff353751b143fc50c33146cec5bd358e"
+        "signature_sha256": "69a4daa177e030d2a7cc0fef238fc346ff353751b143fc50c33146cec5bd358e",
+        "riscof_selects_this_core": true
       },
       {
         "test": "xori-01",
+        "suite": "I",
         "status": "pass",
         "signature_words": 568,
-        "signature_sha256": "edb4c7358764aec7f3b5c6536d90fa9f11a6c383164230c0b77db6e947cdb0dd"
+        "signature_sha256": "edb4c7358764aec7f3b5c6536d90fa9f11a6c383164230c0b77db6e947cdb0dd",
+        "riscof_selects_this_core": true
       }
     ]
   },
@@ -509,18 +589,847 @@
       }
     ]
   },
+  "extended": {
+    "configuration": "MEXT=1 ZICSR=1 RESET_PC=2147483648",
+    "reference": {
+      "simulator": "Spike (riscv-isa-sim)",
+      "commit": "5a760667bf0d0ab893173b9eeff9c109c8d7dd9a",
+      "isa": "rv32im_zicsr",
+      "version": "Spike RISC-V ISA Simulator 1.1.1-dev"
+    },
+    "arch_test": {
+      "release": "3.10.0 8d8562c348b3cff666d2aff9cd092cad0f15cbcae9610d0b00ffbcc56607ad82",
+      "suite": "riscv-test-suite/rv32i_m/I, riscv-test-suite/rv32i_m/M, riscv-test-suite/rv32i_m/privilege",
+      "tests_total": 62,
+      "tests_passed": 62,
+      "tests_excluded": [],
+      "tests_outside_riscof_selection": [
+        "misalign-beq-01",
+        "misalign-bge-01",
+        "misalign-bgeu-01",
+        "misalign-blt-01",
+        "misalign-bltu-01",
+        "misalign-bne-01",
+        "misalign-jal-01",
+        "misalign-lh-01",
+        "misalign-lhu-01",
+        "misalign-lw-01",
+        "misalign-sh-01",
+        "misalign-sw-01",
+        "misalign2-jalr-01"
+      ],
+      "signature_words_compared": 19043,
+      "method": "Each test is assembled twice from the same source, with the -D defines its RVTEST_CASE asks for: linked at 0x80000000 with a tohost halt for Spike, and also at 0x80000000 (RESET_PC) with an ECALL halt for the core. The core must reach the ECALL halt (traps before it enter the test's own handler); its memory between begin_signature and end_signature must equal Spike's +signature dump. Every test also runs with memory ready withheld at random (96/256 per port per cycle). Tests outside their RISCOF selection condition (they target cores with the C extension or with hardware misaligned access) are still compared differentially: Spike runs the same rv32im_zicsr configuration, which traps on the same accesses.",
+      "results": [
+        {
+          "test": "add-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 590,
+          "signature_sha256": "8bb87b7a8c141005138f8f151d6f0d7e168ce5c136332fdf2b56456927af0e4d",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "addi-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 563,
+          "signature_sha256": "2521e0a75efb2e2e4324e4cdc8abc6d9b4c000e71963259f231d35b2bea21406",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "and-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 586,
+          "signature_sha256": "48ce60595423b7dd60c1a985be22831829f3c1392a8ded29c524a7a4b9bce955",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "andi-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 564,
+          "signature_sha256": "4ee3b223e135859a5b2f77df38e929bc620fad32eda3c3097540961b806a0ee2",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "auipc-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 66,
+          "signature_sha256": "979ae3f378ac3a30252b6fefe220c46bc281339a1841567f34caefd7b6119929",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "beq-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 585,
+          "signature_sha256": "5dca2213690d85a9e18afd5b21606d491df7c27566a7409f49448940c5e3e22c",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "bge-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 592,
+          "signature_sha256": "3043f6070c2b99ca608be196e5af4a9b334cf5f0ae35ced0c4c91f55197cbf43",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "bgeu-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 728,
+          "signature_sha256": "65c3aa1540d56bf1e5ab0025818ae1442d53954251a8c33ffe6d1366c8fb1061",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "blt-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 582,
+          "signature_sha256": "7cdcedd0dcb49b84224b75bc7a006e01acc5e01b51271bfeaea55724c00e25bf",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "bltu-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 728,
+          "signature_sha256": "f8d27ca58cc9bd284562043e387510a1310f6fed9e3cc9cb6916055a9f68df80",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "bne-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 586,
+          "signature_sha256": "abcedc8553c5621505e863ee74516ca3f1e9743037c9c04f9a4452fa2d722379",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "fence-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 3,
+          "signature_sha256": "12f43b00e16267dc9e7feaec57cb1d8ee08f50b3761e7d9e248eb062fb03cab4",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "jal-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 34,
+          "signature_sha256": "cb24b37e96e0826f49f460c811bef7a74d516c3b99572aaee9fb85da33ccf87d",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "jalr-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 35,
+          "signature_sha256": "a9155ed2f47a3cf8b5ba33d210642d34e9ecaa3c878059e84317a3e5f2072cad",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "lb-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 35,
+          "signature_sha256": "8973af504a590346c0c15088921edba65d473b622d4c7f46e549b570c891abce",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "lbu-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 34,
+          "signature_sha256": "85fd9819e1108221d0c6bf5b8368f04bcbb0774db2d15bf52c2174fa29914619",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "lh-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 34,
+          "signature_sha256": "fa7f80346003a44900669afac310a4b19d4b8b21533c23e0475a3a3dedc36fab",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "lhu-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 34,
+          "signature_sha256": "a761292cb8779911161ddab54117fa4d17f0cee2107b35ac59cba8e948690f5a",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "lui-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 65,
+          "signature_sha256": "a87a317bc72739c4109cb4ccee797f517c5558006b15bf2ac79b2f6db14a193c",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "lw-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 34,
+          "signature_sha256": "2d1d71d68b73c4b3480b7bd1057c0703b4ca2984ad9929402db91872ebb2b3a5",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "misalign1-jalr-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 3,
+          "signature_sha256": "2be7bbd48df187a6584b833b0e783a710e185c8a04097e2647dfda92064847a3",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "or-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 589,
+          "signature_sha256": "1eb3ec4eeacf146377f574a3ae2a0e11e1c01c386be65b727c99d4d4a2fb09b9",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "ori-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 562,
+          "signature_sha256": "4f0c75d36c857086d8a3b0e45241f558518bf71fa60e6034ec29084279e2fe16",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sb-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 72,
+          "signature_sha256": "c22058aeaac1dfe4b67fd96ed3b007bb0589432f5ee3bb6acb4df195cefcbb93",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sh-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 73,
+          "signature_sha256": "4c49b34e4f6cf0ccb7488f7adc44bf8fc10512c09dcd6957ef59d3f1d836ccce",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sll-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 91,
+          "signature_sha256": "f89f2362077c04399ec7af33e069ad7954fbb365954a665a75168a5d22285e83",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "slli-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 90,
+          "signature_sha256": "2ea2b9f0b7203485b0d0742dad2a4d84523b5de410af3e1196ff04a818d3b2f0",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "slt-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 586,
+          "signature_sha256": "32ce5ad8f310f7751d164669074aa6bd5e0269c690ad7a71651489d5ed33d319",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "slti-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 562,
+          "signature_sha256": "ffc2158cc0712b621519629a31a9e1611588c00f991d8f27e60fe710e5223d97",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sltiu-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 701,
+          "signature_sha256": "77c4685e2f985a45671c1544037df8e031459420dbb29ec67e766ba7ce557113",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sltu-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 724,
+          "signature_sha256": "a8be789e71cf660b001d1e2d2a60f70af662b58f889db644de0d2dae611ac9ff",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sra-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 92,
+          "signature_sha256": "fa6d161340f8de8d1cd867811e8963685d0cbbc3c042588921e8e5c2b9c426a1",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "srai-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 89,
+          "signature_sha256": "ce7307e1c6dccc802b5d102d551e35eb1766d90173e1e976c53f24c97cbc7e07",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "srl-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 94,
+          "signature_sha256": "a013aa54846034bfe9395063605017df5130909206f58b4df8e9ce5517e1590b",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "srli-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 92,
+          "signature_sha256": "810ea321d175d0c9200637347dbec44f19a6f2d000b811b11beaa518d479eb3a",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sub-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 594,
+          "signature_sha256": "5081a0ab8ddb1476570e09e11a335889a937b4978402c7ceb9c50f220c38e02f",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "sw-align-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 70,
+          "signature_sha256": "510912dbde5a322b56192420e6e96cbda7e8299f67f882c41ef1bbfc275fb0e6",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "xor-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 590,
+          "signature_sha256": "69a4daa177e030d2a7cc0fef238fc346ff353751b143fc50c33146cec5bd358e",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "xori-01",
+          "suite": "I",
+          "status": "pass",
+          "signature_words": 568,
+          "signature_sha256": "edb4c7358764aec7f3b5c6536d90fa9f11a6c383164230c0b77db6e947cdb0dd",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "div-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 616,
+          "signature_sha256": "8339b8c7b1715143720bb22b19425ab50c679cf731c7f3b9b34b7368c754b012",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "divu-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 754,
+          "signature_sha256": "6e619d078841adfc8d8ed3d54215c787a9feca9decf392c4d39ed555dc335eb8",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "mul-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 616,
+          "signature_sha256": "ce42e8d5c39fb9b2bebbabb3537689398e548bea2f79df49187ec8d13bb43ec0",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "mulh-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 616,
+          "signature_sha256": "b7fe4d4e4446977ff3ea0d682ed063dae71bcc0e1827ae0a652990da59d1bf3e",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "mulhsu-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 680,
+          "signature_sha256": "b9edcd62bb80b19c3c3bef1f46eac9f2bbae1c130d51cc52c325bb9c0389232e",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "mulhu-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 754,
+          "signature_sha256": "eaf1bac5746bdf1d06f3dd23c82566f4cc98b217444e81c966ae92982eb593eb",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "rem-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 616,
+          "signature_sha256": "d3e01e29de5177b7b37605ef757a863f96d082689c2c15e86381b3e82127a835",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "remu-01",
+          "suite": "M",
+          "status": "pass",
+          "signature_words": 754,
+          "signature_sha256": "6d92efbdb841867d2e7a7bb58e91a01927831f0b11dc61fe68997ebe072f7237",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "ebreak",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 8,
+          "signature_sha256": "9af48a361c9e14987be66bf3dbf3007a1693e71640b545c6323be31bd67773ec",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "ecall",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 8,
+          "signature_sha256": "3f2665a62f6c535f2e5538f59c0cedc0e681a20b875b63a4748c0479b757d0dd",
+          "riscof_selects_this_core": true
+        },
+        {
+          "test": "misalign-beq-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "52048f431b4c9121ca93be77667269c5a300148cc0b00646e91253f8caf613f5",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        },
+        {
+          "test": "misalign-bge-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "6537c566ae5dc71951a1e944fe2ed52fc681f93980933b9a65aa2a8f63126c42",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        },
+        {
+          "test": "misalign-bgeu-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "93bc1f541fbc7618c84b05f385f6e449a783f74137eb57f0e8244f9f56fb6da5",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        },
+        {
+          "test": "misalign-blt-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "52048f431b4c9121ca93be77667269c5a300148cc0b00646e91253f8caf613f5",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        },
+        {
+          "test": "misalign-bltu-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "a75f48e3ea0a0c3baa7e68313cf54313f5d179cf5b4f831e6b67509cf2d93438",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        },
+        {
+          "test": "misalign-bne-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "3837e944ab88069db3d9ca14e21d4b138fede532738b416646013f2ed44782c9",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        },
+        {
+          "test": "misalign-jal-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "3ac785df833c204b1c925663a5425a7ccde05c1f42aaaff8ff4a939a9fb8fd9e",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        },
+        {
+          "test": "misalign-lh-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "5dbac093499f6955f880938580ff097a3b9914d8e869c15507d68ffc6e6a1857",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "needs hardware misaligned data access; this core traps on it"
+          ]
+        },
+        {
+          "test": "misalign-lhu-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "5dbac093499f6955f880938580ff097a3b9914d8e869c15507d68ffc6e6a1857",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "needs hardware misaligned data access; this core traps on it"
+          ]
+        },
+        {
+          "test": "misalign-lw-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 71,
+          "signature_sha256": "14356e94733343f69c50be1ade3bba15b30d9f4afe9b5b84d6dc1cabde952622",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "needs hardware misaligned data access; this core traps on it"
+          ]
+        },
+        {
+          "test": "misalign-sh-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "281a9fdff5872746b47589793e0d2efc7f12b940189cd0ace3500c60c4b99600",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "needs hardware misaligned data access; this core traps on it"
+          ]
+        },
+        {
+          "test": "misalign-sw-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 71,
+          "signature_sha256": "d4630aac78ee058b275c5f36a5d6d1a7dfb1c2340965fff747a54da73c034fda",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "needs hardware misaligned data access; this core traps on it"
+          ]
+        },
+        {
+          "test": "misalign2-jalr-01",
+          "suite": "privilege",
+          "status": "pass",
+          "signature_words": 69,
+          "signature_sha256": "f4f762f35b5363c48665ee9a3031ad8ed0f22864f3512ae1422e0d6f06248c5c",
+          "riscof_selects_this_core": false,
+          "outside_riscof_selection": [
+            "ISA RV32IM_ZICSR does not match .*I.*C.*"
+          ]
+        }
+      ]
+    },
+    "random_commit_log": {
+      "programs": 50,
+      "retirements_compared": 16595,
+      "store_bytes_compared": 3472,
+      "method": "Seeded random programs of 300 operations (ALU register/immediate, LUI, loads, stores, taken/not-taken branches, JAL over one instruction, M operations, CSR reads and writes of mscratch) with no DOT4 and no AUIPC or link values, because Spike runs the code at 0x80000000 and the core at 0. Data lives at 0x80010000 in both. Spike --log-commits supplies the expected PC (offset), instruction word, register write and store bytes for every retirement. Each program also runs with random wait states.",
+      "results": [
+        {
+          "program": "random_0",
+          "retired": 329,
+          "store_bytes": 68
+        },
+        {
+          "program": "random_1",
+          "retired": 330,
+          "store_bytes": 100
+        },
+        {
+          "program": "random_2",
+          "retired": 329,
+          "store_bytes": 66
+        },
+        {
+          "program": "random_3",
+          "retired": 333,
+          "store_bytes": 79
+        },
+        {
+          "program": "random_4",
+          "retired": 335,
+          "store_bytes": 47
+        },
+        {
+          "program": "random_5",
+          "retired": 326,
+          "store_bytes": 87
+        },
+        {
+          "program": "random_6",
+          "retired": 329,
+          "store_bytes": 73
+        },
+        {
+          "program": "random_7",
+          "retired": 339,
+          "store_bytes": 59
+        },
+        {
+          "program": "random_8",
+          "retired": 342,
+          "store_bytes": 59
+        },
+        {
+          "program": "random_9",
+          "retired": 328,
+          "store_bytes": 76
+        },
+        {
+          "program": "random_10",
+          "retired": 335,
+          "store_bytes": 63
+        },
+        {
+          "program": "random_11",
+          "retired": 328,
+          "store_bytes": 78
+        },
+        {
+          "program": "random_12",
+          "retired": 328,
+          "store_bytes": 82
+        },
+        {
+          "program": "random_13",
+          "retired": 330,
+          "store_bytes": 74
+        },
+        {
+          "program": "random_14",
+          "retired": 337,
+          "store_bytes": 76
+        },
+        {
+          "program": "random_15",
+          "retired": 326,
+          "store_bytes": 83
+        },
+        {
+          "program": "random_16",
+          "retired": 341,
+          "store_bytes": 53
+        },
+        {
+          "program": "random_17",
+          "retired": 334,
+          "store_bytes": 38
+        },
+        {
+          "program": "random_18",
+          "retired": 335,
+          "store_bytes": 73
+        },
+        {
+          "program": "random_19",
+          "retired": 337,
+          "store_bytes": 64
+        },
+        {
+          "program": "random_20",
+          "retired": 333,
+          "store_bytes": 65
+        },
+        {
+          "program": "random_21",
+          "retired": 333,
+          "store_bytes": 79
+        },
+        {
+          "program": "random_22",
+          "retired": 333,
+          "store_bytes": 56
+        },
+        {
+          "program": "random_23",
+          "retired": 333,
+          "store_bytes": 68
+        },
+        {
+          "program": "random_24",
+          "retired": 330,
+          "store_bytes": 54
+        },
+        {
+          "program": "random_25",
+          "retired": 331,
+          "store_bytes": 58
+        },
+        {
+          "program": "random_26",
+          "retired": 332,
+          "store_bytes": 79
+        },
+        {
+          "program": "random_27",
+          "retired": 336,
+          "store_bytes": 51
+        },
+        {
+          "program": "random_28",
+          "retired": 329,
+          "store_bytes": 31
+        },
+        {
+          "program": "random_29",
+          "retired": 332,
+          "store_bytes": 61
+        },
+        {
+          "program": "random_30",
+          "retired": 331,
+          "store_bytes": 73
+        },
+        {
+          "program": "random_31",
+          "retired": 333,
+          "store_bytes": 101
+        },
+        {
+          "program": "random_32",
+          "retired": 334,
+          "store_bytes": 62
+        },
+        {
+          "program": "random_33",
+          "retired": 323,
+          "store_bytes": 60
+        },
+        {
+          "program": "random_34",
+          "retired": 334,
+          "store_bytes": 72
+        },
+        {
+          "program": "random_35",
+          "retired": 333,
+          "store_bytes": 57
+        },
+        {
+          "program": "random_36",
+          "retired": 338,
+          "store_bytes": 95
+        },
+        {
+          "program": "random_37",
+          "retired": 335,
+          "store_bytes": 86
+        },
+        {
+          "program": "random_38",
+          "retired": 327,
+          "store_bytes": 82
+        },
+        {
+          "program": "random_39",
+          "retired": 326,
+          "store_bytes": 68
+        },
+        {
+          "program": "random_40",
+          "retired": 331,
+          "store_bytes": 69
+        },
+        {
+          "program": "random_41",
+          "retired": 328,
+          "store_bytes": 62
+        },
+        {
+          "program": "random_42",
+          "retired": 334,
+          "store_bytes": 61
+        },
+        {
+          "program": "random_43",
+          "retired": 326,
+          "store_bytes": 76
+        },
+        {
+          "program": "random_44",
+          "retired": 329,
+          "store_bytes": 68
+        },
+        {
+          "program": "random_45",
+          "retired": 337,
+          "store_bytes": 67
+        },
+        {
+          "program": "random_46",
+          "retired": 335,
+          "store_bytes": 88
+        },
+        {
+          "program": "random_47",
+          "retired": 331,
+          "store_bytes": 65
+        },
+        {
+          "program": "random_48",
+          "retired": 330,
+          "store_bytes": 68
+        },
+        {
+          "program": "random_49",
+          "retired": 327,
+          "store_bytes": 92
+        }
+      ]
+    }
+  },
   "simulators": [
     "icarus",
     "verilator"
   ],
   "toolchain": "riscv64-unknown-elf-gcc (13.2.0-11ubuntu1+12) 13.2.0",
   "source_sha256": {
-    "rtl/rv32_core.sv": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4",
-    "tests/isa/arch_tb.sv": "2e41fb27968859d7fd34d6278f5280e97bb1bdb0df1d97186e4fd70cf37af6bb",
-    "tests/invariants.svh": "e9df2c415503606f9e37063cf2fde9ee4c681c9822b6b50a73b509aa3c0ea69a",
-    "tests/isa_compare.py": "9178b4d88b21495676087247cce42c531aac30b12f83a7f11c98ba534f58aa50",
+    "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
+    "tests/isa/arch_tb.sv": "597f1c6cd065fa315ce8e9d6e581bc225db2c0d1138e852fa9a49297d8960574",
+    "tests/invariants.svh": "f25ec1ed785d54efa4427096e84c734b523e9d5d9fd6694a60416136d5ec25b8",
+    "tests/isa_compare.py": "7809e9df8d71ab516a12206c3901921d3afb96e2a4ac1e5428bbf5e14f7df81c",
     "tests/isa/dut/model_test.h": "418da9468bd22268939b454f7d2e1f7938c26acf0439f73a21df01d74ad8df68",
     "tests/isa/dut/link.ld": "07f17cb6705884bc8fb945629fb267ac03f0a11415bfd41cf9da34d24a96b3cc",
+    "tests/isa/dut/link-80000000.ld": "a8d58b05cee8471391dead1fa39256d7b2aff37ee23108179bb5d0130902d1c0",
     "tests/isa/spike/model_test.h": "53b394342f036d77c69e850a12685da171a7f5fdca80664ee460251681040310",
     "tests/isa/spike/link.ld": "7dc6514a28318ed7535c7968cfe33d65288197e69dfdb6a6afff70e3e22c5877"
   }

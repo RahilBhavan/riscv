@@ -1,15 +1,10 @@
 {
   "metric": "Verilator line instrumentation points",
-  "scope": "rtl/rv32_core.sv only; no exclusions",
-  "hit": 37,
-  "total": 38,
-  "percent": 97.37,
-  "uncovered": [
-    [
-      "67",
-      "case"
-    ]
-  ],
+  "scope": "rtl/rv32_core.sv only; no exclusions. A point counts as hit when either the default core running the base programs or the MEXT=1 ZICSR=1 core running the extended programs reaches it, each with and without wait states",
+  "hit": 73,
+  "total": 73,
+  "percent": 100.0,
+  "uncovered": [],
   "tool": "Verilator 5.020 2024-01-01 rev (Debian 5.020-1)",
-  "rtl_sha256": "462407cb84cd415b70875512bd660205ea818a9f45bc81ab66546beac1cbb1b4"
+  "rtl_sha256": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124"
 }

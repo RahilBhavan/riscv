@@ -9,7 +9,7 @@ module timing_top(input wire clk, input wire reset, input wire [31:0] insn,
     wire read_en, valid, trap, stall, flush;
     reg [31:0] scan;
     rv32_core core(clk,reset,ia,insn_q,da,dw,strb,read_en,data_q,
-                   valid,pc,instruction,rd,result,trap,stall,flush);
+                   valid,pc,instruction,rd,result,trap,stall,flush,,1'b1,1'b1,1'b0,1'b0,1'b0,);
     always @(posedge clk) begin
         insn_q<=insn; data_q<=load_data;
         if(reset) scan<=0;

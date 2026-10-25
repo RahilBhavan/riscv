@@ -362,7 +362,9 @@ const keys = [
   { mark: "lit", label: "Yellow marks what acts this cycle: the closed gate, armed trapdoors, a bypass pipe in use, the drawer being written" },
   { mark: "raised", label: "One cartridge is one instruction; an empty tray is a bubble" },
 ];
-const caption = `Each cycle is one Icarus RTL snapshot from reports/visual-traces.json, taken at a falling edge. Stalls and flushes shown in a cycle take effect at the next rising edge. Cartridge text is decoded from the trace's instruction words; a fetch past the program reads nop, the word tests/tb.sv fills memory with. Bypass pipe lighting is derived from the stage contents and the forwarding rules in rtl/rv32_core.sv lines 39-49, because the trace does not record mux selects.`;
+const forwardFrom = readFileSync(new URL('../../../rtl/rv32_core.sv', import.meta.url), 'utf8').split('\n').findIndex(line => line.includes('Newest producer wins')) + 2;
+if (forwardFrom < 2) throw Error('rtl/rv32_core.sv forwarding block not found');
+const caption = `Each cycle is one Icarus RTL snapshot from reports/visual-traces.json, taken at a falling edge. Stalls and flushes shown in a cycle take effect at the next rising edge. Cartridge text is decoded from the trace's instruction words; a fetch past the program reads nop, the word tests/tb.sv fills memory with. Bypass pipe lighting is derived from the stage contents and the forwarding rules in rtl/rv32_core.sv lines ${forwardFrom}-${forwardFrom + 10}, because the trace does not record mux selects.`;
 
 const plate = k.plateHtml({
   fig: "Fig · pipeline",
