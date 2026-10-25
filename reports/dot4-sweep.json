@@ -6,7 +6,7 @@
       "sweep_cases": 262144,
       "sweep_cycles": 1840145,
       "checksum": "475d6000",
-      "sweep_seconds": 0.7,
+      "sweep_seconds": 0.5,
       "custom0_encodings": 1024,
       "custom0_trapped": 1023,
       "custom0_executed": 1,
@@ -16,11 +16,11 @@
       "sweep_cases": 262144,
       "sweep_cycles": 1840145,
       "checksum": "475d6000",
-      "sweep_seconds": 104.4,
+      "sweep_seconds": 100.5,
       "custom0_encodings": 1024,
       "custom0_trapped": 1023,
       "custom0_executed": 1,
-      "encoding_seconds": 1.6
+      "encoding_seconds": 1.4
     }
   },
   "source_sha256": {

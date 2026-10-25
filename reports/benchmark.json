@@ -313,7 +313,7 @@
   "sources": {
     "rtl/rv32_core.sv": "7ce4baef361ff1a4120e1ca2387ef3f04471abd1db01fd0aa84428c447a33124",
     "tests/tb.sv": "815cdf532d78c87ef1b8ac6e12f6d51d6339cf5df8b206de634dbd8cbc109b95",
-    "tests/run.py": "b9654dc257c9e0e3a7a971dedcaccb779abfa73d97ec554efda2a550dfd999f7",
+    "tests/run.py": "708478bcbf67d0c195c22f52ff7d5f0266862da71072127a2e9868225b063bb8",
     "scripts/bench.py": "9b51403008fd406a19f4b2a372e7ea93488a42d39a3409e67ebb6d502a62ef02"
   },
   "simulator": "Icarus Verilog version 12.0 (stable) ()"

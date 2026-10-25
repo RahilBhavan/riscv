@@ -12,7 +12,7 @@ Measured on the checked-in RTL with Icarus 12.0, Verilator 5.020, Spike (riscv-i
 
 Verification:
 
-- **Correctness.** 253 directed, random and generated hazard programs pass in both simulators. 11,928 retired instruction records and all byte writes match the reference model, over 20 deterministic random seeds. Every program runs again with memory ready withheld at random, which adds 23,688 more cycles, and must produce the same retirements and writes. Invariants in `tests/invariants.svh` check x0, register writes, memory strobes, held data requests, stall and flush on all 38,603 cycles. A DOT4=0 run checks that custom-0 traps. Source: [`reports/verification.json`](reports/verification.json).
+- **Correctness.** 253 directed, random and generated hazard programs pass in both simulators. 11,928 retired instruction records and all byte writes match the reference model, over 20 deterministic random seeds. Every program runs again with memory ready withheld at random, which adds 23,686 more cycles, and must produce the same retirements and writes. Invariants in `tests/invariants.svh` check x0, register writes, memory strobes, held data requests, stall and flush on all 38,601 cycles. A DOT4=0 run checks that custom-0 traps. Source: [`reports/verification.json`](reports/verification.json).
 - **Extended core.** 309 programs pass on the MEXT=1 ZICSR=1 core, with and without wait states: 40,414 retired instruction records cover all eight M operations, the six CSR forms, MRET, WFI, six exception causes and three interrupt causes (71/71 bins). An interrupt the RTL takes must be enabled and pending in the reference model, and an enabled one must be taken within four retirements. Source: [`reports/verification-extended.json`](reports/verification-extended.json).
 - **External reference.** 39/39 RV32I tests from riscv-arch-test 3.10.0 (the last RISCOF-format release) match Spike's signatures, and 50 random programs match its commit log. The extended core matches Spike on 62/62 tests from the RV32I, M and privilege suites, with and without wait states. RISCOF would not select 13 of them for this core, because they target cores with the C extension or with hardware misaligned access; Spike runs the same rv32im_zicsr configuration, so they still compare. This is not ACT4 and not certification. Source: [`reports/isa-compare.json`](reports/isa-compare.json).
 - **Formal.** 45/45 riscv-formal checks pass on the default core and 53/53 on the extended core: every instruction, register and PC consistency, uniqueness, causality, liveness and the illegal-instruction check. They are bounded model checks to 20 cycles from reset (liveness to 30) with every input unconstrained, not unbounded proofs. M operations are checked as riscv-formal's stand-in operations, which covers their decode and forwarding but not the arithmetic that Spike checks. CSR instructions are not formally checked. Source: [`reports/formal.json`](reports/formal.json).
@@ -63,7 +63,7 @@ docker build -t rv32-tools .
 docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools make test lint reset-test
 ```
 
-`make test` runs the regression in Icarus with DOT4=1, with DOT4=0 and on the MEXT=1 ZICSR=1 core, each program also with random wait states. On 2026-10-24, 253 programs pass in each default-core run, and lint and `make reset-test` are clean. `make coverage` reruns the programs in Verilator. The tests rewrite files in `reports/` and `build/`.
+`make test` runs the regression in Icarus with DOT4=1, with DOT4=0 and on the MEXT=1 ZICSR=1 core, each program also with random wait states. On 2026-10-24, 253 programs pass in each default-core run, and lint and `make reset-test` are clean. `make coverage` reruns the programs in Verilator. The tests rewrite files in `reports/` and `build/`. `make test` writes only to `build/`; the Verilator runs in `make coverage` also write the committed `reports/verification.json`, `reports/verification-extended.json` and the matching `reports/raw/regression*.log` files, so that is the command that regenerates them.
 
 The other evidence targets use the same image:
 
@@ -124,7 +124,7 @@ The regression programs are generated in Python and use no external data.
 - The formal checks are bounded, exclude CSR instructions and check M arithmetic only through Spike. The project has no ACT4 integration and no certification.
 - The board image and the published figures use the default core. The extended core has not been built into a board image.
 - The DOT4 speedup covers one kernel. The table baseline also uses 2 KiB of data memory that DOT4 does not.
-- `reports/raw/regression.log` is from an older 144-program run. The current figures are in `reports/verification.json`.
+- `reports/raw/regression.log` and `reports/raw/regression-extended.log` are written by the same `tests/run.py` runs as `reports/verification.json` and `reports/verification-extended.json`. `scripts/textbook/check-readme.mjs` checks that each holds one PASS line per program counted there.
 
 ## License
 

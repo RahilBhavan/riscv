@@ -1,252 +1,253 @@
-PASS forwarding: 9 retired
-PASS priority_x0: 6 retired
-PASS alu_0_0: 4 retired
-PASS alu_0_32: 4 retired
-PASS imm_0_0: 3 retired
-PASS imm_0_1: 3 retired
-PASS imm_0_31: 3 retired
-PASS imm_0_-1: 3 retired
-PASS imm_0_-2048: 3 retired
-PASS imm_0_2047: 3 retired
-PASS alu_1_0: 4 retired
-PASS imm_1_0: 3 retired
-PASS imm_1_1: 3 retired
-PASS imm_1_31: 3 retired
-PASS imm_1_31: 3 retired
-PASS imm_1_0: 3 retired
-PASS imm_1_31: 3 retired
-PASS alu_2_0: 4 retired
-PASS imm_2_0: 3 retired
-PASS imm_2_1: 3 retired
-PASS imm_2_31: 3 retired
-PASS imm_2_-1: 3 retired
-PASS imm_2_-2048: 3 retired
-PASS imm_2_2047: 3 retired
-PASS alu_3_0: 4 retired
-PASS imm_3_0: 3 retired
-PASS imm_3_1: 3 retired
-PASS imm_3_31: 3 retired
-PASS imm_3_-1: 3 retired
-PASS imm_3_-2048: 3 retired
-PASS imm_3_2047: 3 retired
-PASS alu_4_0: 4 retired
-PASS imm_4_0: 3 retired
-PASS imm_4_1: 3 retired
-PASS imm_4_31: 3 retired
-PASS imm_4_-1: 3 retired
-PASS imm_4_-2048: 3 retired
-PASS imm_4_2047: 3 retired
-PASS alu_5_0: 4 retired
-PASS alu_5_32: 4 retired
-PASS imm_5_0: 3 retired
-PASS imm_5_1: 3 retired
-PASS imm_5_31: 3 retired
-PASS imm_5_31: 3 retired
-PASS imm_5_0: 3 retired
-PASS imm_5_31: 3 retired
-PASS alu_6_0: 4 retired
-PASS imm_6_0: 3 retired
-PASS imm_6_1: 3 retired
-PASS imm_6_31: 3 retired
-PASS imm_6_-1: 3 retired
-PASS imm_6_-2048: 3 retired
-PASS imm_6_2047: 3 retired
-PASS alu_7_0: 4 retired
-PASS imm_7_0: 3 retired
-PASS imm_7_1: 3 retired
-PASS imm_7_31: 3 retired
-PASS imm_7_-1: 3 retired
-PASS imm_7_-2048: 3 retired
-PASS imm_7_2047: 3 retired
-PASS srai: 3 retired
-PASS upper: 5 retired
-PASS load_0_0: 7 retired
-PASS load_0_1: 7 retired
-PASS load_0_2: 7 retired
-PASS load_0_3: 7 retired
-PASS load_1_0: 7 retired
-PASS load_1_2: 7 retired
-PASS load_2_0: 7 retired
-PASS load_4_0: 7 retired
-PASS load_4_1: 7 retired
-PASS load_4_2: 7 retired
-PASS load_4_3: 7 retired
-PASS load_5_0: 7 retired
-PASS load_5_2: 7 retired
-PASS store_0_0: 5 retired
-PASS store_0_1: 5 retired
-PASS store_0_2: 5 retired
-PASS store_0_3: 5 retired
-PASS store_1_0: 5 retired
-PASS store_1_2: 5 retired
-PASS store_2_0: 5 retired
-PASS branch_0_1_1: 5 retired
-PASS branch_0_-1_1: 7 retired
-PASS branch_0_1_-1: 7 retired
-PASS branch_1_1_1: 7 retired
-PASS branch_1_-1_1: 5 retired
-PASS branch_1_1_-1: 5 retired
-PASS branch_4_1_1: 7 retired
-PASS branch_4_-1_1: 5 retired
-PASS branch_4_1_-1: 7 retired
-PASS branch_5_1_1: 5 retired
-PASS branch_5_-1_1: 7 retired
-PASS branch_5_1_-1: 5 retired
-PASS branch_6_1_1: 7 retired
-PASS branch_6_-1_1: 7 retired
-PASS branch_6_1_-1: 5 retired
-PASS branch_7_1_1: 5 retired
-PASS branch_7_-1_1: 5 retired
-PASS branch_7_1_-1: 7 retired
-PASS jal: 3 retired
-PASS jalr: 4 retired
-PASS backward_loop: 12 retired
-PASS dot_0: 8 retired
-PASS dot_7f7f7f7f: 8 retired
-PASS dot_80808080: 8 retired
-PASS dot_ff017f80: 8 retired
-PASS trap_0: 3 retired
-PASS trap_1: 3 retired
-PASS trap_2: 3 retired
-PASS trap_3: 3 retired
-PASS trap_4: 3 retired
-PASS trap_5: 3 retired
-PASS trap_6: 3 retired
-PASS trap_7: 3 retired
-PASS trap_8: 3 retired
-PASS trap_9: 3 retired
-PASS trap_10: 3 retired
-PASS trap_11: 3 retired
-PASS trap_12: 3 retired
-PASS trap_13: 3 retired
-PASS trap_14: 3 retired
-PASS trap_15: 3 retired
-PASS trap_16: 3 retired
-PASS random_0: 349 retired
-PASS random_1: 336 retired
-PASS random_2: 345 retired
-PASS random_3: 339 retired
-PASS random_4: 342 retired
-PASS random_5: 337 retired
-PASS random_6: 343 retired
-PASS random_7: 345 retired
-PASS random_8: 345 retired
-PASS random_9: 349 retired
-PASS random_10: 343 retired
-PASS random_11: 332 retired
-PASS random_12: 338 retired
-PASS random_13: 336 retired
-PASS random_14: 339 retired
-PASS random_15: 337 retired
-PASS random_16: 339 retired
-PASS random_17: 349 retired
-PASS random_18: 333 retired
-PASS random_19: 339 retired
-PASS hazard_alu_alu_rs1: 43 retired
-PASS hazard_alu_alu_rs2: 43 retired
-PASS hazard_alu_alu_both: 43 retired
-PASS hazard_alu_branch_rs1: 43 retired
-PASS hazard_alu_branch_rs2: 43 retired
-PASS hazard_alu_branch_both: 43 retired
-PASS hazard_alu_jalr_rs1: 43 retired
-PASS hazard_alu_store_addr: 43 retired
-PASS hazard_alu_store_data: 43 retired
-PASS hazard_alu_store_both: 43 retired
-PASS hazard_alu_dot4_rs1: 43 retired
-PASS hazard_alu_dot4_rs2: 43 retired
-PASS hazard_alu_dot4_both: 43 retired
-PASS hazard_alu_load_addr: 43 retired
-PASS hazard_x0_alu: 34 retired
-PASS hazard_load_alu_rs1: 43 retired
-PASS hazard_load_alu_rs2: 43 retired
-PASS hazard_load_alu_both: 43 retired
-PASS hazard_load_branch_rs1: 43 retired
-PASS hazard_load_branch_rs2: 43 retired
-PASS hazard_load_branch_both: 43 retired
-PASS hazard_load_jalr_rs1: 43 retired
-PASS hazard_load_store_addr: 43 retired
-PASS hazard_load_store_data: 43 retired
-PASS hazard_load_store_both: 43 retired
-PASS hazard_load_dot4_rs1: 43 retired
-PASS hazard_load_dot4_rs2: 43 retired
-PASS hazard_load_dot4_both: 43 retired
-PASS hazard_load_load_addr: 43 retired
-PASS hazard_x0_load: 34 retired
-PASS hazard_jal_alu_rs1: 43 retired
-PASS hazard_jal_alu_rs2: 43 retired
-PASS hazard_jal_alu_both: 43 retired
-PASS hazard_jal_branch_rs1: 43 retired
-PASS hazard_jal_branch_rs2: 43 retired
-PASS hazard_jal_branch_both: 43 retired
-PASS hazard_jal_jalr_rs1: 43 retired
-PASS hazard_jal_store_addr: 43 retired
-PASS hazard_jal_store_data: 43 retired
-PASS hazard_jal_store_both: 43 retired
-PASS hazard_jal_dot4_rs1: 43 retired
-PASS hazard_jal_dot4_rs2: 43 retired
-PASS hazard_jal_dot4_both: 43 retired
-PASS hazard_jal_load_addr: 43 retired
-PASS hazard_x0_jal: 34 retired
-PASS hazard_jalr_alu_rs1: 46 retired
-PASS hazard_jalr_alu_rs2: 46 retired
-PASS hazard_jalr_alu_both: 46 retired
-PASS hazard_jalr_branch_rs1: 46 retired
-PASS hazard_jalr_branch_rs2: 46 retired
-PASS hazard_jalr_branch_both: 46 retired
-PASS hazard_jalr_jalr_rs1: 46 retired
-PASS hazard_jalr_store_addr: 46 retired
-PASS hazard_jalr_store_data: 46 retired
-PASS hazard_jalr_store_both: 46 retired
-PASS hazard_jalr_dot4_rs1: 46 retired
-PASS hazard_jalr_dot4_rs2: 46 retired
-PASS hazard_jalr_dot4_both: 46 retired
-PASS hazard_jalr_load_addr: 46 retired
-PASS hazard_x0_jalr: 37 retired
-PASS hazard_lui_alu_rs1: 43 retired
-PASS hazard_lui_alu_rs2: 43 retired
-PASS hazard_lui_alu_both: 43 retired
-PASS hazard_lui_branch_rs1: 43 retired
-PASS hazard_lui_branch_rs2: 43 retired
-PASS hazard_lui_branch_both: 43 retired
-PASS hazard_lui_jalr_rs1: 43 retired
-PASS hazard_lui_store_addr: 43 retired
-PASS hazard_lui_store_data: 43 retired
-PASS hazard_lui_store_both: 43 retired
-PASS hazard_lui_dot4_rs1: 43 retired
-PASS hazard_lui_dot4_rs2: 43 retired
-PASS hazard_lui_dot4_both: 43 retired
-PASS hazard_lui_load_addr: 43 retired
-PASS hazard_x0_lui: 34 retired
-PASS hazard_auipc_alu_rs1: 43 retired
-PASS hazard_auipc_alu_rs2: 43 retired
-PASS hazard_auipc_alu_both: 43 retired
-PASS hazard_auipc_branch_rs1: 43 retired
-PASS hazard_auipc_branch_rs2: 43 retired
-PASS hazard_auipc_branch_both: 43 retired
-PASS hazard_auipc_jalr_rs1: 43 retired
-PASS hazard_auipc_store_addr: 43 retired
-PASS hazard_auipc_store_data: 43 retired
-PASS hazard_auipc_store_both: 43 retired
-PASS hazard_auipc_dot4_rs1: 43 retired
-PASS hazard_auipc_dot4_rs2: 43 retired
-PASS hazard_auipc_dot4_both: 43 retired
-PASS hazard_auipc_load_addr: 43 retired
-PASS hazard_x0_auipc: 34 retired
-PASS hazard_dot4_alu_rs1: 43 retired
-PASS hazard_dot4_alu_rs2: 43 retired
-PASS hazard_dot4_alu_both: 43 retired
-PASS hazard_dot4_branch_rs1: 43 retired
-PASS hazard_dot4_branch_rs2: 43 retired
-PASS hazard_dot4_branch_both: 43 retired
-PASS hazard_dot4_jalr_rs1: 43 retired
-PASS hazard_dot4_store_addr: 43 retired
-PASS hazard_dot4_store_data: 43 retired
-PASS hazard_dot4_store_both: 43 retired
-PASS hazard_dot4_dot4_rs1: 43 retired
-PASS hazard_dot4_dot4_rs2: 43 retired
-PASS hazard_dot4_dot4_both: 43 retired
-PASS hazard_dot4_load_addr: 43 retired
-PASS hazard_x0_dot4: 34 retired
-PASS hazard_redirect_branch: 23 retired
-PASS hazard_redirect_jal: 23 retired
-PASS hazard_redirect_jalr: 23 retired
+PASS forwarding: 9 retired, and again with wait states
+PASS priority_x0: 6 retired, and again with wait states
+PASS alu_0_0: 4 retired, and again with wait states
+PASS alu_0_32: 4 retired, and again with wait states
+PASS imm_0_0: 3 retired, and again with wait states
+PASS imm_0_1: 3 retired, and again with wait states
+PASS imm_0_31: 3 retired, and again with wait states
+PASS imm_0_-1: 3 retired, and again with wait states
+PASS imm_0_-2048: 3 retired, and again with wait states
+PASS imm_0_2047: 3 retired, and again with wait states
+PASS alu_1_0: 4 retired, and again with wait states
+PASS imm_1_0: 3 retired, and again with wait states
+PASS imm_1_1: 3 retired, and again with wait states
+PASS imm_1_31: 3 retired, and again with wait states
+PASS imm_1_-1: 3 retired, and again with wait states
+PASS imm_1_-2048: 3 retired, and again with wait states
+PASS imm_1_2047: 3 retired, and again with wait states
+PASS alu_2_0: 4 retired, and again with wait states
+PASS imm_2_0: 3 retired, and again with wait states
+PASS imm_2_1: 3 retired, and again with wait states
+PASS imm_2_31: 3 retired, and again with wait states
+PASS imm_2_-1: 3 retired, and again with wait states
+PASS imm_2_-2048: 3 retired, and again with wait states
+PASS imm_2_2047: 3 retired, and again with wait states
+PASS alu_3_0: 4 retired, and again with wait states
+PASS imm_3_0: 3 retired, and again with wait states
+PASS imm_3_1: 3 retired, and again with wait states
+PASS imm_3_31: 3 retired, and again with wait states
+PASS imm_3_-1: 3 retired, and again with wait states
+PASS imm_3_-2048: 3 retired, and again with wait states
+PASS imm_3_2047: 3 retired, and again with wait states
+PASS alu_4_0: 4 retired, and again with wait states
+PASS imm_4_0: 3 retired, and again with wait states
+PASS imm_4_1: 3 retired, and again with wait states
+PASS imm_4_31: 3 retired, and again with wait states
+PASS imm_4_-1: 3 retired, and again with wait states
+PASS imm_4_-2048: 3 retired, and again with wait states
+PASS imm_4_2047: 3 retired, and again with wait states
+PASS alu_5_0: 4 retired, and again with wait states
+PASS alu_5_32: 4 retired, and again with wait states
+PASS imm_5_0: 3 retired, and again with wait states
+PASS imm_5_1: 3 retired, and again with wait states
+PASS imm_5_31: 3 retired, and again with wait states
+PASS imm_5_-1: 3 retired, and again with wait states
+PASS imm_5_-2048: 3 retired, and again with wait states
+PASS imm_5_2047: 3 retired, and again with wait states
+PASS alu_6_0: 4 retired, and again with wait states
+PASS imm_6_0: 3 retired, and again with wait states
+PASS imm_6_1: 3 retired, and again with wait states
+PASS imm_6_31: 3 retired, and again with wait states
+PASS imm_6_-1: 3 retired, and again with wait states
+PASS imm_6_-2048: 3 retired, and again with wait states
+PASS imm_6_2047: 3 retired, and again with wait states
+PASS alu_7_0: 4 retired, and again with wait states
+PASS imm_7_0: 3 retired, and again with wait states
+PASS imm_7_1: 3 retired, and again with wait states
+PASS imm_7_31: 3 retired, and again with wait states
+PASS imm_7_-1: 3 retired, and again with wait states
+PASS imm_7_-2048: 3 retired, and again with wait states
+PASS imm_7_2047: 3 retired, and again with wait states
+PASS srai: 3 retired, and again with wait states
+PASS upper: 5 retired, and again with wait states
+PASS fence_tso: 4 retired, and again with wait states
+PASS load_0_0: 7 retired, and again with wait states
+PASS load_0_1: 7 retired, and again with wait states
+PASS load_0_2: 7 retired, and again with wait states
+PASS load_0_3: 7 retired, and again with wait states
+PASS load_1_0: 7 retired, and again with wait states
+PASS load_1_2: 7 retired, and again with wait states
+PASS load_2_0: 7 retired, and again with wait states
+PASS load_4_0: 7 retired, and again with wait states
+PASS load_4_1: 7 retired, and again with wait states
+PASS load_4_2: 7 retired, and again with wait states
+PASS load_4_3: 7 retired, and again with wait states
+PASS load_5_0: 7 retired, and again with wait states
+PASS load_5_2: 7 retired, and again with wait states
+PASS store_0_0: 5 retired, and again with wait states
+PASS store_0_1: 5 retired, and again with wait states
+PASS store_0_2: 5 retired, and again with wait states
+PASS store_0_3: 5 retired, and again with wait states
+PASS store_1_0: 5 retired, and again with wait states
+PASS store_1_2: 5 retired, and again with wait states
+PASS store_2_0: 5 retired, and again with wait states
+PASS branch_0_1_1: 5 retired, and again with wait states
+PASS branch_0_-1_1: 7 retired, and again with wait states
+PASS branch_0_1_-1: 7 retired, and again with wait states
+PASS branch_1_1_1: 7 retired, and again with wait states
+PASS branch_1_-1_1: 5 retired, and again with wait states
+PASS branch_1_1_-1: 5 retired, and again with wait states
+PASS branch_4_1_1: 7 retired, and again with wait states
+PASS branch_4_-1_1: 5 retired, and again with wait states
+PASS branch_4_1_-1: 7 retired, and again with wait states
+PASS branch_5_1_1: 5 retired, and again with wait states
+PASS branch_5_-1_1: 7 retired, and again with wait states
+PASS branch_5_1_-1: 5 retired, and again with wait states
+PASS branch_6_1_1: 7 retired, and again with wait states
+PASS branch_6_-1_1: 7 retired, and again with wait states
+PASS branch_6_1_-1: 5 retired, and again with wait states
+PASS branch_7_1_1: 5 retired, and again with wait states
+PASS branch_7_-1_1: 5 retired, and again with wait states
+PASS branch_7_1_-1: 7 retired, and again with wait states
+PASS jal: 3 retired, and again with wait states
+PASS jalr: 4 retired, and again with wait states
+PASS backward_loop: 12 retired, and again with wait states
+PASS dot_0: 8 retired, and again with wait states
+PASS dot_7f7f7f7f: 8 retired, and again with wait states
+PASS dot_80808080: 8 retired, and again with wait states
+PASS dot_ff017f80: 8 retired, and again with wait states
+PASS trap_0: 3 retired, and again with wait states
+PASS trap_1: 3 retired, and again with wait states
+PASS trap_2: 3 retired, and again with wait states
+PASS trap_3: 3 retired, and again with wait states
+PASS trap_4: 3 retired, and again with wait states
+PASS trap_5: 3 retired, and again with wait states
+PASS trap_6: 3 retired, and again with wait states
+PASS trap_7: 3 retired, and again with wait states
+PASS trap_8: 3 retired, and again with wait states
+PASS trap_9: 3 retired, and again with wait states
+PASS trap_10: 3 retired, and again with wait states
+PASS trap_11: 3 retired, and again with wait states
+PASS trap_12: 3 retired, and again with wait states
+PASS trap_13: 3 retired, and again with wait states
+PASS trap_14: 3 retired, and again with wait states
+PASS trap_15: 3 retired, and again with wait states
+PASS trap_16: 3 retired, and again with wait states
+PASS random_0: 349 retired, and again with wait states
+PASS random_1: 336 retired, and again with wait states
+PASS random_2: 345 retired, and again with wait states
+PASS random_3: 339 retired, and again with wait states
+PASS random_4: 342 retired, and again with wait states
+PASS random_5: 337 retired, and again with wait states
+PASS random_6: 343 retired, and again with wait states
+PASS random_7: 345 retired, and again with wait states
+PASS random_8: 345 retired, and again with wait states
+PASS random_9: 349 retired, and again with wait states
+PASS random_10: 343 retired, and again with wait states
+PASS random_11: 332 retired, and again with wait states
+PASS random_12: 338 retired, and again with wait states
+PASS random_13: 336 retired, and again with wait states
+PASS random_14: 339 retired, and again with wait states
+PASS random_15: 337 retired, and again with wait states
+PASS random_16: 339 retired, and again with wait states
+PASS random_17: 349 retired, and again with wait states
+PASS random_18: 333 retired, and again with wait states
+PASS random_19: 339 retired, and again with wait states
+PASS hazard_alu_alu_rs1: 43 retired, and again with wait states
+PASS hazard_alu_alu_rs2: 43 retired, and again with wait states
+PASS hazard_alu_alu_both: 43 retired, and again with wait states
+PASS hazard_alu_branch_rs1: 43 retired, and again with wait states
+PASS hazard_alu_branch_rs2: 43 retired, and again with wait states
+PASS hazard_alu_branch_both: 43 retired, and again with wait states
+PASS hazard_alu_jalr_rs1: 43 retired, and again with wait states
+PASS hazard_alu_store_addr: 43 retired, and again with wait states
+PASS hazard_alu_store_data: 43 retired, and again with wait states
+PASS hazard_alu_store_both: 43 retired, and again with wait states
+PASS hazard_alu_dot4_rs1: 43 retired, and again with wait states
+PASS hazard_alu_dot4_rs2: 43 retired, and again with wait states
+PASS hazard_alu_dot4_both: 43 retired, and again with wait states
+PASS hazard_alu_load_addr: 43 retired, and again with wait states
+PASS hazard_x0_alu: 34 retired, and again with wait states
+PASS hazard_load_alu_rs1: 43 retired, and again with wait states
+PASS hazard_load_alu_rs2: 43 retired, and again with wait states
+PASS hazard_load_alu_both: 43 retired, and again with wait states
+PASS hazard_load_branch_rs1: 43 retired, and again with wait states
+PASS hazard_load_branch_rs2: 43 retired, and again with wait states
+PASS hazard_load_branch_both: 43 retired, and again with wait states
+PASS hazard_load_jalr_rs1: 43 retired, and again with wait states
+PASS hazard_load_store_addr: 43 retired, and again with wait states
+PASS hazard_load_store_data: 43 retired, and again with wait states
+PASS hazard_load_store_both: 43 retired, and again with wait states
+PASS hazard_load_dot4_rs1: 43 retired, and again with wait states
+PASS hazard_load_dot4_rs2: 43 retired, and again with wait states
+PASS hazard_load_dot4_both: 43 retired, and again with wait states
+PASS hazard_load_load_addr: 43 retired, and again with wait states
+PASS hazard_x0_load: 34 retired, and again with wait states
+PASS hazard_jal_alu_rs1: 43 retired, and again with wait states
+PASS hazard_jal_alu_rs2: 43 retired, and again with wait states
+PASS hazard_jal_alu_both: 43 retired, and again with wait states
+PASS hazard_jal_branch_rs1: 43 retired, and again with wait states
+PASS hazard_jal_branch_rs2: 43 retired, and again with wait states
+PASS hazard_jal_branch_both: 43 retired, and again with wait states
+PASS hazard_jal_jalr_rs1: 43 retired, and again with wait states
+PASS hazard_jal_store_addr: 43 retired, and again with wait states
+PASS hazard_jal_store_data: 43 retired, and again with wait states
+PASS hazard_jal_store_both: 43 retired, and again with wait states
+PASS hazard_jal_dot4_rs1: 43 retired, and again with wait states
+PASS hazard_jal_dot4_rs2: 43 retired, and again with wait states
+PASS hazard_jal_dot4_both: 43 retired, and again with wait states
+PASS hazard_jal_load_addr: 43 retired, and again with wait states
+PASS hazard_x0_jal: 34 retired, and again with wait states
+PASS hazard_jalr_alu_rs1: 46 retired, and again with wait states
+PASS hazard_jalr_alu_rs2: 46 retired, and again with wait states
+PASS hazard_jalr_alu_both: 46 retired, and again with wait states
+PASS hazard_jalr_branch_rs1: 46 retired, and again with wait states
+PASS hazard_jalr_branch_rs2: 46 retired, and again with wait states
+PASS hazard_jalr_branch_both: 46 retired, and again with wait states
+PASS hazard_jalr_jalr_rs1: 46 retired, and again with wait states
+PASS hazard_jalr_store_addr: 46 retired, and again with wait states
+PASS hazard_jalr_store_data: 46 retired, and again with wait states
+PASS hazard_jalr_store_both: 46 retired, and again with wait states
+PASS hazard_jalr_dot4_rs1: 46 retired, and again with wait states
+PASS hazard_jalr_dot4_rs2: 46 retired, and again with wait states
+PASS hazard_jalr_dot4_both: 46 retired, and again with wait states
+PASS hazard_jalr_load_addr: 46 retired, and again with wait states
+PASS hazard_x0_jalr: 37 retired, and again with wait states
+PASS hazard_lui_alu_rs1: 43 retired, and again with wait states
+PASS hazard_lui_alu_rs2: 43 retired, and again with wait states
+PASS hazard_lui_alu_both: 43 retired, and again with wait states
+PASS hazard_lui_branch_rs1: 43 retired, and again with wait states
+PASS hazard_lui_branch_rs2: 43 retired, and again with wait states
+PASS hazard_lui_branch_both: 43 retired, and again with wait states
+PASS hazard_lui_jalr_rs1: 43 retired, and again with wait states
+PASS hazard_lui_store_addr: 43 retired, and again with wait states
+PASS hazard_lui_store_data: 43 retired, and again with wait states
+PASS hazard_lui_store_both: 43 retired, and again with wait states
+PASS hazard_lui_dot4_rs1: 43 retired, and again with wait states
+PASS hazard_lui_dot4_rs2: 43 retired, and again with wait states
+PASS hazard_lui_dot4_both: 43 retired, and again with wait states
+PASS hazard_lui_load_addr: 43 retired, and again with wait states
+PASS hazard_x0_lui: 34 retired, and again with wait states
+PASS hazard_auipc_alu_rs1: 43 retired, and again with wait states
+PASS hazard_auipc_alu_rs2: 43 retired, and again with wait states
+PASS hazard_auipc_alu_both: 43 retired, and again with wait states
+PASS hazard_auipc_branch_rs1: 43 retired, and again with wait states
+PASS hazard_auipc_branch_rs2: 43 retired, and again with wait states
+PASS hazard_auipc_branch_both: 43 retired, and again with wait states
+PASS hazard_auipc_jalr_rs1: 43 retired, and again with wait states
+PASS hazard_auipc_store_addr: 43 retired, and again with wait states
+PASS hazard_auipc_store_data: 43 retired, and again with wait states
+PASS hazard_auipc_store_both: 43 retired, and again with wait states
+PASS hazard_auipc_dot4_rs1: 43 retired, and again with wait states
+PASS hazard_auipc_dot4_rs2: 43 retired, and again with wait states
+PASS hazard_auipc_dot4_both: 43 retired, and again with wait states
+PASS hazard_auipc_load_addr: 43 retired, and again with wait states
+PASS hazard_x0_auipc: 34 retired, and again with wait states
+PASS hazard_dot4_alu_rs1: 43 retired, and again with wait states
+PASS hazard_dot4_alu_rs2: 43 retired, and again with wait states
+PASS hazard_dot4_alu_both: 43 retired, and again with wait states
+PASS hazard_dot4_branch_rs1: 43 retired, and again with wait states
+PASS hazard_dot4_branch_rs2: 43 retired, and again with wait states
+PASS hazard_dot4_branch_both: 43 retired, and again with wait states
+PASS hazard_dot4_jalr_rs1: 43 retired, and again with wait states
+PASS hazard_dot4_store_addr: 43 retired, and again with wait states
+PASS hazard_dot4_store_data: 43 retired, and again with wait states
+PASS hazard_dot4_store_both: 43 retired, and again with wait states
+PASS hazard_dot4_dot4_rs1: 43 retired, and again with wait states
+PASS hazard_dot4_dot4_rs2: 43 retired, and again with wait states
+PASS hazard_dot4_dot4_both: 43 retired, and again with wait states
+PASS hazard_dot4_load_addr: 43 retired, and again with wait states
+PASS hazard_x0_dot4: 34 retired, and again with wait states
+PASS hazard_redirect_branch: 23 retired, and again with wait states
+PASS hazard_redirect_jal: 23 retired, and again with wait states
+PASS hazard_redirect_jalr: 23 retired, and again with wait states

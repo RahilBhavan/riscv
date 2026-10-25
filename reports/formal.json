@@ -6,7 +6,7 @@
     "base": {
       "checks": 45,
       "passed": 45,
-      "seconds": 131,
+      "seconds": 117,
       "results": [
         {
           "check": "causal_ch0",
@@ -193,7 +193,7 @@
     "extended": {
       "checks": 53,
       "passed": 53,
-      "seconds": 241,
+      "seconds": 207,
       "results": [
         {
           "check": "causal_ch0",
