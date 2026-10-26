@@ -63,7 +63,7 @@ docker build -t rv32-tools .
 docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools make test lint reset-test
 ```
 
-`make test` runs the regression in Icarus with DOT4=1, with DOT4=0 and on the MEXT=1 ZICSR=1 core, each program also with random wait states. On 2026-10-24, 253 programs pass in each default-core run, and lint and `make reset-test` are clean. `make coverage` reruns the programs in Verilator. The tests rewrite files in `reports/` and `build/`. `make test` writes only to `build/`; the Verilator runs in `make coverage` also write the committed `reports/verification.json`, `reports/verification-extended.json` and the matching `reports/raw/regression*.log` files, so that is the command that regenerates them.
+`make test` runs the regression in Icarus with DOT4=1, with DOT4=0 and on the MEXT=1 ZICSR=1 core, each program also with random wait states. On 2026-10-24, 253 programs pass in each default-core run, and lint and `make reset-test` are clean. A full `make all` (including formal checks) was rerun on 2026-10-25 at commit `00d73a1`: every phase passed, and the regression counts, coverage, Fmax figures and the RESEARCH.md figures reproduced unchanged (only run-time seconds and PDF hashes differed). No physical board has run. `make coverage` reruns the programs in Verilator. The tests rewrite files in `reports/` and `build/`. `make test` writes only to `build/`; the Verilator runs in `make coverage` also write the committed `reports/verification.json`, `reports/verification-extended.json` and the matching `reports/raw/regression*.log` files, so that is the command that regenerates them.
 
 The other evidence targets use the same image:
 
