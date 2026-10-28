@@ -84,7 +84,8 @@ export function checkResearch(path = here('docs/RESEARCH.md')) {
 }
 
 export function checkReadme(path = new URL('../../README.md', import.meta.url)) {
-  const readme = readFileSync(path, 'utf8');
+  // The README keeps a short table; docs/RESULTS.md holds the full bullets. Claims may appear in either.
+  const readme = readFileSync(path, 'utf8') + readFileSync(here('docs/RESULTS.md'), 'utf8');
   const missing = readmeClaims.filter(claim => !readme.includes(claim));
   if (missing.length) throw Error(`README.md is stale against reports/*.json. Update it to say:\n${missing.map(claim => `  ${claim}`).join('\n')}`);
   if (b.tested) throw Error('reports/board.json says the board was tested; replace the README "has not run on a board" text with the recorded run.');

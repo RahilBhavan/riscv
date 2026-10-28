@@ -8,30 +8,27 @@ This is a five-stage (IF/ID/EX/MEM/WB) RV32I core in SystemVerilog with forwardi
 
 ## Results
 
-Measured on the checked-in RTL with Icarus 12.0, Verilator 5.020, Spike (riscv-isa-sim `5a760667`), Yosys 0.33 and nextpnr-ice40 0.6. Each report records the SHA-256 of the sources it measured. `scripts/textbook/check-readme.mjs` stops the build if this README quotes a number that differs from `reports/`.
+Measured on the checked-in RTL with Icarus 12.0, Verilator 5.020, Spike (riscv-isa-sim `5a760667`), Yosys 0.33 and nextpnr-ice40 0.6. Each report records the SHA-256 of the sources it measured. [`docs/RESULTS.md`](docs/RESULTS.md) has the method and limits behind every row.
 
-Verification:
+| Check | Result | Source |
+| --- | --- | --- |
+| Correctness | 253 directed, random and generated hazard programs pass in both simulators; 11,928 retired instruction records match the reference model over 20 deterministic random seeds | `reports/verification.json` |
+| Extended core (MEXT=1 ZICSR=1) | 309 programs pass, with and without wait states; 71/71 functional bins | `reports/verification-extended.json` |
+| Spike comparison | 39/39 RV32I tests from riscv-arch-test 3.10.0 match; the extended core matches 62/62 tests. Not certification | `reports/isa-compare.json` |
+| Formal | 45/45 riscv-formal checks pass on the default core and 53/53 on the extended core (bounded, not unbounded proofs) | `reports/formal.json` |
+| Mutants | The targeted checkers catch 38/38 single-bug RTL edits | `reports/mutation.json` |
+| DOT4 speedup | 5.2× over a quarter-square kernel after its clock cost (585 against 3,403 cycles for 256 int8 elements) | `reports/benchmark.json` |
+| Area | 5,539/7,680 iCE40 logic cells (72.1%) | `reports/implementation.json` |
+| Timing estimate | 36.05 MHz median over five route seeds (34.63–37.60 MHz); post-route estimate, no board has run | `reports/implementation.json` |
 
-- **Correctness.** 253 directed, random and generated hazard programs pass in both simulators. 11,928 retired instruction records and all byte writes match the reference model, over 20 deterministic random seeds. Every program runs again with memory ready withheld at random, which adds 23,686 more cycles, and must produce the same retirements and writes. Invariants in `tests/invariants.svh` check x0, register writes, memory strobes, held data requests, stall and flush on all 38,601 cycles. A DOT4=0 run checks that custom-0 traps. Source: [`reports/verification.json`](reports/verification.json).
-- **Extended core.** 309 programs pass on the MEXT=1 ZICSR=1 core, with and without wait states: 40,414 retired instruction records cover all eight M operations, the six CSR forms, MRET, WFI, six exception causes and three interrupt causes (71/71 bins). An interrupt the RTL takes must be enabled and pending in the reference model, and an enabled one must be taken within four retirements. Source: [`reports/verification-extended.json`](reports/verification-extended.json).
-- **External reference.** 39/39 RV32I tests from riscv-arch-test 3.10.0 (the last RISCOF-format release) match Spike's signatures, and 50 random programs match its commit log. The extended core matches Spike on 62/62 tests from the RV32I, M and privilege suites, with and without wait states. RISCOF would not select 13 of them for this core, because they target cores with the C extension or with hardware misaligned access; Spike runs the same rv32im_zicsr configuration, so they still compare. This is not ACT4 and not certification. Source: [`reports/isa-compare.json`](reports/isa-compare.json).
-- **Formal.** 45/45 riscv-formal checks pass on the default core and 53/53 on the extended core: every instruction, register and PC consistency, uniqueness, causality, liveness and the illegal-instruction check. They are bounded model checks to 20 cycles from reset (liveness to 30) with every input unconstrained, not unbounded proofs. M operations are checked as riscv-formal's stand-in operations, which covers their decode and forwarding but not the arithmetic that Spike checks. CSR instructions are not formally checked. Source: [`reports/formal.json`](reports/formal.json).
-- **Hazard cross.** 108 generated programs hit 327/327 bins: 7 producer classes × 14 consumer operand slots × distance 1–3, plus x0 and wrong-path bins. Source: [`reports/verification.json`](reports/verification.json).
-- **DOT4 sweep.** Both simulators run all 262,144 isolated signed lane pairs through the core, and every result matches a scalar oracle. All 1,024 custom-0 encodings run from reset, and the 1,023 unsupported ones trap with no side effect. Multi-lane sums are not swept exhaustively. Source: [`reports/dot4-sweep.json`](reports/dot4-sweep.json).
-- **Mutants.** The targeted checkers catch 38/38 single-bug edits to the RTL, including wait-state, M-extension, CSR and interrupt bugs. Source: [`reports/mutation.json`](reports/mutation.json).
-- **Line coverage.** 73/73 core line instrumentation points = 100.00%, with no exclusions, counting a point when either configuration reaches it. The source has only 73 instrumented points, so this metric is weak evidence on its own. Source: [`reports/line-coverage.json`](reports/line-coverage.json).
-- **Functional plan.** 46/46 instruction/branch-outcome/trap bins hit. Source: [`reports/verification.json`](reports/verification.json).
+## How it works
 
-Performance and FPGA estimates:
-
-- **DOT4 speedup.** In the benchmark, for a 256-element int8 dot product, DOT4 takes 585 cycles. A quarter-square table kernel, the strongest pure-RV32I version, takes 3,403 cycles, and shift-and-add takes 14,589. Dividing each count by its own core's median post-route Fmax gives 5.2× over quarter-square (4.6–5.7× when pairing extreme seeds) and 22.2× over shift-and-add. So DOT4 is 5.2× faster on this kernel after its clock cost. Sources: [`reports/benchmark.json`](reports/benchmark.json), [`reports/ablation.json`](reports/ablation.json).
-- **DOT4 cost.** Compared with a DOT4=0 build, the unit adds 19% logic cells and costs 11% of median Fmax. Source: [`reports/ablation.json`](reports/ablation.json).
-- **Mapped area.** 4,012 LUT4 primitives and 1,692 flip-flops, packed into 5,539/7,680 iCE40 logic cells (72.1%). These are FPGA resources, not ASIC area. Source: [`reports/implementation.json`](reports/implementation.json).
-- **Timing estimate.** 36.05 MHz median internal post-route estimate over nextpnr seeds 1–5, range 34.63–37.60 MHz. The official seed-1 report is 37.03 MHz. The 12 MHz constraint passes on every seed. The shell excludes the memories, peripherals and external I/O timing. Round it to ~36 MHz post-route on iCE40 HX8K. Do not write "runs at" until a board runs a checked program at that clock. Sources: [`reports/implementation.json`](reports/implementation.json), [`reports/raw/nextpnr.log`](reports/raw/nextpnr.log).
-- **Extended core estimate.** The MEXT=1 ZICSR=1 core maps to 5,742 LUT4 primitives and 2,004 flip-flops, 7,472/7,680 logic cells (97.3%), with a 34.35 MHz median post-route estimate (33.47–34.57 MHz) over the same five seeds, through `rtl/timing_top_extended.sv`. It fits the HX8K with little room for memories or peripherals. Source: [`reports/implementation-extended.json`](reports/implementation-extended.json).
-- **Board image.** `make board` builds a bitstream for the iCE40-HX8K Breakout with block-RAM memories and a self-test that reports on the LEDs and UART. The self-test passes in RTL simulation, and the image routes at 38.21 MHz post-route against the board's 12 MHz oscillator. It has not run on a board. Sources: [`docs/BOARD.md`](docs/BOARD.md), [`reports/board.json`](reports/board.json).
-
-<img src="output/figures/evidence/svg/1-cycles.svg" alt="Cycles against vector length for the four dot-product kernels, log scale: DOT4 needs 5.8 times fewer cycles than quarter-square at n = 256" width="49%"> <img src="output/figures/evidence/svg/2-speedup.svg" alt="DOT4 speedup per kernel and vector length, before and after its clock cost" width="49%">
+- `rtl/rv32_core.sv` is the core. EX takes operands from EX/MEM, then MEM/WB, then ID/EX. A load followed directly by a consumer stalls one cycle. Taken branches and jumps resolve in EX and squash the two younger stages. ECALL, EBREAK, illegal encodings and misaligned accesses halt through a local trap record. With ZICSR=1 they enter `mtvec` instead, and interrupts enter between instructions.
+- With MEXT=1, an iterative unit computes each M operation while EX holds for 34 cycles. Either memory port can hold the pipeline by withholding `ready`; [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) gives the interface contract.
+- DOT4 uses custom-0 (`opcode=0x0b`, `funct3=0`, `funct7=0`): `rd = Σ signed8(rs1.byte[i]) × signed8(rs2.byte[i])` for `i = 0..3`, with no accumulation or saturation. The GNU assembler form is `.insn r 0x0b, 0, 0, a0, a1, a2`.
+- `tests/run.py` generates the programs, runs them on `tests/tb.sv` and compares every retirement and byte write with its own sequential model. `tests/isa_compare.py`, `tests/dot4_sweep.py` and `tests/mutants.py` add Spike, the lane sweep and the mutants. `scripts/formal.py` runs riscv-formal with `formal/wrapper.sv`.
+- `rtl/timing_top.sv` and `rtl/timing_top_extended.sv` are the registered shells for synthesis and route. `rtl/board_top.sv` is the board image.
+- `scripts/build.sh` (`make all`) runs the RTL steps in Docker, then builds the textbooks, visual lab, figures and release ZIP from `reports/`.
 
 ## Interactive figures
 
@@ -42,15 +39,6 @@ Each page is self-contained and reads its numbers from `reports/` and its cycle-
 - [DOT4 machine](https://rahilbhavan.com/riscv/dot4-machine): edit the eight lane bytes and follow them through the multipliers and adder tree. It also plays the board self-test, which has only run in simulation.
 - [Evidence charts](https://rahilbhavan.com/riscv/evidence): cycles, speedup after clock cost, Fmax per seed, area and hazard coverage. Static SVG copies are in `output/figures/evidence/svg/`.
 - [Write-up](https://rahilbhavan.com/riscv/post) and a [20-second video](https://rahilbhavan.com/riscv/video/riscv.mp4) (`make figure-video`).
-
-## How it works
-
-- `rtl/rv32_core.sv` is the core. EX takes operands from EX/MEM, then MEM/WB, then ID/EX. A load followed directly by a consumer stalls one cycle. Taken branches and jumps resolve in EX and squash the two younger stages. ECALL, EBREAK, illegal encodings and misaligned accesses halt through a local trap record. With ZICSR=1 they enter `mtvec` instead, and interrupts enter between instructions.
-- With MEXT=1, an iterative unit computes each M operation while EX holds for 34 cycles. Either memory port can hold the pipeline by withholding `ready`; [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) gives the interface contract.
-- DOT4 uses custom-0 (`opcode=0x0b`, `funct3=0`, `funct7=0`): `rd = Σ signed8(rs1.byte[i]) × signed8(rs2.byte[i])` for `i = 0..3`, with no accumulation or saturation. The GNU assembler form is `.insn r 0x0b, 0, 0, a0, a1, a2`.
-- `tests/run.py` generates the programs, runs them on `tests/tb.sv` and compares every retirement and byte write with its own sequential model. `tests/isa_compare.py`, `tests/dot4_sweep.py` and `tests/mutants.py` add Spike, the lane sweep and the mutants. `scripts/formal.py` runs riscv-formal with `formal/wrapper.sv`.
-- `rtl/timing_top.sv` and `rtl/timing_top_extended.sv` are the registered shells for synthesis and route. `rtl/board_top.sv` is the board image.
-- `scripts/build.sh` (`make all`) runs the RTL steps in Docker, then builds the textbooks, visual lab, figures and release ZIP from `reports/`.
 
 ## Run it
 
@@ -63,7 +51,7 @@ docker build -t rv32-tools .
 docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/work" rv32-tools make test lint reset-test
 ```
 
-`make test` runs the regression in Icarus with DOT4=1, with DOT4=0 and on the MEXT=1 ZICSR=1 core, each program also with random wait states. On 2026-10-24, 253 programs pass in each default-core run, and lint and `make reset-test` are clean. A full `make all` (including formal checks) was rerun on 2026-10-25 at commit `00d73a1`: every phase passed, and the regression counts, coverage, Fmax figures and the RESEARCH.md figures reproduced unchanged (only run-time seconds and PDF hashes differed). No physical board has run. `make coverage` reruns the programs in Verilator. The tests rewrite files in `reports/` and `build/`. `make test` writes only to `build/`; the Verilator runs in `make coverage` also write the committed `reports/verification.json`, `reports/verification-extended.json` and the matching `reports/raw/regression*.log` files, so that is the command that regenerates them.
+`make test` runs the regression in Icarus with DOT4=1, with DOT4=0 and on the MEXT=1 ZICSR=1 core, each program also with random wait states. On 2026-10-24, 253 programs pass in each default-core run, and lint and `make reset-test` are clean. No physical board has run. `make test` writes only to `build/`; `make coverage` also rewrites the committed `reports/verification*.json` and `reports/raw/regression*.log`. [`docs/RESULTS.md`](docs/RESULTS.md) records the full `make all` rerun of 2026-10-25.
 
 The other evidence targets use the same image:
 
